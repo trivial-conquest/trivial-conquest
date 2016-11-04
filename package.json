@@ -12,6 +12,7 @@
     "gulp-rename": "^1.2.0",
     "gulp-sass": "^2.0.4",
     "mongodb": "^2.2.11",
+    "mongoose": "^4.6.6",
     "path": "^0.12.7"
   },
   "devDependencies": {

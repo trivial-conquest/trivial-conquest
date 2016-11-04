@@ -3,24 +3,17 @@ const path = require('path')
 const cookie = require('cookie-parser')
 const bodyParser = require('body-parser')
 
+const router = require('./routes/routes')
 const app = express()
 const port = process.env.PORT || 8080
 // app level middleware
 app.use(express.static(path.resolve(__dirname, '../www')))
-app.use(cookie())
+app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get('/', (req,res) =>{
-  res.render('index.html')
-})
+app.use('/', router)
 
 const server = app.listen(port)
 console.log(`Server is running on port: ${port}`)
-
-// export server for testing
-module.exports = {
-  server,
-  app
-}
 
 
 // var MongoClient = require('mongodb').MongoClient
