@@ -52,53 +52,50 @@ angular.module('trivial.games', [])
         zIndex: 1
       }
     });
+
       drawingManager.setMap(map);
-      })
+
+      var pins = [
+        {lat: 30.272890, lng: -97.743110},
+        {lat: 30.267824, lng: -97.745451},
+        {lat: 30.265921, lng: -97.746274},
+        {lat: 30.268936, lng: -97.740065}
+      ];
+      
+
+      var markers = [];
+
+      function drop() {
+        // console.log('drop called')
+        // clearMarkers();
+        for (var i = 0; i < pins.length; i++) {
+          // console.log(pins[i])
+          addMarkerWithTimeout(pins[i], i * 400);
+        }
+      }
+
+      function addMarkerWithTimeout(position, timeout) {
+        window.setTimeout(function() {
+          markers.push(new google.maps.Marker({
+            position: position,
+            map: map,
+            animation: google.maps.Animation.DROP
+          }));
+        }, timeout);
+      }
+
+      // function clearMarkers() {
+      //   for (var i = 0; i < markers.length; i++) {
+      //     markers[i].setMap(null);
+      //   }
+      //   markers = [];
+      // }
+
+      drop()
+
+    })
     .catch(function(error){
     console.log("Could not get location", error);
-  });
-
-
-// // spaces animation for when we want to drop all the pins for a game at once
-//  var neighborhoods = [
-//         {lat: 52.511, lng: 13.447},
-//         {lat: 52.549, lng: 13.422},
-//         {lat: 52.497, lng: 13.396},
-//         {lat: 52.517, lng: 13.394}
-//       ];
-
- //      var markers = [];
- //      var map;
-
- //      function drop() {
- //        clearMarkers();
- //        for (var i = 0; i < neighborhoods.length; i++) {
- //          addMarkerWithTimeout(neighborhoods[i], i * 200);
- //        }
- //      }
-
- //      function addMarkerWithTimeout(position, timeout) {
- //        window.setTimeout(function() {
- //          markers.push(new google.maps.Marker({
- //            position: position,
- //            map: map,
- //            animation: google.maps.Animation.DROP
- //          }));
- //        }, timeout);
- //      }
-
- //      function clearMarkers() {
- //        for (var i = 0; i < markers.length; i++) {
- //          markers[i].setMap(null);
- //        }
- //        markers = [];
- //      }
+    });
 
 }]);
-
-
-
-
-
-
-
