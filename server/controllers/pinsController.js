@@ -3,11 +3,13 @@ const Pin = require('../models/pin')
 
 module.exports = {
   createNewPin: (req, res) => {
+    var coordinates = JSON.parse(req.body.coordinates)
     new Pin({
       owner: '581cbb4c5db5083463acf243', //dummy userId
       game: req.params.gameid,
       name: req.body.name,
-      address: req.body.address
+      address: req.body.address,
+      coordinates: coordinates
     })
     .save().then((pin) => {
       console.log('successfully created pin: ', pin)
