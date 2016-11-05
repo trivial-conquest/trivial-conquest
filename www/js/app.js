@@ -1,7 +1,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'trivial' is the name of this angular module (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires' which will include all the angular modules you create
-angular.module('trivial', ['ionic', 'trivial.login', 'trivial.map', 'trivial.games', 'trivial.allgames', 'ngCordova'])
+angular.module('trivial', ['ionic', 'trivial.login', 'trivial.map', 'trivial.games', 'trivial.allgames', 'ngCordova', 'satellizer'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -19,7 +19,26 @@ angular.module('trivial', ['ionic', 'trivial.login', 'trivial.map', 'trivial.gam
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function( $stateProvider, $urlRouterProvider, $authProvider) {
+  var commonConfig = {
+  popupOptions: {
+      location: 'no',
+      toolbar: 'yes',
+      width: window.screen.width,
+      height: window.screen.height
+  }
+  };
+
+  if (ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
+  commonConfig.redirectUri = 'http://localhost:8080/';
+  }
+  $authProvider.facebook(angular.extend({}, commonConfig, {
+  clientId: '147800405689030',
+  url: 'http://localhost:8080/auth/facebook'
+  }));
+
+
+
   //This is where you declare your routes and their corresponding views & controllers
   //The views will change when the frontend angular routes change which is usually done with a click/mouse event
   $stateProvider

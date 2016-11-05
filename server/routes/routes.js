@@ -9,4 +9,9 @@ router.get('/', (req,res) => {
   res.render(path.resolve(__dirname, '../../www/index.html'))
 })
 
+router.post('/auth/facebook', (req,res) => {
+	console.log('this is the body', req.body)
+})
+
+
 module.exports = router;
