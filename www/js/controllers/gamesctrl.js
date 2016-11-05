@@ -35,23 +35,40 @@ angular.module('trivial.games', [])
           infowindow.open(map);
       });
 
-    })
+      var drawingManager = new google.maps.drawing.DrawingManager({
+      drawingMode: google.maps.drawing.OverlayType.MARKER,
+      drawingControl: true,
+      drawingControlOptions: {
+        position: google.maps.ControlPosition.TOP_CENTER,
+        drawingModes: ['marker', 'circle', 'polygon', 'polyline', 'rectangle']
+      },
+      markerOptions: {icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'},
+      circleOptions: {
+        fillColor: '#ffff00',
+        fillOpacity: 1,
+        strokeWeight: 5,
+        clickable: false,
+        editable: true,
+        zIndex: 1
+      }
+    });
+      drawingManager.setMap(map);
+      })
     .catch(function(error){
     console.log("Could not get location", error);
   });
 
 
-// // add multiple pins at once ???
- // var neighborhoods = [
- //        {lat: 52.511, lng: 13.447},
- //        {lat: 52.549, lng: 13.422},
- //        {lat: 52.497, lng: 13.396},
- //        {lat: 52.517, lng: 13.394}
- //      ];
+// // spaces animation for when we want to drop all the pins for a game at once
+//  var neighborhoods = [
+//         {lat: 52.511, lng: 13.447},
+//         {lat: 52.549, lng: 13.422},
+//         {lat: 52.497, lng: 13.396},
+//         {lat: 52.517, lng: 13.394}
+//       ];
 
  //      var markers = [];
  //      var map;
-
 
  //      function drop() {
  //        clearMarkers();
@@ -76,8 +93,6 @@ angular.module('trivial.games', [])
  //        }
  //        markers = [];
  //      }
-
-
 
 }]);
 
