@@ -16,3 +16,4 @@ angular.module('trivial.map', [])
   console.log("Could not get location", error);
   });
 }]);
+
