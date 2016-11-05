@@ -5,21 +5,6 @@ angular.module('trivial.games', [])
 
   $scope.games= [{name: 'munchybreakfast', id:1}, {name: "settlersof6", id:2}]
 
-// var options = {timeout: 10000, enableHighAccuracy: true};
-//   $cordovaGeolocation.getCurrentPosition(options)
-//   .then(function(position){
-//     var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-//     var mapOptions = {
-//       center: latLng,
-//       zoom: 15,
-//       mapTypeId: google.maps.MapTypeId.ROADMAP
-//     };
-//     $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
-//   })
-//   .catch(function(error){
-//   console.log("Could not get location", error);
-//   });
-
   var options = {timeout: 10000, enableHighAccuracy: true};
     $cordovaGeolocation.getCurrentPosition(options)
     .then(function(position){
@@ -35,35 +20,82 @@ angular.module('trivial.games', [])
         position: latLng,
         map: map,
         draggable:true,
-        title:"Drag me!"
+        animation: google.maps.Animation.BOUNCE,
+        // maybe we can use the user's facebook photo for the icon
+        icon: 'https://images-na.ssl-images-amazon.com/images/M/MV5BMTgwMzQ4ODYxMV5BMl5BanBnXkFtZTcwNDAwMTc2NQ@@._V1._SX20_SY32_.jpg',
+        // also possible to add a text title on top of marker
+        // label: 'YOUR LOCATION'
       });
+
+      google.maps.event.addListener(marker , 'click', function(){
+          var infowindow = new google.maps.InfoWindow({
+            content:'Maybe we can use a title?',
+            position: latLng,
+          });
+          infowindow.open(map);
+      });
+
+      var drawingManager = new google.maps.drawing.DrawingManager({
+      drawingMode: google.maps.drawing.OverlayType.MARKER,
+      drawingControl: true,
+      drawingControlOptions: {
+        position: google.maps.ControlPosition.TOP_CENTER,
+        drawingModes: ['marker', 'circle', 'polygon', 'polyline', 'rectangle']
+      },
+      markerOptions: {icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'},
+      circleOptions: {
+        fillColor: '#ffff00',
+        fillOpacity: 1,
+        strokeWeight: 5,
+        clickable: false,
+        editable: true,
+        zIndex: 1
+      }
+    });
+
+      drawingManager.setMap(map);
+
+      var pins = [
+        {lat: 30.272890, lng: -97.743110},
+        {lat: 30.267824, lng: -97.745451},
+        {lat: 30.265921, lng: -97.746274},
+        {lat: 30.268936, lng: -97.740065}
+      ];
+      
+
+      var markers = [];
+
+      function drop() {
+        // console.log('drop called')
+        // clearMarkers();
+        for (var i = 0; i < pins.length; i++) {
+          // console.log(pins[i])
+          addMarkerWithTimeout(pins[i], i * 400);
+        }
+      }
+
+      function addMarkerWithTimeout(position, timeout) {
+        window.setTimeout(function() {
+          markers.push(new google.maps.Marker({
+            position: position,
+            map: map,
+            animation: google.maps.Animation.DROP
+          }));
+        }, timeout);
+      }
+
+      // function clearMarkers() {
+      //   for (var i = 0; i < markers.length; i++) {
+      //     markers[i].setMap(null);
+      //   }
+      //   markers = [];
+      // }
+
+      drop()
+
     })
     .catch(function(error){
     console.log("Could not get location", error);
-  });
-
-
-  // var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
-  // var mapOptions = {
-  //   zoom: 4,
-  //   center: myLatlng
-  // }
-  // var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-  // // Place a draggable marker on the map
-  // var marker = new google.maps.Marker({
-  //     position: myLatlng,
-  //     map: map,
-  //     draggable:true,
-  //     title:"Drag me!"
-  // });
-
+    });
 
 }]);
-
-
-
-
-
-
-
