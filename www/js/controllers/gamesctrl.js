@@ -1,7 +1,11 @@
-angular.module('trivial.map', [])
+angular.module('trivial.games', [])
 
-.controller('MapCtrl', ['$scope', '$state', '$cordovaGeolocation', function($scope, $state, $cordovaGeolocation) {
-  var options = {timeout: 10000, enableHighAccuracy: true};
+.controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', function($scope, $stateParams, $cordovaGeolocation) {
+ //will need to pull all games fom the server and attach them to $scope.games
+
+  $scope.games= [{name: 'munchybreakfast', id:1}, {name: "settlersof6", id:2}]
+
+var options = {timeout: 10000, enableHighAccuracy: true};
   $cordovaGeolocation.getCurrentPosition(options)
   .then(function(position){
     var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -15,4 +19,5 @@ angular.module('trivial.map', [])
   .catch(function(error){
   console.log("Could not get location", error);
   });
+
 }]);

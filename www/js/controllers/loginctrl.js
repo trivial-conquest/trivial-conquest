@@ -1,5 +1,5 @@
 angular.module('trivial.login', [])
 
-.controller('LoginCtrl', function($scope) {
+.controller('LoginCtrl', ['$scope', function($scope) {
  
-});
+}]);

@@ -1,7 +1,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'trivial' is the name of this angular module (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires' which will include all the angular modules you create
-angular.module('trivial', ['ionic', 'trivial.login', 'trivial.map', 'ngCordova'])
+angular.module('trivial', ['ionic', 'trivial.login', 'trivial.map', 'trivial.games', 'trivial.allgames', 'ngCordova'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -28,6 +28,16 @@ angular.module('trivial', ['ionic', 'trivial.login', 'trivial.map', 'ngCordova']
       templateUrl: 'templates/login.html',
       controller: 'LoginCtrl'
     })
+     .state('allgames', {
+    url: '/allgames',
+    templateUrl: 'templates/allgames.html',
+    controller: 'AllGamesCtrl'
+  })
+     .state('games', {
+    url: '/games/:gameId',
+    templateUrl: 'templates/games.html',
+    controller: 'GamesCtrl'
+  })
     .state('map', {
     url: '/map',
     templateUrl: 'templates/map.html',
@@ -35,5 +45,5 @@ angular.module('trivial', ['ionic', 'trivial.login', 'trivial.map', 'ngCordova']
   })
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/login');
+  $urlRouterProvider.otherwise('/');
 });
