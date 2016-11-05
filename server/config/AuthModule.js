@@ -9,10 +9,8 @@ var User = require('../models/user');
 
 if (!process.env.FB_SECRET) {
   var FB_SECRET = require('../fb').FB_SECRET;
-  var FB_ID = require('../fb').FB_ID;
 } else {
   var FB_SECRET = process.env.FB_SECRET;
-  var FB_ID = require('../fb').FB_ID;
 }
 
 module.exports = {
@@ -34,7 +32,7 @@ function facebookAuthentication(options, cb) {
 
    var params = {
        code: options.code,
-       client_id:FB_ID,
+       client_id:options.clientId,
        redirect_uri: options.redirectUri,
        client_secret: FB_SECRET
    };

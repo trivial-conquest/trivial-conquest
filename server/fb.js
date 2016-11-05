@@ -1,5 +1,5 @@
 
 module.exports = {
-        FB_ID: 'your fcbk id', 
-        FB_SECRET: 'your fcbk secret',
+        FB_ID: '147800405689030', 
+        FB_SECRET: '4dc4d81615856debbfd33312ce3e9911',
 }

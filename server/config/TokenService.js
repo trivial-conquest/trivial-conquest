@@ -8,10 +8,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var jwt = require('jsonwebtoken');
 if (!process.env.TOKEN_SECRET) {
   var TOKEN_SECRET = require('../fb').TOKEN_SECRET;
-  var TOKEN_ID = require('../fb').TOKEN_ID;
 } else {
   var TOKEN_SECRET = process.env.TOKEN_SECRET;
-  var TOKEN_ID = require('../fb').TOKEN_ID;
 }
 
 var TokenService = function () {
