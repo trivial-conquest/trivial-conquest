@@ -1,0 +1,16 @@
+<ion-view>
+  <ion-header-bar class="bar-stable">
+    <h1 class="title">Trivial Conquest</h1>
+  </ion-header-bar>
+  <ion-content>
+      <div ng-repeat='game in games'>
+        <div class="card">
+          <div class="item item-text-wrap">
+            <a href="#/games/{{game.id}}">
+                {{game.name}}
+            </a>
+          </div>
+        </div>
+      </div>
+  </ion-content>
+</ion-view>
