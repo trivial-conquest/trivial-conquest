@@ -35,6 +35,7 @@ angular.module('trivial.games', [])
         position: latLng,
         map: map,
         draggable:true,
+        animation: google.maps.Animation.DROP,
         title:"Drag me!"
       });
     })
