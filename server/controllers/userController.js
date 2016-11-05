@@ -1,5 +1,5 @@
 const db = require('../models/config')
-const Game = require('../models/game')
+const User = require('../models/user')
 
 module.exports = {
 
