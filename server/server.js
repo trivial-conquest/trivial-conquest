@@ -21,9 +21,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //     res.json({token: req.generatedToken});
 // });
 
-router.post('/auth/facebook', (req,res) => {
-	console.log('this is the body', req.body)
-})
 
 app.use('/', router)
 app.use('/games', games)
