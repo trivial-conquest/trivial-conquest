@@ -11,5 +11,6 @@ router.get('/:gameid', games.getOneGame)
 router.post('/:gameid', games.createGame)
 
 router.post('/:gameid/pins', pins.createNewPin)
+router.delete('/:gameid/pins/:pinId', pins.deletePin)
 
 module.exports = router;

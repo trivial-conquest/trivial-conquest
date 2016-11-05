@@ -16,5 +16,16 @@ module.exports = {
     .catch((err) => {
       console.log('ERROR: ', err)
     })
+  },
+
+  deletePin: (req, res) => {
+    Pin.find({_id: req.params.pinId}).remove()
+    .then(() => {
+      console.log('removed pin')
+      res.redirect('/')
+    })
+    .catch((err) => {
+      console.log('ERROR: ', err)
+    })
   }
 };
