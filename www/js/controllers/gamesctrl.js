@@ -20,4 +20,14 @@ var options = {timeout: 10000, enableHighAccuracy: true};
   console.log("Could not get location", error);
   });
 
+  // google.maps.event.addListenerOnce($scope.map, 'idle', function(){
+ 
+  //   var marker = new google.maps.Marker({
+  //       map: $scope.map,
+  //       animation: google.maps.Animation.DROP,
+  //       position: latLng
+  //   });      
+ 
+  // });
+
 }]);
