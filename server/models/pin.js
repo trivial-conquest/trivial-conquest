@@ -2,6 +2,8 @@ const mongoose = require('mongoose')
 const Game     = require('./game')
 const User     = require('./user')
 
+const Schema = mongoose.Schema
+
 const pinSchema = new Schema({
   address: { type: String, required: true },
   name: { type: String },
