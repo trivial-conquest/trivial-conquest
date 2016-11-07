@@ -2,7 +2,6 @@ const express       = require('express')
 const path          = require('path')
 const bodyParser    = require('body-parser')
 const logger        = require('morgan');
-const dotenv        = require('dotenv');
 const cors          = require('cors');
 const TokenService  = require('./config/TokenService');
 
@@ -42,7 +41,6 @@ app.use('/auth', auth)
 
 
 
-dotenv.load({ path: 'fb.js' });
 
 const port = process.env.PORT || 8080
 // app level middleware
