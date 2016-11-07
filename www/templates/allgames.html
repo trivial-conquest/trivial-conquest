@@ -4,7 +4,11 @@
   </ion-header-bar>
   <ion-content>
       <div class="card">
-        <button class="item item-text-wrap">Create New Game</button>
+        <form ng-submit='createGame(gamename)'>
+        <textarea placeholder="Game Name" ng-model='gamename'></textarea>
+        <input type='submit' value='Create New Game'/></input>
+        </form>
+        <!-- <button class="item item-text-wrap">Create New Game</button> -->
       </div>
       <div ng-repeat='game in games'>
         <div class="card">

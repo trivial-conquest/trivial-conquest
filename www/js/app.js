@@ -1,7 +1,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'trivial' is the name of this angular module (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires' which will include all the angular modules you create
-angular.module('trivial', ['ionic', 'trivial.login', 'trivial.map', 'trivial.games', 'trivial.allgames', 'ngCordova', 'satellizer'])
+angular.module('trivial', ['ionic', 'trivial.login', 'trivial.map', 'trivial.games', 'trivial.allgames', 'trivial.gamesrvc', 'ngCordova', 'satellizer'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

@@ -8,7 +8,7 @@ const pins = require('../controllers/pinsController')
 //returns all games
 router.get('/', games.getAllGames)
 router.get('/:gameid', games.getOneGame)
-router.post('/:gameid', games.createGame)
+router.post('/:game', games.createGame)
 
 router.post('/:gameid/pins', pins.createNewPin)
 router.delete('/:gameid/pins/:pinId', pins.deletePin)

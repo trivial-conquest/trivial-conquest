@@ -10,6 +10,7 @@ module.exports = {
 };
 
 function facebookAuth(req, res, next) {
+
     var options = {
         code: req.body.code,
         clientId: req.body.clientId,
@@ -18,7 +19,6 @@ function facebookAuth(req, res, next) {
 
     AuthModule.facebookAuthentication(options, function (err, response) {
         if (err) return res.status(401).json({ err: 'Error during facebook oauth' });
-
         // for larger apps recommended to namespace req variables
         req.authObject = response;
 

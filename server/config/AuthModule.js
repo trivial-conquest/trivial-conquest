@@ -44,7 +44,6 @@ function facebookAuthentication(options, cb) {
        // Step 2. Retrieve profile information about the current user.
        request.get({ url: graphApiUrl, qs: accessToken, json: true }, function (err, response, profile) {
            if (response.statusCode !== 200) return cb(accessToken.error.message);
-
            // Here we will normalize facebook response to our user schema
            // So later we can use multiple providers
            var user = {
