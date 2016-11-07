@@ -6,3 +6,4 @@ platforms/
 plugins/
 www/config.js
 www/lib
+server/fb.js

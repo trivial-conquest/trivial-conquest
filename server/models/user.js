@@ -1,11 +1,18 @@
-const mongoose   = require('mongoose')
-//hashing tool
-//average number of rounds
-const Schema     = mongoose.Schema
-//set up for a new user
-const userSchema = new Schema({
-  username: { type: String, required: true }
-})
 
-const User      = mongoose.model('User', userSchema)
-module.exports  = User
+const mongoose  = require('mongoose');
+
+const userSchema = new mongoose.Schema({  
+    firstName: String,
+    lastName: String,
+    email: { type: String, unique: true },
+    profilePicture: String,
+
+    profiles: {
+        facebook: String,
+        google: String
+    },
+    tokens: Array
+}, { timestamps: true });
+
+
+module.exports = mongoose.model('User', userSchema);  

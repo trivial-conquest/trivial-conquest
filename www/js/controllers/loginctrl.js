@@ -1,6 +1,6 @@
 angular.module('trivial.login', [])
 
-.controller('LoginCtrl', ['$rootScope', '$scope', '$ionicModal', 'UserService', function($rootScope, $scope,  $ionicModal, UserService) {
+.controller('LoginCtrl', ['$window', '$rootScope', '$scope', '$ionicModal', 'UserService', function($window, $rootScope, $scope,  $ionicModal, UserService) {
 
   // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/login.html', {
@@ -27,6 +27,7 @@ angular.module('trivial.login', [])
     // here we will recieve the logged in user
     console.log(data);
     $scope.closeLogin();
+    $window.location = "/#allgames"
   });
 
   // will fire in case authentication failed
