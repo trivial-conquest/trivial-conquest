@@ -21,7 +21,7 @@ module.exports = {
 },
 //Get all games in the db
   getAllGames: (req, res, next) => {
-    Game.find({}, (err, games) => {
+    Game.find({}, {}, {sort:{'createdAt':-1}}, (err, games) => {
       if (err) {
         console.log(`Find all games error: ${err}`); //The '$' signifies a JS variable
         res.send(err);

@@ -4,11 +4,10 @@
   </ion-header-bar>
   <ion-content>
       <div class="card">
-        <form ng-submit='createGame(gamename)'>
-        <textarea placeholder="Game Name" ng-model='gamename'></textarea>
-        <input type='submit' value='Create New Game'/></input>
+       Create Game
+        <form ng-submit='createGame(gamename)' novalidate class="item item-input">
+        <input type='text' value='Create New Game' ng-model='gamename'/></input>
         </form>
-        <!-- <button class="item item-text-wrap">Create New Game</button> -->
       </div>
       <div ng-repeat='game in games'>
         <div class="card">
