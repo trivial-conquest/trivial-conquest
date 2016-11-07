@@ -26,7 +26,6 @@ module.exports = {
 * @param cb
 */
 function facebookAuthentication(options, cb) {
-  console.log('this is authmodule facebookAuthentication')
    var fields = ['id', 'email', 'first_name', 'last_name', 'link', 'name'];
    var accessTokenUrl = 'https://graph.facebook.com/v2.5/oauth/access_token';
    var graphApiUrl = 'https://graph.facebook.com/v2.5/me?fields=' + fields.join(',');
@@ -38,7 +37,6 @@ function facebookAuthentication(options, cb) {
        client_secret: FB_SECRET
    };
 
-    console.log('this is auth parmas', params)
    // Step 1. Exchange authorization code for access token.
    request.get({ url: accessTokenUrl, qs: params, json: true }, function (err, response, accessToken) {
        if (response.statusCode !== 200) return cb(accessToken.error.message);
@@ -46,7 +44,6 @@ function facebookAuthentication(options, cb) {
        // Step 2. Retrieve profile information about the current user.
        request.get({ url: graphApiUrl, qs: accessToken, json: true }, function (err, response, profile) {
            if (response.statusCode !== 200) return cb(accessToken.error.message);
-           console.log('this is profile', profile)
            // Here we will normalize facebook response to our user schema
            // So later we can use multiple providers
            var user = {

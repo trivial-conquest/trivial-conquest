@@ -1,17 +1,15 @@
 const express       = require('express')
 const path          = require('path')
-// const cookie        = require('cookie-parser')
 const bodyParser    = require('body-parser')
 const logger        = require('morgan');
 const dotenv        = require('dotenv');
 const cors          = require('cors');
-
-/**
-* Load app modules and routes
-*/
-const AuthModule    = require('./config/AuthModule');
 const TokenService  = require('./config/TokenService');
-const authCtrl      = require('./config/auth.ctrl');
+
+
+const router = require('./routes/routes')
+const games  = require('./routes/games')
+const auth  = require('./routes/auth')
 
 const app = express()
 
@@ -37,17 +35,12 @@ app.use((req, res, next) => {
     next();
 });
 
-const router = require('./routes/routes')
-const games  = require('./routes/games')
 
 app.use('/', router)
 app.use('/games', games)
+app.use('/auth', auth)
 
-app.post('/auth/facebook',
-    authCtrl.facebookAuth, authCtrl.retrieveUser, authCtrl.generateToken, (req, res) => {
-    console.log('MONEY: ', req.generatedToken)
-    res.json({token: req.generatedToken});
-});
+
 
 dotenv.load({ path: 'fb.js' });
 
