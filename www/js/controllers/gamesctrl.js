@@ -40,6 +40,10 @@ angular.module('trivial.games', [])
           infowindow.open(map);
       });
 
+      google.maps.event.addListener(map, 'click', function(event) {
+        placeMarker(event.latLng);
+      });
+
       var drawingManager = new google.maps.drawing.DrawingManager({
       drawingMode: google.maps.drawing.OverlayType.MARKER,
       drawingControl: true,
@@ -102,6 +106,15 @@ angular.module('trivial.games', [])
         }, timeout);
       }
 
+      function placeMarker(location) {
+  var marker = new google.maps.Marker({
+      position: location, 
+      map: map
+  });
+
+  // map.setCenter(location);
+  map.panTo(location);
+}
       // function clearMarkers() {
       //   for (var i = 0; i < markers.length; i++) {
       //     markers[i].setMap(null);
