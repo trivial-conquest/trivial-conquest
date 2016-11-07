@@ -2,12 +2,12 @@ angular.module('trivial.allgames', [])
 
 .controller('AllGamesCtrl', ['$scope', '$stateParams', 'gameSrvc', '$window', function($scope, $stateParams, gameSrvc, $window) {
  //will need to pull all games fom the server and attach them to scope variable
- 
+
  $scope.getGames = function(){
  	  gameSrvc.getAllGames()
  	  .then(function(games){
  	  	console.log('all games retrieved', games)
- 	  	$scope.games = games
+ 	  	$scope.games = games;
  	  })
  	  .catch(function(){
  	  	console.log('no games retrieved')
