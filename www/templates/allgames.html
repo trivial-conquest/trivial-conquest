@@ -4,7 +4,7 @@
   </ion-header-bar>
   <ion-content>
       <div class="card">
-       Create Game
+        Create Game
         <form ng-submit='createGame(gamename)' novalidate class="item item-input">
         <input type='text' value='Create New Game' ng-model='gamename'/></input>
         </form>
@@ -12,7 +12,7 @@
       <div ng-repeat='game in games'>
         <div class="card">
           <div class="item item-text-wrap">
-            <a href="#/games/{{game.id}}">
+            <a href="#/games/{{game._id}}">
                 {{game.name}}
             </a>
           </div>
