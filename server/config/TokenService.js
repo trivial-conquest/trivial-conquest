@@ -57,6 +57,7 @@ var TokenService = function () {
     }], [{
         key: 'createToken',
         value: function createToken(options, cb) {
+            console.log('this is tokenservice')
             var payload = {
                 profilePicture: options.user.profilePicture,
                 firstName: options.user.firstName,
