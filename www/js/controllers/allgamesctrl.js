@@ -9,8 +9,8 @@ angular.module('trivial.allgames', [])
  	  	console.log('all games retrieved', games)
  	  	$scope.games = games;
  	  })
- 	  .catch(function(){
- 	  	console.log('no games retrieved')
+ 	  .catch(function(err){
+ 	  	console.log('no games retrieved', err)
  	  })
  }
 
