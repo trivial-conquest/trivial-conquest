@@ -55,7 +55,7 @@ angular.module('trivial.gamesrvc', [])
       }).then(function(resp){
         return resp.data
       })
-    }
+    },
 
     joinGame: function() {
       return $http({
