@@ -38,24 +38,36 @@ angular.module('trivial.gamesrvc', [])
         })
       },
 
-      getQuestion: function() {
-        return $http({
-          method: 'GET',
-          url: '/trivia',
-        }).then(function(resp){
-          console.log(resp.data.results);
-          return resp.data.results
-        })
-      },
+    getQuestion: function() {
+      return $http({
+        method: 'GET',
+        url: '/trivia',
+      }).then(function(resp){
+        console.log(resp.data.results);
+        return resp.data.results
+      })
+    },
 
-      getPinsForGame: function(gameId) {
-        return $http({
-          method: 'GET',
-          url: '/games/' + gameId + '/pins'
-        }).then(function(resp){
-          return resp.data
-        })
-      }
+    getPinsForGame: function(gameId) {
+      return $http({
+        method: 'GET',
+        url: '/games/' + gameId + '/pins'
+      }).then(function(resp){
+        return resp.data
+      })
+    }
+
+    joinGame: function() {
+      return $http({
+        method: 'PUT',
+        url: '/games/:gameid',
+        data: {token: localStorage.getItem("satellizer_token")}
+      }).then(function(resp) {
+        console.log('JOINING GAME SUCCESSFUL')
+      }).catch(function(err) {
+        console.log('THROW NEW ERROR: ', err)
+      })
+    }
 
     // addGame: function (Msg, Img) {
     //   return $http({
