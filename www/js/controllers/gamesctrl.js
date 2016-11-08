@@ -36,12 +36,6 @@ angular.module('trivial.games', [])
         if (places.length == 0) {
           return;
         }
-        
-        $scope.addPin = function() {
-          // post pin to db
-          console.log('POST pin', pinToAdd);
-          pinToAdd = null;
-        }
 
         // Clear out the old markers.
         markers.forEach(function(marker) {
@@ -177,6 +171,23 @@ angular.module('trivial.games', [])
       }
 
       drop()
+
+      $scope.addPin = function() {
+        // POST pin to db
+        console.log('POST', pinToAdd);
+
+        gameSrvc.addPin()
+        .then(function(pin) {
+          console.log('POSTED pin')
+        })
+        .catch(function(err) {
+          console.log('POST pin failed', err)
+        })
+      }
+
+      $scope.deletePin = function() {
+        // DELETE pin from db
+      }
 
     })
 

@@ -85,5 +85,45 @@ angular.module('trivial.gamesrvc', [])
       })
     }
 
+
+    addPin: function(pin) {
+      return $http({
+        method: 'POST',
+        url: '/games/game',
+        // authorization: localStorage.getItem('satellizer_token'),
+        data: {}
+      }).then(function(resp){
+        console.log('server POST pin success', resp.data)
+        return resp.data
+      }).catch(function(resp){
+        console.log('server POST pin failed', resp)
+      })
+    }
+
+    // addGame: function (Msg, Img) {
+    //   return $http({
+    //     method: 'GET',
+    //     url: '/sessions'
+    //   }).then(function(resp){
+    //     var userId = resp.data[0].userId
+    //     return $http({
+    //       method: 'POST',
+    //       url: '/user',
+    //       data: {userId: userId}
+    //     })
+    //   }).then(function(resp){
+    //     console.log('this is resp data', resp.data[0])
+    //     var firstName = resp.data[0].firstName
+    //     var lastName = resp.data[0].lastName
+    //     var avatar = resp.data[0].photolink
+    //     return $http({
+    //       method: 'POST',
+    //       url: '/messages',
+    //       data: {firstName: firstName, lastName: lastName, photolink: avatar, content: Msg, msgImageUrl: Img }
+    //     })
+    //   })
+    // },
+
+>>>>>>> adds addpin function template
   }
 }]);
