@@ -149,15 +149,25 @@ angular.module('trivial.games', [])
         }
       }
 
-      $scope.claimPin = function() { //Checks to see if user is near a pin, and then alerts them that they've claimed that pin
+      $scope.claimPin = function() { 
         var myCoords = {lat: position.coords.latitude, lng: position.coords.longitude}
-        for(i=0; i< pins.length; i++) {
-          if (Math.abs(myCoords.lat - pins[i].lat) < .003 && Math.abs(myCoords.lng - pins[i].lng) < .003) {
-            //Still have to put in checks for closest pin, and also need to set owner
-            alert('You claimed a pin at latitude  ' + pins[i].lat + ' and longitude  ' + pins[i].lng)
-            return
-          }
+        //Checks to see if user is close enough to any pins in the game
+        var closePins = pins.filter(function(pin){
+          return (Math.abs(myCoords.lat - pin.lat) < .003 && Math.abs(myCoords.lng - pin.lng) < .003)
+        })
+        //If use is close enough to a pin to claim it, find the one that they are closest to
+        if (closePins.length) {  
+          var closest = closePins.reduce(function(min, next){
+            if (Math.abs(myCoords.lat - next.lat) + Math.abs(myCoords.lng - next.lng) < Math.abs(myCoords.lat - min.lat) + Math.abs(myCoords.lng - min.lng)) {
+              return next
+            } else {
+              return min
+            }
+          })
+          alert('You claimed a pin at latitude ' + closest.lat + ' and longitude ' + closest.lng )
+          return
         }
+        alert('Sorry, too far')
       }
 
 
