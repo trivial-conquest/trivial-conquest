@@ -31,6 +31,16 @@ module.exports = {
     })
   },
 
+  getPinsForGame: (req, res) => {
+    Pin.find(`{game : ObjectId(${req.params.gameId})}`)
+    .then((pins) => {
+      res.send(pins)
+    })
+    .catch((err) =>{
+      console.log('ERROR', err)
+    })
+  },
+
   updatePinOwner: (req, res) => {
     Pin.findOneAndUpdate({_id: req.params.pinId}, {owner: "581e09736a44bf5c84214182"}, function(err, doc){
         if (err) return res.send(500, { error: err });

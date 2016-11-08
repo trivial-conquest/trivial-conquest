@@ -6,7 +6,7 @@ module.exports = {
   createGame: (req, res, next) => {
     var newGame = new Game ({
       name: req.body.name,
-      pins: [],
+      pins: req.body.pins,
       users: []
     })
     newGame.save((err, game) => {
