@@ -72,10 +72,11 @@ angular.module('trivial.gamesrvc', [])
       })
     },
 
-    claimPin: function() {
+    claimPin: function(gameId,pinId) {
+      console.log('claimPin called')
       return $http({
         method: 'PUT',
-        url: '/:gameid/pins/:pinId',
+        url: '/games/' + gameId + '/pins/' + pinId,
         authorization: localStorage.getItem('satellizer_token')
       }).then(function(resp){
         console.log('Pin claimed', resp)

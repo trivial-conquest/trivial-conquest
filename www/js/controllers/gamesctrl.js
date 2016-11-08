@@ -7,7 +7,6 @@ angular.module('trivial.games', [])
   var options = {timeout: 10000, enableHighAccuracy: true};
     $cordovaGeolocation.getCurrentPosition(options)
     .then(function(position){
-      console.log(position)
       var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       var mapOptions = {
         center: latLng,
@@ -119,7 +118,6 @@ angular.module('trivial.games', [])
       }
 
       var getCurrentGameID = function(){ //Getting game ID based on URL in order to look up that game's pins
-        console.log($location.$$url.replace('/games/',''))
         return $location.$$url.replace('/games/','')
       }
 
@@ -128,7 +126,6 @@ angular.module('trivial.games', [])
       gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
       .then(function(response){
         pins = response
-        console.log(response)
         //Change JSON data into numbers, in order for drop() to work
         pins.forEach(function(coordsObj){
           coordsObj.coordinates[0].lat = Number(coordsObj.coordinates[0].lat)
@@ -154,8 +151,6 @@ angular.module('trivial.games', [])
       $scope.claimPin = function() { 
         var myCoords = {lat: position.coords.latitude, lng: position.coords.longitude}
         //Checks to see if user is close enough to any pins in the game
-        console.log(pins, 'pins')
-        console.log(myCoords, 'me')
         var closePins = pins.filter(function(pin){
           return (Math.abs(myCoords.lat - pin.coordinates[0].lat) < .003 && Math.abs(myCoords.lng - pin.coordinates[0].lng) < .003)
         })
@@ -168,7 +163,7 @@ angular.module('trivial.games', [])
               return min
             }
           })
-          console.log(closest)
+          gameSrvc.claimPin(closest.game, closest._id)
           alert('You claimed a pin at latitude ' + closest.coordinates[0].lat + ' and longitude ' + closest.coordinates[0].lng )
           return
         }
