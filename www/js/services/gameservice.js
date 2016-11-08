@@ -25,11 +25,12 @@ angular.module('trivial.gamesrvc', [])
       })  
     },
 
-    getOneGame: function () {
+    getOneGame: function (gameId) {
        return $http({
           method: 'GET',
-          url: '/:gameid'
+          url: '/games/' + gameId
         }).then(function(resp) {
+          console.log(resp.data)
           return resp.data;
         })  
       },
@@ -41,6 +42,15 @@ angular.module('trivial.gamesrvc', [])
         }).then(function(resp){
           console.log(resp.data.results);
           return resp.data.results
+        })
+      },
+
+      getPinsForGame: function(gameId) {
+        return $http({
+          method: 'GET',
+          url: '/games/' + gameId + '/pins'
+        }).then(function(resp){
+          return resp.data
         })
       }
 
