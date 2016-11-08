@@ -127,14 +127,16 @@ angular.module('trivial.games', [])
 
       gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
       .then(function(response){
+        pins = response
+        console.log(response)
+        //Change JSON data into numbers, in order for drop() to work
+        pins.forEach(function(coordsObj){
+          coordsObj.coordinates[0].lat = Number(coordsObj.coordinates[0].lat)
+          coordsObj.coordinates[0].lng = Number(coordsObj.coordinates[0].lng)
+        })
         var coords = response.map(function(obj){
-          return obj.coordinates
+          return obj.coordinates[0]
         })
-        coords.forEach(function(coordsObj){
-          coordsObj.lat = Number(coordsObj[0].lat)
-          coordsObj.lng = Number(coordsObj[0].lng)
-        })
-        pins = coords
         drop(coords) //Placing pins on the map from the game we are currently in
       })
 
@@ -152,8 +154,10 @@ angular.module('trivial.games', [])
       $scope.claimPin = function() { 
         var myCoords = {lat: position.coords.latitude, lng: position.coords.longitude}
         //Checks to see if user is close enough to any pins in the game
+        console.log(pins, 'pins')
+        console.log(myCoords, 'me')
         var closePins = pins.filter(function(pin){
-          return (Math.abs(myCoords.lat - pin.lat) < .003 && Math.abs(myCoords.lng - pin.lng) < .003)
+          return (Math.abs(myCoords.lat - pin.coordinates[0].lat) < .003 && Math.abs(myCoords.lng - pin.coordinates[0].lng) < .003)
         })
         //If use is close enough to a pin to claim it, find the one that they are closest to
         if (closePins.length) {  
@@ -164,7 +168,8 @@ angular.module('trivial.games', [])
               return min
             }
           })
-          alert('You claimed a pin at latitude ' + closest.lat + ' and longitude ' + closest.lng )
+          console.log(closest)
+          alert('You claimed a pin at latitude ' + closest.coordinates[0].lat + ' and longitude ' + closest.coordinates[0].lng )
           return
         }
         alert('Sorry, too far')
