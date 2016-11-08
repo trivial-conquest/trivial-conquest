@@ -36,6 +36,7 @@ app.use((req, res, next) => {
 
 function isAuthenticated(req, res, next) {
     console.log('RUNNING isAuthenticated')
+    console.log('payload', req.tokenPayload)
     if(req.isAuthenticated()) {
       return next();
     }
