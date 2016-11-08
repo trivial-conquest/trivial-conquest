@@ -28,14 +28,19 @@ angular.module('trivial.games', [])
       var markers = [];
         // Listen for the event fired when the user selects a prediction and retrieve
         // more details for that place.
+      var pinToAdd;
       searchBox.addListener('places_changed', function() {
         var places = searchBox.getPlaces();
-        console.log(places[0])
-        var hold = [];
-        hold.push(places);
-        console.log(hold)
+        console.log('places[0] =', places[0])
+        pinToAdd = places[0];
         if (places.length == 0) {
           return;
+        }
+        
+        $scope.addPin = function() {
+          // post pin to db
+          console.log('POST pin', pinToAdd);
+          pinToAdd = null;
         }
 
         // Clear out the old markers.
@@ -96,17 +101,17 @@ angular.module('trivial.games', [])
         infowindow.open(map);
       });
 
-      google.maps.event.addListener(map, 'click', function(event) {
-        placeMarker(event.latLng);
-      });
+      // google.maps.event.addListener(map, 'click', function(event) {
+      //   placeMarker(event.latLng);
+      // });
 
-      function placeMarker(location) {
-        var marker = new google.maps.Marker({
-          position: location, 
-          map: map
-        });
-        map.panTo(location);  
-      }
+      // function placeMarker(location) {
+      //   var marker = new google.maps.Marker({
+      //     position: location, 
+      //     map: map
+      //   });
+      //   map.panTo(location);  
+      // }
 
       function addMarkerWithTimeout(position, timeout) {
         window.setTimeout(function() {
@@ -119,6 +124,7 @@ angular.module('trivial.games', [])
       }
 
       var getCurrentGameID = function(){ //Getting game ID based on URL in order to look up that game's pins
+        console.log('game url', $location.$$url.replace('/games/',''))
         return $location.$$url.replace('/games/','')
       }
 
