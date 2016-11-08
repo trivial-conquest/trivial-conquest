@@ -6,38 +6,38 @@ angular.module('trivial.allgames', [])
 
  $scope.getGames = function(){
   
- 	  gameSrvc.getAllGames()
- 	  .then(function(games){
- 	  	console.log('all games retrieved', typeof(games))
+    gameSrvc.getAllGames()
+    .then(function(games){
+      console.log('all games retrieved', typeof(games))
       if(typeof(games) === 'string') $window.location = '/'
- 	  	$scope.games = games
- 	  })
- 	  .catch(function(){
- 	  	console.log('no games retrieved')
+      $scope.games = games
+    })
+    .catch(function(){
+      console.log('no games retrieved')
       $scope.repeat = true
       $scope.allgames.gamename = null
- 	  })
+    })
  }
 
   $scope.createGame = function(){
-  	console.log('this is inside createGmae', name)
-  	gameSrvc.createGame($scope.allgames.gamename)
-  	.then(function(game){
-  		console.log("$$$$%%%^^#", game._id)
-  	  $scope.getGames()
-      $scope.allgames.gamename = null;
+    console.log('this is inside createGmae', name)
+    gameSrvc.createGame($scope.allgames.gamename)
+    .then(function(game){
+      console.log("$$$$%%%^^#", game._id)
+      $scope.getGames()
+      $scope.allgames.gamename = null
       $scope.allgames.repeat = function(){
         return false;
       }
       $window.location = '#/games/' + game._id
-  	})
-  	.catch(function(err){
-  	 console.log('this didnt work')
+    })
+    .catch(function(err){
+     console.log('this didnt work')
      $scope.allgames.repeat = function(){
       return true;
       }
       $scope.allgames.gamename = null;
-  	})
+    })
   }
 
 
