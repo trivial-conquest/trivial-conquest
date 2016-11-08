@@ -25,7 +25,7 @@ angular.module('trivial.allgames', [])
   	.then(function(game){
   		console.log("$$$$%%%^^#", game._id)
   	  $scope.getGames()
-      $scope.allgames.gamename = null
+      $scope.allgames.gamename = null;
       $scope.allgames.repeat = function(){
         return false;
       }
@@ -36,7 +36,7 @@ angular.module('trivial.allgames', [])
      $scope.allgames.repeat = function(){
       return true;
       }
-      $scope.allgames.gamename = null
+      $scope.allgames.gamename = null;
   	})
   }
 
