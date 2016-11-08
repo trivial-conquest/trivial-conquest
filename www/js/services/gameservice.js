@@ -6,12 +6,13 @@ angular.module('trivial.gamesrvc', [])
     createGame: function(name) {
       return $http({
         method: 'POST', 
-        url: '/game',
+        url: '/games/game',
         data: {name: name}
       }).then(function(resp){
-        console.log('this game creation worked', resp)
+        console.log('this game creation worked!!!!&&', resp.data)
+        return resp.data
       }).catch(function(resp){
-        console.log('this game creation didnt work')
+        console.log('this game creation didnt work', resp)
       })
     },
   

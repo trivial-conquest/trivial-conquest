@@ -7,7 +7,10 @@ const Schema = mongoose.Schema
 const gameSchema = new Schema({
   name: { type: String, required: true },
   users: [{type: Schema.ObjectId, ref: 'User' }],
-  pins: [{type: Schema.ObjectId, ref: 'Pin' }]
+  pins: [{type: Schema.ObjectId, ref: 'Pin' }],
+}, 
+{
+  timestamps: true
 })
 
 const Game      = mongoose.model('Game', gameSchema)
