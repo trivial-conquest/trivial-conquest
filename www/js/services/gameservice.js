@@ -12,7 +12,7 @@ angular.module('trivial.gamesrvc', [])
         console.log('this game creation worked!!!!&&', resp.data)
         return resp.data
       }).catch(function(resp){
-        console.log('this game creation didnt work')
+        console.log('this game creation didnt work', resp)
       })
     },
   
