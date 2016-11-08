@@ -21,7 +21,66 @@ angular.module('trivial.games', [])
       };
       var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-      var marker = new google.maps.Marker({
+              // Create the search box and link it to the UI element.
+      var input = document.getElementById('pac-input');
+      var searchBox = new google.maps.places.SearchBox(input);
+      map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+      // Bias the SearchBox results towards current map's viewport.
+      map.addListener('bounds_changed', function() {
+        searchBox.setBounds(map.getBounds());
+      });
+
+      var markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+      searchBox.addListener('places_changed', function() {
+        var places = searchBox.getPlaces();
+
+        if (places.length == 0) {
+          return;
+        }
+
+        // Clear out the old markers.
+        markers.forEach(function(marker) {
+          marker.setMap(null);
+        });
+        markers = [];
+
+          // For each place, get the icon, name and location.
+        var bounds = new google.maps.LatLngBounds();
+        places.forEach(function(place) {
+          if (!place.geometry) {
+            console.log("Returned place contains no geometry");
+            return;
+          }
+          var icon = {
+            url: place.icon,
+            size: new google.maps.Size(71, 71),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(25, 25)
+          };
+
+          // Create a marker for each place.
+          markers.push(new google.maps.Marker({
+            map: map,
+            icon: icon,
+            title: place.name,
+            position: place.geometry.location
+          }));
+
+          if (place.geometry.viewport) {
+            // Only geocodes have viewport.
+            bounds.union(place.geometry.viewport);
+          } else {
+            bounds.extend(place.geometry.location);
+          }
+        });
+          map.fitBounds(bounds);
+      });
+
+      var youMarker = new google.maps.Marker({
         position: latLng,
         map: map,
         draggable:true,
@@ -32,33 +91,25 @@ angular.module('trivial.games', [])
         // label: 'YOUR LOCATION'
       });
 
-      google.maps.event.addListener(marker , 'click', function(){
-          var infowindow = new google.maps.InfoWindow({
-            content:'Maybe we can use a title?',
-            position: latLng,
-          });
-          infowindow.open(map);
+      google.maps.event.addListener(youMarker , 'click', function(){
+        var infowindow = new google.maps.InfoWindow({
+          content:'Maybe we can use a title?',
+          position: latLng,
+        });
+        infowindow.open(map);
       });
 
-      var drawingManager = new google.maps.drawing.DrawingManager({
-      drawingMode: google.maps.drawing.OverlayType.MARKER,
-      drawingControl: true,
-      drawingControlOptions: {
-        position: google.maps.ControlPosition.TOP_CENTER,
-        drawingModes: ['marker', 'circle', 'polygon', 'polyline', 'rectangle']
-      },
-      markerOptions: {icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'},
-      circleOptions: {
-        fillColor: '#ffff00',
-        fillOpacity: 1,
-        strokeWeight: 5,
-        clickable: false,
-        editable: true,
-        zIndex: 1
-      }
-    });
+      google.maps.event.addListener(map, 'click', function(event) {
+        placeMarker(event.latLng);
+      });
 
-      drawingManager.setMap(map);
+      function placeMarker(location) {
+        var marker = new google.maps.Marker({
+          position: location, 
+          map: map
+        });
+        map.panTo(location);  
+      }
 
       var pins = $scope.game.pins
 
@@ -70,13 +121,11 @@ angular.module('trivial.games', [])
       var currentGameID = getCurrentGameID();
 
 
-      var markers = [];
+      var gamePins = [];
 
       function drop() {
-        // console.log('drop called')
-        // clearMarkers();
+        cleargamePins();
         for (var i = 0; i < pins.length; i++) {
-          // console.log(pins[i])
           addMarkerWithTimeout(pins[i], i * 400);
         }
       }
@@ -94,7 +143,7 @@ angular.module('trivial.games', [])
 
       function addMarkerWithTimeout(position, timeout) {
         window.setTimeout(function() {
-          markers.push(new google.maps.Marker({
+          gamePins.push(new google.maps.Marker({
             position: position,
             map: map,
             animation: google.maps.Animation.DROP
@@ -102,18 +151,42 @@ angular.module('trivial.games', [])
         }, timeout);
       }
 
-      // function clearMarkers() {
-      //   for (var i = 0; i < markers.length; i++) {
-      //     markers[i].setMap(null);
-      //   }
-      //   markers = [];
-      // }
+
+
+      function cleargamePins() {
+        for (var i = 0; i < gamePins.length; i++) {
+          gamePins[i].setMap(null);
+        }
+        gamePins = [];
+      }
 
       drop()
 
     })
+
     .catch(function(error){
     console.log("Could not get location", error);
-    });
+  });
 
 }]);
+
+// THIS IS THE OLD DRAWING LIBRARY 
+//  var drawingManager = new google.maps.drawing.DrawingManager({
+//   drawingMode: google.maps.drawing.OverlayType.MARKER,
+//   drawingControl: true,
+//   drawingControlOptions: {
+//     position: google.maps.ControlPosition.TOP_CENTER,
+//     drawingModes: ['marker', 'circle', 'polygon', 'polyline', 'rectangle']
+//   },
+//   markerOptions: {icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'},
+//   circleOptions: {
+//     fillColor: '#ffff00',
+//     fillOpacity: 1,
+//     strokeWeight: 5,
+//     clickable: false,
+//     editable: true,
+//     zIndex: 1
+//   }
+// });
+
+// drawingManager.setMap(map);
