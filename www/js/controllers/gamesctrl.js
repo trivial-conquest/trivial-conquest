@@ -104,7 +104,7 @@ angular.module('trivial.games', [])
         map.panTo(location);  
       }
 
-      drawingManager.setMap(map);
+      //drawingManager.setMap(map);
 
       function addMarkerWithTimeout(position, timeout) {
         window.setTimeout(function() {
@@ -125,6 +125,7 @@ angular.module('trivial.games', [])
 
       gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
       .then(function(response){
+        console.log(response[0].coordinates)
         response[0].coordinates.forEach(function(coordsObj){
           coordsObj.lat = Number(coordsObj.lat)
           coordsObj.lng = Number(coordsObj.lng)
