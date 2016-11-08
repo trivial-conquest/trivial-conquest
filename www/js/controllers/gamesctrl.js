@@ -30,6 +30,7 @@ angular.module('trivial.games', [])
         // more details for that place.
       searchBox.addListener('places_changed', function() {
         var places = searchBox.getPlaces();
+        console.log(places[0])
 
         if (places.length == 0) {
           return;
@@ -176,12 +177,34 @@ angular.module('trivial.games', [])
 
       //drop()
 
+      // THIS IS THE OLD DRAWING LIBRARY 
+       var drawingManager = new google.maps.drawing.DrawingManager({
+        drawingMode: google.maps.drawing.OverlayType.MARKER,
+        drawingControl: true,
+        drawingControlOptions: {
+          position: google.maps.ControlPosition.TOP_CENTER,
+          drawingModes: ['marker', 'circle', 'polygon', 'polyline', 'rectangle']
+        },
+        markerOptions: {icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'},
+        circleOptions: {
+          fillColor: '#ffff00',
+          fillOpacity: 1,
+          strokeWeight: 5,
+          clickable: false,
+          editable: true,
+          zIndex: 1
+        }
+      });
+
+      drawingManager.setMap(map);
+
     })
 
     .catch(function(error){
     console.log("Could not get location", error);
-  });
 
+  });
+    
 }]);
 
 // THIS IS THE OLD DRAWING LIBRARY 
