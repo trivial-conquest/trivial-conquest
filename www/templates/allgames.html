@@ -9,6 +9,9 @@
         <input type='text' value='Create New Game' ng-model='allgames.gamename'/></input>
         </form>
       </div>
+      <div ng-if='repeat=true' class=card>
+       This game already exists, please choose another
+      </div>
       <div ng-repeat='game in games'>
         <div class="card">
           <div class="item item-text-wrap">

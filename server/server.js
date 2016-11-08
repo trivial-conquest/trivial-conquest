@@ -31,6 +31,7 @@ app.use((req, res, next) => {
         _id: req.tokenPayload._id
     };
 
+
     next();
 });
 
@@ -46,6 +47,10 @@ function isAuthenticated(req, res, next) {
        res.redirect('/')
     }
 }
+
+app.use('/', router)
+app.use('/games', games)
+app.use('/auth', auth)
 
 
 app.use('/', router)

@@ -42,6 +42,12 @@ class TokenService {
             this.payload    = {};
             this.validToken = false;
             console.log(err);
+            console.log('payload', payload)
+
+            jwt.sign(payload, TOKEN_SECRET, {
+                algorithm: 'HS256',
+                expiresIn: options.expireTime || 43200 // expires in 30 days
+            }, cb);
         }
     }
 

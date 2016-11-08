@@ -6,6 +6,7 @@ angular.module('trivial.allgames', [])
  $scope.create = false;
 
  $scope.getGames = function(){
+  
  	  gameSrvc.getAllGames()
  	  .then(function(games){
  	  	console.log('all games retrieved', typeof(games))
@@ -14,6 +15,8 @@ angular.module('trivial.allgames', [])
  	  })
  	  .catch(function(){
  	  	console.log('no games retrieved')
+      $scope.repeat = true
+      $scope.allgames.gamename = null
  	  })
  }
 
@@ -26,7 +29,7 @@ angular.module('trivial.allgames', [])
       $scope.allgames.gamename = null
       $window.location = '#/games/' + game._id
   	})
-  	.catch(function(){
+  	.catch(function(err){
   		console.log('this didnt work')
   	})
   }
