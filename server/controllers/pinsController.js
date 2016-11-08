@@ -5,7 +5,7 @@ module.exports = {
   createNewPin: (req, res) => {
     var coordinates = JSON.parse(req.body.coordinates)
     new Pin({
-      owner: '581cbb4c5db5083463acf243', //dummy userId
+      owner: req.tokenPayload._id, //dummy userId
       game: req.params.gameid,
       name: req.body.name,
       address: req.body.address,
@@ -42,7 +42,7 @@ module.exports = {
   },
 
   updatePinOwner: (req, res) => {
-    Pin.findOneAndUpdate({_id: req.params.pinId}, {owner: "581e09736a44bf5c84214182"}, function(err, doc){
+    Pin.findOneAndUpdate({_id: req.params.pinId}, {owner: req.tokenPayload._id}, function(err, doc){
         if (err) return res.send(500, { error: err });
         return res.send("succesfully saved");
     });
