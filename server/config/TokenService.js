@@ -8,7 +8,6 @@ class TokenService {
         this.validToken = false;
 
         this._verifyToken();
-        console.log('be valid', this.validToken)
     }
 
     static createToken(options, cb) {
