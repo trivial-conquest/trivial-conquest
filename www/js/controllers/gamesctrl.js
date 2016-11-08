@@ -1,14 +1,7 @@
 angular.module('trivial.games', [])
 
-.controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', function($scope, $stateParams, $cordovaGeolocation, $location) {
- //will need to pull all games fom the server and attach them to $scope.games
-
-  $scope.game= {name: 'munchybreakfast', id:1, pins:[
-        {lat: 30.272890, lng: -97.743110},
-        {lat: 30.267824, lng: -97.745451},
-        {lat: 30.265921, lng: -97.746274},
-        {lat: 30.268936, lng: -97.740065}
-      ]}
+.controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc) {
+ //will need to pull all games fom the server and attach them to $scope.game
 
   var options = {timeout: 10000, enableHighAccuracy: true};
     $cordovaGeolocation.getCurrentPosition(options)
@@ -111,7 +104,17 @@ angular.module('trivial.games', [])
         map.panTo(location);  
       }
 
-      var pins = $scope.game.pins
+      drawingManager.setMap(map);
+
+      function addMarkerWithTimeout(position, timeout) {
+        window.setTimeout(function() {
+          markers.push(new google.maps.Marker({
+            position: position,
+            map: map,
+            animation: google.maps.Animation.DROP
+          }));
+        }, timeout);
+      }
 
       var getCurrentGameID = function(){ //Getting game ID based on URL in order to look up that game's pins
         console.log($location.$$url.replace('/games/',''))
@@ -120,47 +123,40 @@ angular.module('trivial.games', [])
 
       var currentGameID = getCurrentGameID();
 
+      gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
+      .then(function(response){
+        response[0].coordinates.forEach(function(coordsObj){
+          coordsObj.lat = Number(coordsObj.lat)
+          coordsObj.lng = Number(coordsObj.lng)
+        })
+        drop(response[0].coordinates) //Placing pins on the map from the game we are currently in
+      })
 
-      var gamePins = [];
 
-      function drop() {
-        cleargamePins();
+      var markers = [];
+
+      function drop(pins) {
+        // console.log('drop called')
+        // clearMarkers();
         for (var i = 0; i < pins.length; i++) {
           addMarkerWithTimeout(pins[i], i * 400);
         }
       }
 
-      $scope.claimPin = function() {
+      $scope.claimPin = function() { //Checks to see if user is near a pin, and then alerts them that they've claimed that pin
         var myCoords = {lat: position.coords.latitude, lng: position.coords.longitude}
-        console.log('myCoords', myCoords)
         for(i=0; i< $scope.game.pins.length; i++) {
           if (Math.abs(myCoords.lat - $scope.game.pins[i].lat) < .003 && Math.abs(myCoords.lng - $scope.game.pins[i].lng) < .003) {
+            //Still have to put in checks for closest pin, and also need to set owner
             alert('You claimed a pin at latitude  ' + $scope.game.pins[i].lat + ' and longitude  ' + $scope.game.pins[i].lng)
             return
           }
         }
       }
 
-      function addMarkerWithTimeout(position, timeout) {
-        window.setTimeout(function() {
-          gamePins.push(new google.maps.Marker({
-            position: position,
-            map: map,
-            animation: google.maps.Animation.DROP
-          }));
-        }, timeout);
-      }
 
 
-
-      function cleargamePins() {
-        for (var i = 0; i < gamePins.length; i++) {
-          gamePins[i].setMap(null);
-        }
-        gamePins = [];
-      }
-
-      drop()
+      //drop()
 
     })
 
