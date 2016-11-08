@@ -33,7 +33,7 @@ angular.module('trivial', ['ionic', 'trivial.login', 'trivial.map', 'trivial.gam
   commonConfig.redirectUri = 'http://localhost:8080/';
   }
   $authProvider.facebook(angular.extend({}, commonConfig, {
-  clientId: '137143283427760',
+  clientId: '',
   url: 'http://localhost:8080/auth/facebook'
   }));
 
