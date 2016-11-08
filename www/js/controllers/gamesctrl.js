@@ -7,6 +7,7 @@ angular.module('trivial.games', [])
   var options = {timeout: 10000, enableHighAccuracy: true};
     $cordovaGeolocation.getCurrentPosition(options)
     .then(function(position){
+      console.log(position)
       var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       var mapOptions = {
         center: latLng,
