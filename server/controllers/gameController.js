@@ -44,21 +44,10 @@ module.exports = {
     })
   },
 
-//   addPlayer: (req, res, next) => {
-//     Game.findOneAndUpdate({_id: req.params.gameid}, { $push: { users: req.body.user } }, {new:true},
-//     (err, game) => {
-//       if (err) {
-//         console.log(`Error in adding user: ${err}`);
-//         res.send(err);
-//       } else {
-//         console.log(`User added: ${game}`);
-//         res.send(game);
-//     }
-//   })
-// }
-
-
-
-
+  joinGame: (req, res, next) => {
+    Game.update({_id: req.params.gameid}, { $addToSet: { users: req.tokenPayload._id }}).then(game =>{
+      console.log('donzo:', game)
+    })
+  }
 
 };
