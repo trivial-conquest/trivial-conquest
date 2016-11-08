@@ -3,6 +3,7 @@ angular.module('trivial.games', [])
 .controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc) {
  //will need to pull all games fom the server and attach them to $scope.game
 
+  var pins = [];
   var options = {timeout: 10000, enableHighAccuracy: true};
     $cordovaGeolocation.getCurrentPosition(options)
     .then(function(position){
@@ -125,12 +126,15 @@ angular.module('trivial.games', [])
 
       gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
       .then(function(response){
-        console.log(response[0].coordinates)
-        response[0].coordinates.forEach(function(coordsObj){
-          coordsObj.lat = Number(coordsObj.lat)
-          coordsObj.lng = Number(coordsObj.lng)
+        var coords = response.map(function(obj){
+          return obj.coordinates
         })
-        drop(response[0].coordinates) //Placing pins on the map from the game we are currently in
+        coords.forEach(function(coordsObj){
+          coordsObj.lat = Number(coordsObj[0].lat)
+          coordsObj.lng = Number(coordsObj[0].lng)
+        })
+        pins = coords
+        drop(coords) //Placing pins on the map from the game we are currently in
       })
 
 
@@ -146,10 +150,10 @@ angular.module('trivial.games', [])
 
       $scope.claimPin = function() { //Checks to see if user is near a pin, and then alerts them that they've claimed that pin
         var myCoords = {lat: position.coords.latitude, lng: position.coords.longitude}
-        for(i=0; i< $scope.game.pins.length; i++) {
-          if (Math.abs(myCoords.lat - $scope.game.pins[i].lat) < .003 && Math.abs(myCoords.lng - $scope.game.pins[i].lng) < .003) {
+        for(i=0; i< pins.length; i++) {
+          if (Math.abs(myCoords.lat - pins[i].lat) < .003 && Math.abs(myCoords.lng - pins[i].lng) < .003) {
             //Still have to put in checks for closest pin, and also need to set owner
-            alert('You claimed a pin at latitude  ' + $scope.game.pins[i].lat + ' and longitude  ' + $scope.game.pins[i].lng)
+            alert('You claimed a pin at latitude  ' + pins[i].lat + ' and longitude  ' + pins[i].lng)
             return
           }
         }
