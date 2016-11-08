@@ -25,7 +25,7 @@ app.use(cors({
 app.use((req, res, next) => {
     const token = new TokenService(req.headers);
 
-    req.isAuthenticated = token.isAuthenticated;
+    req.isAuthenticated = token.isAuthenticated.bind(token);
     req.tokenPayload    = token.getPayload();
     req.user            = {
         _id: req.tokenPayload._id
@@ -34,12 +34,24 @@ app.use((req, res, next) => {
     next();
 });
 
+function isAuthenticated(req, res, next) {
+    console.log('RUNNING isAuthenticated')
+    if(req.isAuthenticated()) {
+      return next();
+    }
+
+    if(req.xhr) {
+        res.redirect('/')
+    } else {
+       // You can redirect to login page here aswell
+       res.redirect('/')
+    }
+}
+
 
 app.use('/', router)
-app.use('/games', games)
+app.use('/games', isAuthenticated, games)
 app.use('/auth', auth)
-
-
 
 
 const port = process.env.PORT || 8080

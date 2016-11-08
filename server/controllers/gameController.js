@@ -26,7 +26,6 @@ module.exports = {
         console.log(`Find all games error: ${err}`); //The '$' signifies a JS variable
         res.send(err);
       } else {
-        console.log(`Find all games: ${games}`);
         res.send(games);
       }
     })

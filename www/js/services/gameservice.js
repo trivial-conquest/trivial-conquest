@@ -5,8 +5,9 @@ angular.module('trivial.gamesrvc', [])
 
     createGame: function(name) {
       return $http({
-        method: 'POST', 
+        method: 'POST',
         url: '/games/game',
+        authorization: localStorage.getItem('satellizer_token'),
         data: {name: name}
       }).then(function(resp){
         console.log('this game creation worked!!!!&&', resp.data)
@@ -15,24 +16,26 @@ angular.module('trivial.gamesrvc', [])
         console.log('this game creation didnt work', resp)
       })
     },
-  
+
     getAllGames: function () {
       return $http({
         method: 'GET',
+        authorization: localStorage.getItem('satellizer_token'),
         url: '/games'
       }).then(function(resp) {
         return resp.data;
-      })  
+      })
     },
 
     getOneGame: function (gameId) {
        return $http({
           method: 'GET',
-          url: '/games/' + gameId
+          authorization: localStorage.getItem('satellizer_token'),
+          url: 'games/:gameid'
         }).then(function(resp) {
           console.log(resp.data)
           return resp.data;
-        })  
+        })
       },
 
       getQuestion: function() {
