@@ -31,7 +31,9 @@ angular.module('trivial.games', [])
       searchBox.addListener('places_changed', function() {
         var places = searchBox.getPlaces();
         console.log(places[0])
-
+        var hold = [];
+        hold.push(places);
+        console.log(hold)
         if (places.length == 0) {
           return;
         }
@@ -106,8 +108,6 @@ angular.module('trivial.games', [])
         map.panTo(location);  
       }
 
-      //drawingManager.setMap(map);
-
       function addMarkerWithTimeout(position, timeout) {
         window.setTimeout(function() {
           markers.push(new google.maps.Marker({
@@ -140,12 +140,9 @@ angular.module('trivial.games', [])
         drop(coords) //Placing pins on the map from the game we are currently in
       })
 
-
       var markers = [];
 
       function drop(pins) {
-        // console.log('drop called')
-        // clearMarkers();
         for (var i = 0; i < pins.length; i++) {
           addMarkerWithTimeout(pins[i], i * 100);
         }
@@ -173,30 +170,7 @@ angular.module('trivial.games', [])
         alert('Sorry, too far')
       }
 
-
-
-      //drop()
-
-      // THIS IS THE OLD DRAWING LIBRARY 
-       var drawingManager = new google.maps.drawing.DrawingManager({
-        drawingMode: google.maps.drawing.OverlayType.MARKER,
-        drawingControl: true,
-        drawingControlOptions: {
-          position: google.maps.ControlPosition.TOP_CENTER,
-          drawingModes: ['marker', 'circle', 'polygon', 'polyline', 'rectangle']
-        },
-        markerOptions: {icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'},
-        circleOptions: {
-          fillColor: '#ffff00',
-          fillOpacity: 1,
-          strokeWeight: 5,
-          clickable: false,
-          editable: true,
-          zIndex: 1
-        }
-      });
-
-      drawingManager.setMap(map);
+      drop()
 
     })
 
