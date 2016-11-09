@@ -53,7 +53,8 @@ angular.module('trivial.gamesrvc', [])
     getPinsForGame: function(gameId) {
       return $http({
         method: 'GET',
-        url: '/games/' + gameId + '/pins'
+        url: '/games/' + gameId + '/pins',
+        authorization: localStorage.getItem('satellizer_token')
       }).then(function(resp){
         return resp.data
       })
@@ -68,6 +69,19 @@ angular.module('trivial.gamesrvc', [])
         console.log('JOINING GAME SUCCESSFUL')
       }).catch(function(err) {
         console.log('THROW NEW ERROR: ', err)
+      })
+    },
+
+    claimPin: function(gameId,pinId) {
+      console.log('claimPin called')
+      return $http({
+        method: 'PUT',
+        url: '/games/' + gameId + '/pins/' + pinId,
+        authorization: localStorage.getItem('satellizer_token')
+      }).then(function(resp){
+        console.log('Pin claimed', resp)
+      }).catch(function(err) {
+        console.log('ERROR', err)
       })
     }
 
