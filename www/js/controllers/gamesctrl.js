@@ -126,6 +126,7 @@ angular.module('trivial.games', [])
       gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
       .then(function(response){
         pins = response
+        console.log(pins)
         //Change JSON data into numbers, in order for drop() to work
         pins.forEach(function(coordsObj){
           coordsObj.coordinates[0].lat = Number(coordsObj.coordinates[0].lat)
@@ -134,6 +135,7 @@ angular.module('trivial.games', [])
         var coords = response.map(function(obj){
           return obj.coordinates[0]
         })
+        console.log(coords)
         drop(coords) //Placing pins on the map from the game we are currently in
       })
 

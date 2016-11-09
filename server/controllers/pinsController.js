@@ -9,7 +9,8 @@ module.exports = {
       game: req.params.gameid,
       name: req.body.name,
       address: req.body.address,
-      coordinates: coordinates
+      coordinates: coordinates,
+      icon: req.body.icon
     })
     .save().then((pin) => {
       console.log('successfully created pin: ', pin)
@@ -42,7 +43,7 @@ module.exports = {
   },
 
   updatePinOwner: (req, res) => {
-    Pin.findOneAndUpdate({_id: req.params.pinId}, {owner: req.tokenPayload._id}, function(err, doc){
+    Pin.findOneAndUpdate({_id: req.params.pinId}, {owner: req.tokenPayload._id, icon: req.tokenPayload.profilePicture}, function(err, doc){
         if (err) return res.send(500, { error: err });
         return res.send("succesfully saved");
     });
