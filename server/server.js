@@ -32,8 +32,6 @@ app.use((req, res, next) => {
     req.user            = {
         _id: req.tokenPayload._id
     };
-
-
     next();
 });
 
@@ -44,14 +42,10 @@ function isAuthenticated(req, res, next) {
     }
 
     if(req.xhr) {
-      console.log('2')
-        // res.redirect('/')
-        return res.status(401).send('Unauthorized');
+      res.redirect('/')
     } else {
-      console.log('3')
-       // You can redirect to login page here aswell
-       // res.redirect('/')
-       return res.status(401).send('Unauthorized');
+      // You can redirect to login page here aswell
+      res.redirect('/')
     }
 }
 

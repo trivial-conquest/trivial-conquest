@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 describe('Games', function() {
 
   afterEach(function(done){
-    // Game.collection.drop();
+    Game.collection.drop();
     done();
   });
 
@@ -32,7 +32,6 @@ describe('Games', function() {
       .set({'authorization': 'test'})
       .send({'name': 'Testy Johnson'})
       .end(function(err, res){
-        console.log("BODAY: ", res.body)
         res.should.have.status(200);
         res.body.name.should.equal('Testy Johnson');
         res.body.users[0].should.equal('58221b1deb8543b7ba21e39f');
