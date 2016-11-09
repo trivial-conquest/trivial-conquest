@@ -43,6 +43,7 @@ module.exports = {
   },
 
   updatePinOwner: (req, res) => {
+    console.log(req.tokenPayload)
     Pin.findOneAndUpdate({_id: req.params.pinId}, {owner: req.tokenPayload._id, icon: req.tokenPayload.profilePicture}, function(err, doc){
         if (err) return res.send(500, { error: err });
         return res.send("succesfully saved");

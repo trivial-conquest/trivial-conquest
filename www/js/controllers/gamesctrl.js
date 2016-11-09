@@ -113,18 +113,20 @@ angular.module('trivial.games', [])
       //   map.panTo(location);
       // }
 
-      function addMarkerWithTimeout(position, timeout) {
+      //drawingManager.setMap(map);
+
+      function addMarkerWithTimeout(position, timeout, icon) {
         window.setTimeout(function() {
           markers.push(new google.maps.Marker({
             position: position,
             map: map,
             animation: google.maps.Animation.DROP,
+            icon: icon
           }));
         }, timeout);
       }
 
       var getCurrentGameID = function(){ //Getting game ID based on URL in order to look up that game's pins
-        console.log('game url', $location.$$url.replace('/games/',''))
         return $location.$$url.replace('/games/','')
       }
 
@@ -133,16 +135,33 @@ angular.module('trivial.games', [])
       gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
       .then(function(response){
         pins = response
-        console.log('GPFGR', response)
-        drop(pins) //Placing pins on the map from the game we are currently in
+        //Change JSON data into numbers, in order for drop() to work
+        pins.forEach(function(coordsObj){
+          coordsObj.coordinates[0].lat = Number(coordsObj.coordinates[0].lat)
+          coordsObj.coordinates[0].lng = Number(coordsObj.coordinates[0].lng)
+        })
+        //Get all the coordinates for each pin
+        var coords = pins.map(function(obj){
+          return obj.coordinates[0]
+        })
+        //Get all the icons for each pin
+        var icons = pins.map(function(obj){
+          if(obj.icon) {
+            return obj.icon.replace('large', 'small')
+          } else 
+          return obj.icon
+        })
+        console.log(icons)
+        drop(coords, icons) //Placing pins on the map from the game we are currently in
       })
 
       var markers = [];
 
-      function drop(pins) {
+      function drop(pins, icons) {
+        // console.log('drop called')
+        // clearMarkers();
         for (var i = 0; i < pins.length; i++) {
-          console.log('DROP', {lat: pins[i].coordinates[0]})
-          addMarkerWithTimeout({lat: pins[i].coordinates[0], lng: pins[i].coordinates[1]}, i * 100);
+          addMarkerWithTimeout(pins[i], i * 100, icons[i]);
         }
       }
 

@@ -25,7 +25,6 @@ angular.module('trivial.login', [])
 
   $rootScope.$on('userLoggedIn', function(data){
     // here we will recieve the logged in user
-    console.log(data);
     $scope.closeLogin();
     $window.location = "/"
   });
