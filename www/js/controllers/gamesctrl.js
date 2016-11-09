@@ -189,12 +189,18 @@ angular.module('trivial.games', [])
 
       $scope.deletePin = function() {
         // DELETE pin from db
-        gameSrvc.deletePin(pins[pins.length - 1]._id, currentGameID)
-        .then(function(res) {
-          console.log('in delete pin then', res)
-        })
-        .catch(function(err) {
-          console.log('delete pin err', err)
+        var pinToDelete;
+        gameSrvc.getPinsForGame(currentGameID)
+        .then(function(response){
+          pinToDelete = response[response.length - 1]
+
+          gameSrvc.deletePin(pinToDelete._id, currentGameID)
+          .then(function() {
+            console.log('in delete pin then')
+          })
+          .catch(function(err) {
+            console.log('delete pin err', err)
+          })
         })
       }
 
