@@ -3,9 +3,9 @@
 
   angular
     .module('trivial')
-    .factory('UserService', UserService);
+    .factory('userService', userService);
 
-  function UserService($rootScope, $auth) {
+  function userService($rootScope, $auth) {
     var userData = $auth.getPayload();
 
     return {
@@ -18,7 +18,8 @@
           .then(this.successAuth)
           .catch(this.failedAuth);
       },
-      logOut: function() {
+      logout: function() {
+        console.log("Calling logout worked")
         $auth.logout();
         userData = undefined;
 
