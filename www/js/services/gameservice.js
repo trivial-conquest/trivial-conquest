@@ -1,6 +1,6 @@
 angular.module('trivial.gamesrvc', [])
 
-.factory('gameSrvc', ['$http', function ($http) {
+.factory('gameSrvc', ['$http', '$window', function ($http, $window) {
   return {
 
     createGame: function(name) {
@@ -83,7 +83,49 @@ angular.module('trivial.gamesrvc', [])
       }).catch(function(err) {
         console.log('ERROR', err)
       })
+    },
+
+    addPin: function(pin, gameId) {
+      return $http({
+        method: 'POST',
+        url: '/games/' + gameId + '/pins',
+        authorization: localStorage.getItem('satellizer_token'),
+        data: {
+          address: pin.formatted_address, 
+          name: pin.name, 
+          coordinates: [pin.geometry.location.lat(), pin.geometry.location.lng()]
+        }
+      }).then(function(resp){
+        console.log('server POST pin success')
+        return resp.data
+      }).catch(function(resp){
+        console.log('server POST pin failed', resp)
+          $window.location = '/'
+      })
     }
 
+    // addGame: function (Msg, Img) {
+    //   return $http({
+    //     method: 'GET',
+    //     url: '/sessions'
+    //   }).then(function(resp){
+    //     var userId = resp.data[0].userId
+    //     return $http({
+    //       method: 'POST',
+    //       url: '/user',
+    //       data: {userId: userId}
+    //     })
+    //   }).then(function(resp){
+    //     console.log('this is resp data', resp.data[0])
+    //     var firstName = resp.data[0].firstName
+    //     var lastName = resp.data[0].lastName
+    //     var avatar = resp.data[0].photolink
+    //     return $http({
+    //       method: 'POST',
+    //       url: '/messages',
+    //       data: {firstName: firstName, lastName: lastName, photolink: avatar, content: Msg, msgImageUrl: Img }
+    //     })
+    //   })
+    // },
   }
 }]);

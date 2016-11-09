@@ -37,14 +37,19 @@ app.use((req, res, next) => {
 
 function isAuthenticated(req, res, next) {
     if(req.isAuthenticated()) {
+      console.log('1')
       return next();
     }
 
     if(req.xhr) {
-        res.redirect('/')
+      console.log('2')
+        // res.redirect('/')
+        return res.status(401).send('Unauthorized');
     } else {
+      console.log('3')
        // You can redirect to login page here aswell
-       res.redirect('/')
+       // res.redirect('/')
+       return res.status(401).send('Unauthorized');
     }
 }
 

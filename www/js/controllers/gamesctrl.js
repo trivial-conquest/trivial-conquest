@@ -1,6 +1,6 @@
 angular.module('trivial.games', [])
 
-.controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc) {
+.controller('GamesCtrl', ['$scope', '$window', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', function($scope, $window, $stateParams, $cordovaGeolocation, $location, gameSrvc) {
  //will need to pull all games fom the server and attach them to $scope.game
 
   var pins = [];
@@ -28,9 +28,11 @@ angular.module('trivial.games', [])
       var markers = [];
         // Listen for the event fired when the user selects a prediction and retrieve
         // more details for that place.
+      var pinToAdd;
       searchBox.addListener('places_changed', function() {
         var places = searchBox.getPlaces();
-
+        console.log('places[0] =', places[0])
+        pinToAdd = places[0];
         if (places.length == 0) {
           return;
         }
@@ -93,19 +95,17 @@ angular.module('trivial.games', [])
         infowindow.open(map);
       });
 
-      google.maps.event.addListener(map, 'click', function(event) {
-        placeMarker(event.latLng);
-      });
+      // google.maps.event.addListener(map, 'click', function(event) {
+      //   placeMarker(event.latLng);
+      // });
 
-      function placeMarker(location) {
-        var marker = new google.maps.Marker({
-          position: location, 
-          map: map
-        });
-        map.panTo(location);  
-      }
-
-      //drawingManager.setMap(map);
+      // function placeMarker(location) {
+      //   var marker = new google.maps.Marker({
+      //     position: location, 
+      //     map: map
+      //   });
+      //   map.panTo(location);  
+      // }
 
       function addMarkerWithTimeout(position, timeout) {
         window.setTimeout(function() {
@@ -118,6 +118,7 @@ angular.module('trivial.games', [])
       }
 
       var getCurrentGameID = function(){ //Getting game ID based on URL in order to look up that game's pins
+        console.log('game url', $location.$$url.replace('/games/',''))
         return $location.$$url.replace('/games/','')
       }
 
@@ -126,27 +127,16 @@ angular.module('trivial.games', [])
       gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
       .then(function(response){
         pins = response
-        console.log(pins)
-        //Change JSON data into numbers, in order for drop() to work
-        pins.forEach(function(coordsObj){
-          coordsObj.coordinates[0].lat = Number(coordsObj.coordinates[0].lat)
-          coordsObj.coordinates[0].lng = Number(coordsObj.coordinates[0].lng)
-        })
-        var coords = response.map(function(obj){
-          return obj.coordinates[0]
-        })
-        console.log(coords)
-        drop(coords) //Placing pins on the map from the game we are currently in
+        console.log('GPFGR', response)
+        drop(pins) //Placing pins on the map from the game we are currently in
       })
-
 
       var markers = [];
 
       function drop(pins) {
-        // console.log('drop called')
-        // clearMarkers();
         for (var i = 0; i < pins.length; i++) {
-          addMarkerWithTimeout(pins[i], i * 100);
+          console.log('DROP', {lat: pins[i].coordinates[0]})
+          addMarkerWithTimeout({lat: pins[i].coordinates[0], lng: pins[i].coordinates[1]}, i * 100);
         }
       }
 
@@ -170,18 +160,31 @@ angular.module('trivial.games', [])
           return
         }
         alert('Sorry, too far')
+      },
+
+      $scope.addPin = function() {
+        console.log('pincoords', pinToAdd.geometry.location.lat(), pinToAdd.geometry.location.lng())
+
+        gameSrvc.addPin(pinToAdd, currentGameID)
+        .then(function(pin) {
+          console.log('POSTED pin')
+        })
+        .catch(function(err) {
+          console.log('POST pin failed', err)
+        })
       }
 
-
-
-      //drop()
+      $scope.deletePin = function() {
+        // DELETE pin from db
+      }
 
     })
 
     .catch(function(error){
     console.log("Could not get location", error);
-  });
 
+  });
+    
 }]);
 
 // THIS IS THE OLD DRAWING LIBRARY 
