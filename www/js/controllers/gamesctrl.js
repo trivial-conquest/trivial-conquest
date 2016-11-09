@@ -112,7 +112,7 @@ angular.module('trivial.games', [])
           markers.push(new google.maps.Marker({
             position: position,
             map: map,
-            animation: google.maps.Animation.DROP
+            animation: google.maps.Animation.DROP,
           }));
         }, timeout);
       }
@@ -144,7 +144,7 @@ angular.module('trivial.games', [])
         // console.log('drop called')
         // clearMarkers();
         for (var i = 0; i < pins.length; i++) {
-          addMarkerWithTimeout(pins[i], i * 400);
+          addMarkerWithTimeout(pins[i], i * 100);
         }
       }
 
