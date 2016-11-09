@@ -6,9 +6,9 @@
  * @requires $locationProvider
  *
  * @description
- * `$urlRouterProvider` has the responsibility of watching `$location`. 
- * When `$location` changes it runs through a list of rules one by one until a 
- * match is found. `$urlRouterProvider` is used behind the scenes anytime you specify 
+ * `$urlRouterProvider` has the responsibility of watching `$location`.
+ * When `$location` changes it runs through a list of rules one by one until a
+ * match is found. `$urlRouterProvider` is used behind the scenes anytime you specify
  * a url in a state configuration. All urls are compiled into a UrlMatcher object.
  *
  * There are several methods on `$urlRouterProvider` that make it useful to use directly
@@ -93,8 +93,8 @@ function $UrlRouterProvider(   $locationProvider,   $urlMatcherFactory) {
    * });
    * </pre>
    *
-   * @param {string|object} rule The url path you want to redirect to or a function 
-   * rule that returns the url path. The function version is passed two params: 
+   * @param {string|object} rule The url path you want to redirect to or a function
+   * rule that returns the url path. The function version is passed two params:
    * `$injector` and `$location` services, and must return a url string.
    *
    * @return {object} `$urlRouterProvider` - `$urlRouterProvider` instance
@@ -220,16 +220,16 @@ function $UrlRouterProvider(   $locationProvider,   $urlMatcherFactory) {
    *   // location changes and route synchronization:
    *   $urlRouterProvider.deferIntercept();
    *
-   * }).run(function ($rootScope, $urlRouter, UserService) {
+   * }).run(function ($rootScope, $urlRouter, userService) {
    *
    *   $rootScope.$on('$locationChangeSuccess', function(e) {
-   *     // UserService is an example service for managing user state
-   *     if (UserService.isLoggedIn()) return;
+   *     // userService is an example service for managing user state
+   *     if (userService.isLoggedIn()) return;
    *
    *     // Prevent $urlRouter's default handler from firing
    *     e.preventDefault();
    *
-   *     UserService.handleLogin().then(function() {
+   *     userService.handleLogin().then(function() {
    *       // Once the user has logged in, sync the current URL
    *       // to the router:
    *       $urlRouter.sync();
@@ -388,7 +388,7 @@ function $UrlRouterProvider(   $locationProvider,   $urlMatcherFactory) {
         if (angular.isObject(isHtml5)) {
           isHtml5 = isHtml5.enabled;
         }
-        
+
         var url = urlMatcher.format(params);
         options = options || {};
 

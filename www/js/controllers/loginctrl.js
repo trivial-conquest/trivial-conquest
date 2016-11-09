@@ -1,6 +1,6 @@
 angular.module('trivial.login', [])
 
-.controller('LoginCtrl', ['$window', '$rootScope', '$scope', '$ionicModal', 'UserService', function($window, $rootScope, $scope,  $ionicModal, UserService) {
+.controller('LoginCtrl', ['$window', '$rootScope', '$scope', '$ionicModal', 'userService', function($window, $rootScope, $scope,  $ionicModal, userService) {
 
   // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/login.html', {
@@ -20,7 +20,7 @@ angular.module('trivial.login', [])
   };
 
   $scope.authenticate = function(provider) {
-    UserService.authenticate(provider);
+    userService.authenticate(provider);
   };
 
   $rootScope.$on('userLoggedIn', function(data){
@@ -34,6 +34,6 @@ angular.module('trivial.login', [])
   $rootScope.$on('userFailedLogin', function(){
 
   });
-	
- 
+
+
 }]);

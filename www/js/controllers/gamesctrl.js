@@ -1,12 +1,25 @@
 angular.module('trivial.games', [])
 
-.controller('GamesCtrl', ['$scope', '$window', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', function($scope, $window, $stateParams, $cordovaGeolocation, $location, gameSrvc) {
+.controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', 'userService', function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc, userService) {
  //will need to pull all games fom the server and attach them to $scope.game
+
+  $scope.logout = function(){
+    userService.logout()
+    .then(function(){
+      console.log('User successfully logged out')
+      $window.location = '/'
+    }).catch(function(err) {
+      console.log('This is my error: ', err)
+    })
+
+  }
+
 
   var pins = [];
   var options = {timeout: 10000, enableHighAccuracy: true};
     $cordovaGeolocation.getCurrentPosition(options)
     .then(function(position){
+      console.log(position)
       var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       var mapOptions = {
         center: latLng,
