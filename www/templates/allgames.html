@@ -5,9 +5,12 @@
   <ion-content>
       <div class="card">
         Create Game
-        <form ng-submit='createGame(gamename)' novalidate class="item item-input">
-        <input type='text' value='Create New Game' ng-model='gamename'/></input>
+        <form name="allgames.form" ng-submit='createGame()' novalidate class="item item-input">
+        <input type='text' value='Create New Game' ng-model='allgames.gamename'/></input>
         </form>
+      </div>
+      <div ng-show='allgames.repeat()' class=card>
+       <p>This game already exists, please choose another name</p>
       </div>
       <div ng-repeat='game in games'>
         <div class="card">

@@ -24,6 +24,8 @@ angular.module('trivial.gamesrvc', [])
         url: '/games'
       }).then(function(resp) {
         return resp.data;
+      }).catch(function(err){
+
       })
     },
 
@@ -55,7 +57,7 @@ angular.module('trivial.gamesrvc', [])
       }).then(function(resp){
         return resp.data
       })
-    }
+    },
 
     joinGame: function() {
       return $http({
@@ -68,30 +70,6 @@ angular.module('trivial.gamesrvc', [])
         console.log('THROW NEW ERROR: ', err)
       })
     }
-
-    // addGame: function (Msg, Img) {
-    //   return $http({
-    //     method: 'GET',
-    //     url: '/sessions'
-    //   }).then(function(resp){
-    //     var userId = resp.data[0].userId
-    //     return $http({
-    //       method: 'POST',
-    //       url: '/user',
-    //       data: {userId: userId}
-    //     })
-    //   }).then(function(resp){
-    //     console.log('this is resp data', resp.data[0])
-    //     var firstName = resp.data[0].firstName
-    //     var lastName = resp.data[0].lastName
-    //     var avatar = resp.data[0].photolink
-    //     return $http({
-    //       method: 'POST',
-    //       url: '/messages',
-    //       data: {firstName: firstName, lastName: lastName, photolink: avatar, content: Msg, msgImageUrl: Img }
-    //     })
-    //   })
-    // },
 
   }
 }]);

@@ -12,11 +12,14 @@ module.exports = {
     newGame.save((err, game) => {
     if (err) {
       console.log(`Error in creating game: ${err}`);
-      res.send(err);
+      res.status(400).end();
     } else {
       console.log(`Game created: ${game}`);
       res.send(game);
     }
+    })
+    .catch(function(err){
+      console.log('this is a creategame error', err)
   })
 },
 //Get all games in the db
