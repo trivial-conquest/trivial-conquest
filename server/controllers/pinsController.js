@@ -3,13 +3,12 @@ const Pin = require('../models/pin')
 
 module.exports = {
   createNewPin: (req, res) => {
-    var coordinates = JSON.parse(req.body.coordinates)
     new Pin({
+      address: req.body.address,
+      name: req.body.name,
+      coordinates: req.body.coordinates,
       owner: req.tokenPayload._id, //dummy userId
       game: req.params.gameid,
-      name: req.body.name,
-      address: req.body.address,
-      coordinates: coordinates,
       icon: req.body.icon
     })
     .save().then((pin) => {

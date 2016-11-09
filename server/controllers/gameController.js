@@ -4,6 +4,7 @@ const Game = require('../models/game')
 module.exports = {
 //Create a new game
   createGame: (req, res, next) => {
+    console.log('CG', req.body)
     var newGame = new Game ({
       name: req.body.name,
       pins: req.body.pins,

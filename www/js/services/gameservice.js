@@ -1,6 +1,6 @@
 angular.module('trivial.gamesrvc', [])
 
-.factory('gameSrvc', ['$http', function ($http) {
+.factory('gameSrvc', ['$http', '$window', function ($http, $window) {
   return {
 
     createGame: function(name) {
@@ -85,18 +85,19 @@ angular.module('trivial.gamesrvc', [])
       })
     }
 
-
-    addPin: function(pin) {
+    addPin: function(pin, gameId) {
       return $http({
         method: 'POST',
-        url: '/games/game',
-        // authorization: localStorage.getItem('satellizer_token'),
-        data: {}
+        url: '/games/' + gameId + '/pins',
+        authorization: localStorage.getItem('satellizer_token'),
+        // data: {address: , name: , coordinates: [], owner: , game: }
+        data: {address: pin.formatted_address}
       }).then(function(resp){
-        console.log('server POST pin success', resp.data)
+        console.log('server POST pin success')
         return resp.data
       }).catch(function(resp){
         console.log('server POST pin failed', resp)
+          $window.location = '/'
       })
     }
 

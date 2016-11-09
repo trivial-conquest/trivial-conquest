@@ -1,6 +1,6 @@
 angular.module('trivial.games', [])
 
-.controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc) {
+.controller('GamesCtrl', ['$scope', '$window', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', function($scope, $window, $stateParams, $cordovaGeolocation, $location, gameSrvc) {
  //will need to pull all games fom the server and attach them to $scope.game
 
   var pins = [];
@@ -170,13 +170,13 @@ angular.module('trivial.games', [])
         alert('Sorry, too far')
       }
 
-      drop()
-
       $scope.addPin = function() {
         // POST pin to db
         console.log('POST', pinToAdd);
+        console.log('pin address =', pinToAdd.formatted_address)
+        console.log('CGID', currentGameID)
 
-        gameSrvc.addPin()
+        gameSrvc.addPin(pinToAdd, currentGameID)
         .then(function(pin) {
           console.log('POSTED pin')
         })
@@ -188,6 +188,8 @@ angular.module('trivial.games', [])
       $scope.deletePin = function() {
         // DELETE pin from db
       }
+
+      drop()
 
     })
 
