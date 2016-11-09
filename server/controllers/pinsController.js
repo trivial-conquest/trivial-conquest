@@ -25,7 +25,7 @@ module.exports = {
     Pin.find({_id: req.params.pinId}).remove()
     .then(() => {
       console.log('removed pin')
-      res.redirect('/')
+      // res.redirect('/')
     })
     .catch((err) => {
       console.log('ERROR: ', err)

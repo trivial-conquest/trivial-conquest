@@ -185,10 +185,23 @@ angular.module('trivial.games', [])
         .catch(function(err) {
           console.log('POST pin failed', err)
         })
-      }
+      },
 
       $scope.deletePin = function() {
         // DELETE pin from db
+        var pinToDelete;
+        gameSrvc.getPinsForGame(currentGameID)
+        .then(function(response){
+          pinToDelete = response[response.length - 1]
+
+          gameSrvc.deletePin(pinToDelete._id, currentGameID)
+          .then(function() {
+            console.log('in delete pin then')
+          })
+          .catch(function(err) {
+            console.log('delete pin err', err)
+          })
+        })
       }
 
     })

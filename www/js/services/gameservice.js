@@ -102,6 +102,22 @@ angular.module('trivial.gamesrvc', [])
         console.log('server POST pin failed', resp)
           $window.location = '/'
       })
+    },
+
+    deletePin: function(pinId, gameId) {
+      return $http({
+        method: 'DELETE',
+        url: '/games/' + gameId + '/pins/' + pinId,
+        authorization: localStorage.getItem('satellizer_token')
+      })
+      .then(function(res) {
+        console.log('delete pin res', res)
+      })
+      .catch(function(err) {
+        // $window.location = '/'
+        console.log('delete pin caught', err)
+        console.log(pinId)
+      })
     }
 
     // addGame: function (Msg, Img) {
