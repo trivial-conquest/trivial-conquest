@@ -50,7 +50,7 @@ function isAuthenticated(req, res, next) {
 
 
 app.use('/', router)
-app.use('/games', games)
+app.use('/games', isAuthenticated, games)
 app.use('/auth', auth)
 
 
