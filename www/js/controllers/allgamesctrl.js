@@ -17,12 +17,13 @@ angular.module('trivial.allgames', [])
  	  })
  }
 
-  $scope.createGame = function(name){
+  $scope.createGame = function(){
   	console.log('this is inside createGmae', name)
-  	gameSrvc.createGame(name)
+  	gameSrvc.createGame($scope.allgames.gamename)
   	.then(function(game){
   		console.log("$$$$%%%^^#", game._id)
   	  $scope.getGames()
+      $scope.allgames.gamename = null
       $window.location = '#/games/' + game._id
   	})
   	.catch(function(){
@@ -33,5 +34,4 @@ angular.module('trivial.allgames', [])
 
 $scope.getGames()
 
-   // $scope.games= [{name: 'munchybreakfast', id:1}, {name: "settlersof6", id:2}]
  }])
