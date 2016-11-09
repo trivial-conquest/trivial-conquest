@@ -51,7 +51,6 @@ class TokenService {
 
        return headers.authorization.replace('Bearer ', '');
    }
->>>>>>> require game names to be unique
 }
 
 module.exports = TokenService;
