@@ -127,25 +127,16 @@ angular.module('trivial.games', [])
       gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
       .then(function(response){
         pins = response
-        console.log(pins)
         console.log('GPFGR', response)
-        //Change JSON data into numbers, in order for drop() to work
-        pins.forEach(function(coordsObj){
-          coordsObj.coordinates[0] = Number(coordsObj.coordinates[0])
-          coordsObj.coordinates[1] = Number(coordsObj.coordinates[1])
-        })
-        var coords = response.map(function(obj){
-          return obj.coordinates[0]
-        })
-        console.log(coords)
-        drop(coords) //Placing pins on the map from the game we are currently in
+        drop(pins) //Placing pins on the map from the game we are currently in
       })
 
       var markers = [];
 
       function drop(pins) {
         for (var i = 0; i < pins.length; i++) {
-          addMarkerWithTimeout(pins[i], i * 100);
+          console.log('DROP', {lat: pins[i].coordinates[0]})
+          addMarkerWithTimeout({lat: pins[i].coordinates[0], lng: pins[i].coordinates[1]}, i * 100);
         }
       }
 
