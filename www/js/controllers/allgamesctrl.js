@@ -1,6 +1,6 @@
 angular.module('trivial.allgames', [])
 
-.controller('AllGamesCtrl', ['$scope', '$stateParams', 'gameSrvc', '$window', function($scope, $stateParams, gameSrvc, $window) {
+.controller('AllGamesCtrl', ['$scope', '$stateParams', 'gameSrvc', '$window', 'userService', function($scope, $stateParams, gameSrvc, $window, userService) {
  //will need to pull all games fom the server and attach them to scope variable
 
  $scope.create = false;
@@ -28,7 +28,19 @@ angular.module('trivial.allgames', [])
   	.catch(function(){
   		console.log('this didnt work')
   	})
+  },
+
+  $scope.logout = function(){
+    userService.logout()
+    .then(function(){
+      console.log('User successfully logged out')
+      $window.location = '/'
+    }).catch(function(err) {
+      console.log('This is my error: ', err)
+    })
+
   }
+
 
 
 $scope.getGames()

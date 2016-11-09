@@ -1,7 +1,19 @@
 angular.module('trivial.games', [])
 
-.controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc) {
+.controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', 'userService', function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc, userService) {
  //will need to pull all games fom the server and attach them to $scope.game
+
+  $scope.logout = function(){
+    userService.logout()
+    .then(function(){
+      console.log('User successfully logged out')
+      $window.location = '/'
+    }).catch(function(err) {
+      console.log('This is my error: ', err)
+    })
+
+  }
+
 
   var pins = [];
   var options = {timeout: 10000, enableHighAccuracy: true};
@@ -100,10 +112,10 @@ angular.module('trivial.games', [])
 
       function placeMarker(location) {
         var marker = new google.maps.Marker({
-          position: location, 
+          position: location,
           map: map
         });
-        map.panTo(location);  
+        map.panTo(location);
       }
 
       //drawingManager.setMap(map);
@@ -149,14 +161,14 @@ angular.module('trivial.games', [])
         }
       }
 
-      $scope.claimPin = function() { 
+      $scope.claimPin = function() {
         var myCoords = {lat: position.coords.latitude, lng: position.coords.longitude}
         //Checks to see if user is close enough to any pins in the game
         var closePins = pins.filter(function(pin){
           return (Math.abs(myCoords.lat - pin.lat) < .003 && Math.abs(myCoords.lng - pin.lng) < .003)
         })
         //If use is close enough to a pin to claim it, find the one that they are closest to
-        if (closePins.length) {  
+        if (closePins.length) {
           var closest = closePins.reduce(function(min, next){
             if (Math.abs(myCoords.lat - next.lat) + Math.abs(myCoords.lng - next.lng) < Math.abs(myCoords.lat - min.lat) + Math.abs(myCoords.lng - min.lng)) {
               return next
@@ -182,7 +194,7 @@ angular.module('trivial.games', [])
 
 }]);
 
-// THIS IS THE OLD DRAWING LIBRARY 
+// THIS IS THE OLD DRAWING LIBRARY
 //  var drawingManager = new google.maps.drawing.DrawingManager({
 //   drawingMode: google.maps.drawing.OverlayType.MARKER,
 //   drawingControl: true,
