@@ -1,3 +1,5 @@
+if(process.env.NODE_ENV !== 'test') process.env.NODE_ENV = 'development'
+
 const express       = require('express')
 const path          = require('path')
 const bodyParser    = require('body-parser')
@@ -30,8 +32,6 @@ app.use((req, res, next) => {
     req.user            = {
         _id: req.tokenPayload._id
     };
-
-
     next();
 });
 
@@ -42,14 +42,10 @@ function isAuthenticated(req, res, next) {
     }
 
     if(req.xhr) {
-      console.log('2')
-        // res.redirect('/')
-        return res.status(401).send('Unauthorized');
+      res.redirect('/')
     } else {
-      console.log('3')
-       // You can redirect to login page here aswell
-       // res.redirect('/')
-       return res.status(401).send('Unauthorized');
+      // You can redirect to login page here aswell
+      res.redirect('/')
     }
 }
 
@@ -64,3 +60,4 @@ const port = process.env.PORT || 8080
 
 const server = app.listen(port)
 console.log(`Server is running on port: ${port}`)
+module.exports = app;
