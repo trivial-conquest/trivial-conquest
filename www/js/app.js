@@ -34,7 +34,7 @@ angular.module('trivial', ['ionic', 'trivial.login', 'trivial.map', 'trivial.gam
     //  commonConfig.redirectUri = 'https://intense-journey-25938.herokuapp.com/auth/facebook';
   }
   $authProvider.facebook(angular.extend({}, commonConfig, {
-  clientId: '137143283427760',
+  clientId: '1789849501229484',
   url: 'http://localhost:8080/auth/facebook'
   // url: 'https://intense-journey-25938.herokuapp.com/auth/facebook'
   }));
