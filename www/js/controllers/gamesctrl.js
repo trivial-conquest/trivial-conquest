@@ -128,10 +128,11 @@ angular.module('trivial.games', [])
       .then(function(response){
         pins = response
         console.log(pins)
+        console.log('GPFGR', response)
         //Change JSON data into numbers, in order for drop() to work
         pins.forEach(function(coordsObj){
-          coordsObj.coordinates[0].lat = Number(coordsObj.coordinates[0].lat)
-          coordsObj.coordinates[0].lng = Number(coordsObj.coordinates[0].lng)
+          coordsObj.coordinates[0] = Number(coordsObj.coordinates[0])
+          coordsObj.coordinates[1] = Number(coordsObj.coordinates[1])
         })
         var coords = response.map(function(obj){
           return obj.coordinates[0]
@@ -168,13 +169,10 @@ angular.module('trivial.games', [])
           return
         }
         alert('Sorry, too far')
-      }
+      },
 
       $scope.addPin = function() {
-        // POST pin to db
-        console.log('POST', pinToAdd);
-        console.log('pin address =', pinToAdd.formatted_address)
-        console.log('CGID', currentGameID)
+        console.log('pincoords', pinToAdd.geometry.location.lat(), pinToAdd.geometry.location.lng())
 
         gameSrvc.addPin(pinToAdd, currentGameID)
         .then(function(pin) {
@@ -188,8 +186,6 @@ angular.module('trivial.games', [])
       $scope.deletePin = function() {
         // DELETE pin from db
       }
-
-      drop()
 
     })
 

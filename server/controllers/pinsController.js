@@ -3,6 +3,7 @@ const Pin = require('../models/pin')
 
 module.exports = {
   createNewPin: (req, res) => {
+    console.log('reqbody', req.body)
     new Pin({
       address: req.body.address,
       name: req.body.name,

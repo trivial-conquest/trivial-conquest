@@ -83,15 +83,18 @@ angular.module('trivial.gamesrvc', [])
       }).catch(function(err) {
         console.log('ERROR', err)
       })
-    }
+    },
 
     addPin: function(pin, gameId) {
       return $http({
         method: 'POST',
         url: '/games/' + gameId + '/pins',
         authorization: localStorage.getItem('satellizer_token'),
-        // data: {address: , name: , coordinates: [], owner: , game: }
-        data: {address: pin.formatted_address}
+        data: {
+          address: pin.formatted_address, 
+          name: pin.name, 
+          coordinates: [pin.geometry.location.lat(), pin.geometry.location.lng()]
+        }
       }).then(function(resp){
         console.log('server POST pin success')
         return resp.data
@@ -124,7 +127,5 @@ angular.module('trivial.gamesrvc', [])
     //     })
     //   })
     // },
-
->>>>>>> adds addpin function template
   }
 }]);
