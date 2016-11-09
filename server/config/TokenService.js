@@ -2,60 +2,56 @@
 const jwt = require('jsonwebtoken');
 
 class TokenService {
-    constructor(headers) {
-        this.token      = this._extractTokenFromHeaders(headers);
-        this.payload    = {};
-        this.validToken = false;
+   constructor(headers) {
+       this.token      = this._extractTokenFromHeaders(headers);
+       this.payload    = {};
+       this.validToken = false;
 
-        this._verifyToken();
-    }
+       this._verifyToken();
+       console.log('be valid', this.validToken)
+   }
 
-    static createToken(options, cb) {
-        const payload = {
-            profilePicture: options.user.profilePicture,
-            firstName: options.user.firstName,
-            lastName: options.user.lastName,
-            _id: options.user._id
-        };
+   static createToken(options, cb) {
+       const payload = {
+           profilePicture: options.user.profilePicture,
+           firstName: options.user.firstName,
+           lastName: options.user.lastName,
+           _id: options.user._id
+       };
 
-        jwt.sign(payload, 'blech', {
-            algorithm: 'HS256',
-            expiresIn: options.expireTime || 1440 // expires in 24 hours
-        }, cb);
-    }
+       jwt.sign(payload, 'blech', {
+           algorithm: 'HS256',
+           expiresIn: options.expireTime || 1440 // expires in 24 hours
+       }, cb);
+   }
 
-    getPayload() {
-        return this.payload;
-    }
+   getPayload() {
+       return this.payload;
+   }
 
-    isAuthenticated() {
-        return this.validToken;
-    }
+   isAuthenticated() {
+       return this.validToken;
+   }
 
-    _verifyToken() {
-        if(!this.token) return;
+   _verifyToken() {
+       if(!this.token) return;
 
-        try {
-            this.payload    = jwt.verify(this.token, 'blech');
-            this.validToken = true;
-        } catch (err) {
-            this.payload    = {};
-            this.validToken = false;
-            console.log(err);
-            console.log('payload', payload)
+       try {
+           this.payload    = jwt.verify(this.token, 'blech');
+           this.validToken = true;
+       } catch (err) {
+           this.payload    = {};
+           this.validToken = false;
+           console.log(err);
+       }
+   }
 
-            jwt.sign(payload, TOKEN_SECRET, {
-                algorithm: 'HS256',
-                expiresIn: options.expireTime || 43200 // expires in 30 days
-            }, cb);
-        }
-    }
+   _extractTokenFromHeaders(headers) {
+       if(!headers || !headers.authorization) return false;
 
-    _extractTokenFromHeaders(headers) {
-        if(!headers || !headers.authorization) return false;
-
-        return headers.authorization.replace('Bearer ', '');
-    }
+       return headers.authorization.replace('Bearer ', '');
+   }
+>>>>>>> require game names to be unique
 }
 
 module.exports = TokenService;

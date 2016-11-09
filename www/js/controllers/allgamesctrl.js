@@ -3,7 +3,6 @@ angular.module('trivial.allgames', [])
 .controller('AllGamesCtrl', ['$scope', '$stateParams', 'gameSrvc', '$window', function($scope, $stateParams, gameSrvc, $window) {
  //will need to pull all games fom the server and attach them to scope variable
 
- $scope.create = false;
 
  $scope.getGames = function(){
   
@@ -27,12 +26,21 @@ angular.module('trivial.allgames', [])
   		console.log("$$$$%%%^^#", game._id)
   	  $scope.getGames()
       $scope.allgames.gamename = null
+      $scope.allgames.repeat = function(){
+        return false;
+      }
       $window.location = '#/games/' + game._id
   	})
   	.catch(function(err){
-  		console.log('this didnt work')
+  	 console.log('this didnt work')
+     $scope.allgames.repeat = function(){
+      return true;
+      }
+      $scope.allgames.gamename = null
   	})
   }
+
+
 
 
 $scope.getGames()

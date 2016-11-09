@@ -24,6 +24,8 @@ angular.module('trivial.gamesrvc', [])
         url: '/games'
       }).then(function(resp) {
         return resp.data;
+      }).catch(function(err){
+
       })
     },
 
