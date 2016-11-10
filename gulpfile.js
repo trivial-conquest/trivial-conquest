@@ -30,14 +30,16 @@ gulp.task('sass', function(done) {
     .on('end', done);
 });
 
-var babelFolders = [ "www/js", "test"]
+var babelFolders = [ "www/js", "test", "server/**/*.js"]
 
 gulp.task("babel", function () {
   var tasks = babelFolders.map(function(element) {
 
   return gulp.src(paths.es6)
     .pipe(plumber())
-    .pipe(babel())
+    .pipe(babel({
+            presets: ['es2015']
+        }))
     .pipe(gulp.dest(element))
 
   })
