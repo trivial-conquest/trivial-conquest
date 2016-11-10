@@ -7,7 +7,6 @@ const logger        = require('morgan');
 const cors          = require('cors');
 const TokenService  = require('./config/TokenService');
 
-
 const router = require('./routes/routes')
 const games  = require('./routes/games')
 const auth  = require('./routes/auth')
@@ -36,26 +35,18 @@ app.use((req, res, next) => {
 });
 
 function isAuthenticated(req, res, next) {
-    if(req.isAuthenticated()) {
-      return next();
-    }
-
-    if(req.xhr) {
-      res.redirect('/')
-    } else {
-      // You can redirect to login page here aswell
-      res.redirect('/')
-    }
+  if(req.isAuthenticated()) {
+    return next();
+  } else {
+    res.redirect('/')
+  }
 }
-
 
 app.use('/', router)
 app.use('/games', isAuthenticated, games)
 app.use('/auth', auth)
 
-
 const port = process.env.PORT || 8080
-// app level middleware
 
 const server = app.listen(port)
 console.log(`Server is running on port: ${port}`)

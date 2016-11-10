@@ -89,3 +89,25 @@ describe('Games', function() {
     })
   })
 });
+
+describe('Pins', function() {
+  it('should allow a logged in user to create a pin', function(done) {
+    new Game ({
+      name: 'test game name',
+      pins: [],
+      users: []
+    })
+    .save((err, game) => {
+        chai.request(server)
+        .post('/games/' + game._id + '/pins')
+        .set({'authorization': 'test'})
+        .send({address: '123 Testing Ave'})
+        .end(function(err, res) {
+          res.should.have.status(200);
+          res.body.owner.should.equal('58221b1deb8543b7ba21e39f');
+          res.body.address.should.equal('123 Testing Ave');
+          done();
+        });
+    })
+  })
+})

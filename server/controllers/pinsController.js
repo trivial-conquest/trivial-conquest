@@ -14,7 +14,7 @@ module.exports = {
     })
     .save().then((pin) => {
       console.log('successfully created pin: ', pin)
-      res.redirect('/')
+      res.send(pin)
     })
     .catch((err) => {
       console.log('ERROR: ', err)
