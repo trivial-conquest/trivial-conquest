@@ -45,10 +45,10 @@ angular.module('trivial.games', [])
         }
 
         // Clear out the old markers.
-        markers.forEach(function(marker) {
-          marker.setMap(null);
-        });
-        markers = [];
+        // markers.forEach(function(marker) {
+        //   marker.setMap(null);
+        // });
+        // markers = [];
 
           // For each place, get the icon, name and location.
         var bounds = new google.maps.LatLngBounds();
@@ -212,10 +212,12 @@ angular.module('trivial.games', [])
             pins = response
             map.setCenter(originalCenter)
             map.setZoom(15)
-            markers.forEach(function(marker) {
-              marker.setMap(null);
-            })
-            drop(pins)
+            console.log('markers', markers)
+            markers[markers.length - 1].setMap(null)
+            // markers.forEach(function(marker) {
+            //   marker.setMap(null);
+            // })
+            // drop(pins)
           })
         })
       }
