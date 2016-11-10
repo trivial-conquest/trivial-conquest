@@ -109,6 +109,23 @@ describe('Games', function() {
         })
     })
   })
+  it('should not allow a logged in user to join a game if there is not space', function(done) {
+    new Game ({
+      name: 'test game name',
+      pins: [],
+      users: [],
+      remain: 0
+    })
+    .save((err, game) => {
+        chai.request(server)
+        .put('/games/' + game._id)
+        .set({'authorization': 'test'})
+        .end(function(err, res) {
+          res.body[0].users.length.should.equal(0);
+          done();
+        })
+    })
+  })
 });
 
 describe('Pins', function() {
