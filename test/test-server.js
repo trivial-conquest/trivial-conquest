@@ -37,9 +37,9 @@ describe('Games', function() {
       });
   });
 
-  it('should add a SINGLE game on /games POST', function(done) {
+  it('should add a game on /games POST', function(done) {
     chai.request(server)
-      .post('/games/game')
+      .post('/games')
       .set({'authorization': 'test'})
       .send({'name': 'Testy Johnson'})
       .end(function(err, res){
