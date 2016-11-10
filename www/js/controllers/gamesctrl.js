@@ -114,15 +114,6 @@ angular.module('trivial.games', [])
       //   map.panTo(location);
       // }
 
-      //drawingManager.setMap(map);
-
-      function addMarkerWithTimeout(pinObj, timeout) {
-        var coordinatesObj = {}
-        var image = pinObj.icon.replace('large', 'small') //Changing from large fb pic to small
-        //Formatting coordinates so that the API can recognize them
-        coordinatesObj.lat = pinObj.coordinates[0]
-        coordinatesObj.lng = pinObj.coordinates[1]
-
       function addMarkerWithTimeout(position, timeout) {
         window.setTimeout(function() {
           markers.push(new google.maps.Marker({
@@ -190,6 +181,7 @@ angular.module('trivial.games', [])
 
       $scope.addPin = function() {
         console.log('pincoords', pinToAdd.geometry.location.lat(), pinToAdd.geometry.location.lng())
+
         gameSrvc.addPin(pinToAdd, currentGameID)
         .then(function(pin) {
           console.log('POSTED pin')
@@ -213,11 +205,11 @@ angular.module('trivial.games', [])
             map.setCenter(originalCenter)
             map.setZoom(15)
             console.log('markers', markers)
-            markers[markers.length - 1].setMap(null)
-            // markers.forEach(function(marker) {
-            //   marker.setMap(null);
-            // })
-            // drop(pins)
+            // markers[markers.length - 1].setMap(null)
+            markers.forEach(function(marker) {
+              marker.setMap(null);
+            })
+            drop(pins)
           })
         })
       }
