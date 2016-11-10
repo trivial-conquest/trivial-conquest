@@ -58,7 +58,7 @@ describe('Games', function() {
       pins: [],
       users: ['58221b1deb8543b7ba21e39f']
     })
-    .save((err, game) => {
+    .save(function(err, game) {
         chai.request(server)
         .get('/games/' + game._id)
         .set({'authorization': 'test'})
@@ -79,7 +79,7 @@ describe('Games', function() {
       users: [],
       remain: 12
     })
-    .save((err, game) => {
+    .save(function(err, game) {
         chai.request(server)
         .put('/games/' + game._id)
         .set({'authorization': 'test'})
@@ -99,7 +99,7 @@ describe('Games', function() {
       users: [],
       remain: 0
     })
-    .save((err, game) => {
+    .save(function(err, game) {
         chai.request(server)
         .put('/games/' + game._id)
         .set({'authorization': 'test'})
@@ -118,7 +118,7 @@ describe('Pins', function() {
       pins: [],
       users: []
     })
-    .save((err, game) => {
+    .save(function(err, game) {
         chai.request(server)  // Sending post request to create a pin for a specific game
         .post('/games/' + game._id + '/pins')
         .set({'authorization': 'test'})
