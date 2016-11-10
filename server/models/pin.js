@@ -9,6 +9,7 @@ const pinSchema = new Schema({
   name: { type: String },
   coordinates: [],
   owner: {type: Schema.ObjectId, ref: 'User' },
+  creator: {type: Schema.ObjectId, ref: 'User'},
   game: {type: Schema.ObjectId, ref: 'Game' },
   icon: { type: String}
 })

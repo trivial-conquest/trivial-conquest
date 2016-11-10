@@ -3,15 +3,27 @@ const Pin = require('../models/pin')
 
 module.exports = {
   createNewPin: (req, res) => {
-    new Pin({
-      address: req.body.address,
-      name: req.body.name,
-      coordinates: req.body.coordinates,
-      owner: req.tokenPayload._id, //dummy userId
-      game: req.params.gameid,
-      icon: req.body.icon
+    //First checking to see how many pins user has already created
+    Pin.find({game : req.params.gameid})
+    .then((pins) => {
+      var userPins = pins.filter(function(pin){
+        return pin.creator = req.tokenPayload._id
+      })
+      if(userPins.length >= 3) {
+        console.log('Over pins limit')
+        throw new Error('You have already created the maximum number of pins allowed')
+      }
+      new Pin({
+        address: req.body.address,
+        name: req.body.name,
+        coordinates: req.body.coordinates,
+        owner: req.tokenPayload._id,
+        creator: req.tokenPayload._id,
+        game: req.params.gameid,
+        icon: req.tokenPayload.profilePicture
+      }).save()
     })
-    .save().then((pin) => {
+    .then((pin) => {
       console.log('successfully created pin: ', pin)
       res.send(pin)
     })
@@ -33,7 +45,6 @@ module.exports = {
   },
 
   getPinsForGame: (req, res) => {
-    console.log(req.params.gameid)
     Pin.find({game : req.params.gameid})
     .then((pins) => {
       console.log('FOUND PINS', pins)

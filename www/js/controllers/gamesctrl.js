@@ -116,7 +116,8 @@ angular.module('trivial.games', [])
 
       function addMarkerWithTimeout(pinObj, timeout) {
         var coordinatesObj = {}
-        var image = pinObj.icon.replace('large', 'small')
+        var image = pinObj.icon.replace('large', 'small') //Changing from large fb pic to small
+        //Formatting coordinates so that the API can recognize them
         coordinatesObj.lat = pinObj.coordinates[0]
         coordinatesObj.lng = pinObj.coordinates[1]
         window.setTimeout(function() {
@@ -185,7 +186,6 @@ angular.module('trivial.games', [])
     }
 
       $scope.addPin = function() {
-
         gameSrvc.addPin(pinToAdd, currentGameID)
         .then(function(pin) {
         })
