@@ -51,6 +51,7 @@ module.exports = {
   },
 
   joinGame: (req, res, next) => {
+<<<<<<< a911fa411f24c03cc8f8be1a5996e2d57948790b
     Game.findOne({_id: req.params.gameid}, (err, game) => {
       console.log(game.remain)
       if (game.remain > 0) {
@@ -62,6 +63,10 @@ module.exports = {
         console.log('SORRY MATE: GAME IS FULL')
         next()
       }
+=======
+    Game.update({_id: req.params.game_id}, { $addToSet: { users: req.tokenPayload._id }}, {$set: {$inc: {remain: -1} }}).then(game =>{
+      res.send(game)
+>>>>>>> Adds test to ensure users can join games
     })
 
   }
