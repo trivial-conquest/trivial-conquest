@@ -27,7 +27,7 @@ angular.module('trivial.login', [])
     // here we will recieve the logged in user
     console.log(data);
     $scope.closeLogin();
-    $window.location = "/#allgames"
+    $window.location = "/"
   });
 
   // will fire in case authentication failed

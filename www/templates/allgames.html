@@ -5,19 +5,37 @@
   <ion-content>
       <div class="card">
         Create Game
-        <form name="allgames.form" ng-submit='createGame()' novalidate class="item item-input">
-        <input type='text' value='Create New Game' ng-model='allgames.gamename'/></input>
+        <form name="allgames.form" class="item item-input">
+        Set Game Name
+        <input type='text' ng-model='allgames.gamename'/></input>
+        Set Player Limit
+        <input type='text' string-to-number ng-model='allgames.playerlimit'/></input>
+        <button value=submit ng-click='createGame()' novalidate></button>
         </form>
       </div>
       <div ng-show='allgames.repeat()' class=card>
        <p>This game already exists, please choose another name</p>
       </div>
-      <div ng-repeat='game in games'>
+      <div><button ng-click='myGames()'>Show My Games</button></div>
+      <div><button ng-click='allGames()'>Show All Available Games</button></div>
+      <div ng-repeat='game in games' ng-if='game.remain != 0 && allgames'>
         <div class="card">
           <div class="item item-text-wrap">
             <a href="#/games/{{game._id}}">
-                {{game.name}}
+                {{game.name}} 
             </a>
+            <p>{{game.remain}} spaces available</p>
+          </div>
+        </div>
+      </div>
+      <div ng-repeat='game in games' ng-if='!allgames'>
+        <span ng-if='game.users=user_id'></span>
+         <div class="card">
+          <div class="item item-text-wrap">
+            <a href="#/games/{{game._id}}">
+                {{game.name}} 
+            </a>
+            <p>{{game.remain}} spaces available</p>
           </div>
         </div>
       </div>

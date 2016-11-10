@@ -8,7 +8,8 @@ module.exports = {
     var newGame = new Game ({
       name: req.body.name,
       pins: req.body.pins,
-      users: [req.tokenPayload._id]
+      users: [req.tokenPayload._id],
+      limit: req.body.limit + 1
     })
     newGame.save((err, game) => {
     if (err) {
@@ -16,6 +17,10 @@ module.exports = {
       res.status(400).end();
     } else {
       console.log(`Game created: ${game}`);
+      console.log('lets see if this works length', game.users.length, 'limit', game.limit)
+      Game.update({_id: game._id}, { $set: { remain: game.limit - game.users.length }}).then(game =>{
+      console.log('works:', game)
+    })
       res.send(game);
     }
     })
@@ -48,8 +53,9 @@ module.exports = {
   },
 
   joinGame: (req, res, next) => {
-    Game.update({_id: req.params.gameid}, { $addToSet: { users: req.tokenPayload._id }}).then(game =>{
-      console.log('donzo:', game)
+    Game.update({_id: req.params.game_id}, { $addToSet: { users: req.tokenPayload._id }}, {$set: {$inc: {remain: -1} }}).then(game =>{
+      console.log('joinedgame', game)
+      res.status(201).end()
     })
   }
 
