@@ -43,7 +43,7 @@ describe('Games', function() {
     chai.request(server)
       .post('/games')
       .set({'authorization': 'test'})
-      .send({'name': 'Testy Johnson'})
+      .send({'name': 'Testy Johnson', limit: 4})
       .end(function(err, res){
         res.should.have.status(200);
         res.body.name.should.equal('Testy Johnson');
@@ -72,11 +72,12 @@ describe('Games', function() {
     })
   });
 
-  it('should allow a logged in user to join a game', function(done) {
+  it('should allow a logged in user to join a game if there is space', function(done) {
     new Game ({
       name: 'test game name',
       pins: [],
-      users: []
+      users: [],
+      remain: 12
     })
     .save((err, game) => {
         chai.request(server)
@@ -84,9 +85,28 @@ describe('Games', function() {
         .set({'authorization': 'test'})
         .end(function(err, res) {
           res.should.have.status(200);
+          res.body[0].name.should.equal('test game name');
+          res.body[0].remain.should.equal(11);
           res.body[0].users[0].should.equal('58221b1deb8543b7ba21e39f');
           done();
-        });
+        })
+    })
+  })
+  it('should not allow a logged in user to join a game if there is not space', function(done) {
+    new Game ({
+      name: 'test game name',
+      pins: [],
+      users: [],
+      remain: 0
+    })
+    .save((err, game) => {
+        chai.request(server)
+        .put('/games/' + game._id)
+        .set({'authorization': 'test'})
+        .end(function(err, res) {
+          res.body[0].users.length.should.equal(0);
+          done();
+        })
     })
   })
 });
