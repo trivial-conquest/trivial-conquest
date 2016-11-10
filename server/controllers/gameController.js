@@ -4,7 +4,6 @@ const Game = require('../models/game')
 module.exports = {
 //Create a new game
   createGame: (req, res, next) => {
-    console.log('CG', req.body)
     var newGame = new Game ({
       name: req.body.name,
       pins: req.body.pins,
@@ -54,8 +53,7 @@ module.exports = {
 
   joinGame: (req, res, next) => {
     Game.update({_id: req.params.game_id}, { $addToSet: { users: req.tokenPayload._id }}, {$set: {$inc: {remain: -1} }}).then(game =>{
-      console.log('joinedgame', game)
-      res.status(201).end()
+      res.send(game)
     })
   }
 
