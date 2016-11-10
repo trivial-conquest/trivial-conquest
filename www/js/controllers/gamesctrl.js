@@ -12,7 +12,6 @@ angular.module('trivial.games', [])
   var options = {timeout: 10000, enableHighAccuracy: true};
     $cordovaGeolocation.getCurrentPosition(options)
     .then(function(position){
-      console.log(position)
       var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       var mapOptions = {
         center: latLng,
@@ -131,9 +130,11 @@ angular.module('trivial.games', [])
       }
 
       var currentGameID = getCurrentGameID();
+      console.log(currentGameID)
 
       gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
       .then(function(response){
+        console.log (response)
         pins = response
         //Change JSON data into numbers, in order for drop() to work
         pins.forEach(function(coordsObj){
@@ -198,11 +199,9 @@ angular.module('trivial.games', [])
     }
 
       $scope.addPin = function() {
-        console.log('pincoords', pinToAdd.geometry.location.lat(), pinToAdd.geometry.location.lng())
 
         gameSrvc.addPin(pinToAdd, currentGameID)
         .then(function(pin) {
-          console.log('POSTED pin')
         })
         .catch(function(err) {
           console.log('POST pin failed', err)
