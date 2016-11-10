@@ -3,12 +3,12 @@ angular.module('trivial.gamesrvc', [])
 .factory('gameSrvc', ['$http', '$window', function ($http, $window) {
   return {
 
-    createGame: function(name) {
+    createGame: function(name, limit) {
       return $http({
         method: 'POST',
         url: '/games/game',
         authorization: localStorage.getItem('satellizer_token'),
-        data: {name: name}
+        data: {name: name, limit: limit}
       }).then(function(resp){
         console.log('this game creation worked!!!!&&', resp.data)
         return resp.data
@@ -60,11 +60,12 @@ angular.module('trivial.gamesrvc', [])
       })
     },
 
-    joinGame: function() {
+    joinGame: function(gameId) {
       return $http({
         method: 'PUT',
         url: '/games/:gameid',
-        data: {token: localStorage.getItem("satellizer_token")}
+        authorization: localStorage.getItem("satellizer_token"),
+        data: {game_id: gameId}
       }).then(function(resp) {
         console.log('JOINING GAME SUCCESSFUL')
       }).catch(function(err) {

@@ -173,7 +173,17 @@ angular.module('trivial.games', [])
           return
         }
         alert('Sorry, too far')
-      },
+      }
+ 
+    $scope.joinGame = function(currentGameID) {
+       gameSrvc.joinGame()
+       .then(function(){
+        console.log('this worked')
+       })
+       .catch(function(){
+        console.log('this doesnt work')
+       })
+    }
 
       $scope.addPin = function() {
         console.log('pincoords', pinToAdd.geometry.location.lat(), pinToAdd.geometry.location.lng())

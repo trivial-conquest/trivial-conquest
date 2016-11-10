@@ -34,7 +34,7 @@ angular.module('trivial', ['ionic', 'trivial.login', 'trivial.map', 'trivial.gam
     //  commonConfig.redirectUri = 'https://intense-journey-25938.herokuapp.com/auth/facebook';
   }
   $authProvider.facebook(angular.extend({}, commonConfig, {
-  clientId: '1789849501229484',
+  clientId: '535661349967737',
   url: 'http://localhost:8080/auth/facebook'
   // url: 'https://intense-journey-25938.herokuapp.com/auth/facebook'
   }));
@@ -45,12 +45,12 @@ angular.module('trivial', ['ionic', 'trivial.login', 'trivial.map', 'trivial.gam
   //The views will change when the frontend angular routes change which is usually done with a click/mouse event
   $stateProvider
     .state('login', {
-      url: '/',
+      url: '/login',
       templateUrl: 'templates/login.html',
       controller: 'LoginCtrl'
     })
      .state('allgames', {
-    url: '/allgames',
+    url: '/',
     templateUrl: 'templates/allgames.html',
     controller: 'AllGamesCtrl as allgames'
   })
