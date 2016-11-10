@@ -49,7 +49,7 @@ angular.module('trivial.allgames', [])
 
   $scope.logout = function(){
     userService.logout()
-    $window.location = '/'
+    $window.location = '/login'
   }
 
   var getCurrentUser = function(){

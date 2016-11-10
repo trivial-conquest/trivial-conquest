@@ -5,7 +5,7 @@ angular.module('trivial.games', [])
 
   $scope.logout = function(){
     userService.logout()
-    $window.location = '/'
+    $window.location = '/login'
   }
 
   var pins = [];
@@ -167,7 +167,7 @@ angular.module('trivial.games', [])
         }
         alert('Sorry, too far')
       }
- 
+
     $scope.joinGame = function(currentGameID) {
        gameSrvc.joinGame()
        .then(function(){
