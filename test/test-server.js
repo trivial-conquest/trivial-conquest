@@ -49,4 +49,24 @@ describe('Games', function() {
         done();
       });
   });
+
+  it('should get a single game on GET /games/:gameid', function(done) {
+    new Game ({
+      name: 'test game name',
+      pins: [],
+      users: ['58221b1deb8543b7ba21e39f']
+    })
+    .save((err, game) => {
+        chai.request(server)
+        .get('/games/' + game._id)
+        .set({'authorization': 'test'})
+        .end(function(err, res){
+          res.should.have.status(200);
+          res.body[0].name.should.equal('test game name');
+          res.body[0]._id.should.equal(game._id.toString());
+          res.body[0].users[0].should.equal('58221b1deb8543b7ba21e39f');
+          done();
+        });
+    })
+  });
 });
