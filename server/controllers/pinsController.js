@@ -9,10 +9,12 @@ module.exports = {
       var userPins = pins.filter(function(pin){
         return pin.creator = req.tokenPayload._id
       })
+      //If the user has created 3 pins already, throw an error
       if(userPins.length >= 3) {
         console.log('Over pins limit')
         throw new Error('You have already created the maximum number of pins allowed')
       }
+      //Otherwise, add a new pin
       new Pin({
         address: req.body.address,
         name: req.body.name,
@@ -29,7 +31,7 @@ module.exports = {
     })
     .catch((err) => {
       console.log('ERROR: ', err)
-      res.send(err)
+      res.status(500).send('Pin limit reached')
     })
   },
 

@@ -101,7 +101,8 @@ angular.module('trivial.gamesrvc', [])
         console.log('server POST pin success')
         return resp.data
       }).catch(function(resp){
-        console.log('server POST pin failed', resp)
+        console.log(resp)
+        alert('Pin not added, stop being greedy!!')
           $window.location = '/'
       })
     },
