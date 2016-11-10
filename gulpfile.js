@@ -35,6 +35,7 @@ var babelFolders =
 gulp.task("babel", function () {
   var tasks = babelFolders.map(function(element) {
     return gulp.src(element + '*')
+      .pipe(plumber())
       .pipe(babel())
       .pipe(gulp.dest(element))
   })
