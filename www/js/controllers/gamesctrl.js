@@ -114,13 +114,17 @@ angular.module('trivial.games', [])
 
       //drawingManager.setMap(map);
 
-      function addMarkerWithTimeout(position, timeout, icon) {
+      function addMarkerWithTimeout(pinObj, timeout) {
+        var coordinatesObj = {}
+        var image = pinObj.icon.replace('large', 'small')
+        coordinatesObj.lat = pinObj.coordinates[0]
+        coordinatesObj.lng = pinObj.coordinates[1]
         window.setTimeout(function() {
           markers.push(new google.maps.Marker({
-            position: position,
+            position: coordinatesObj,
             map: map,
             animation: google.maps.Animation.DROP,
-            icon: icon
+            icon: image
           }));
         }, timeout);
       }
@@ -133,42 +137,18 @@ angular.module('trivial.games', [])
 
       gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
       .then(function(response){
-        console.log (response)
         pins = response
-        //Change JSON data into numbers, in order for drop() to work
-        pins.forEach(function(coordsObj){
-          coordsObj.coordinates[0].lat = Number(coordsObj.coordinates[0].lat)
-          coordsObj.coordinates[0].lng = Number(coordsObj.coordinates[0].lng)
-        })
-        //Get all the coordinates for each pin
-        var coords = pins.map(function(obj){
-          return obj.coordinates[0]
-        })
-        //Get all the icons for each pin
-        var icons = pins.map(function(obj){
-          if(obj.icon) {
-            return obj.icon.replace('large', 'small')
-          } else 
-          return obj.icon
-        })
-        console.log(icons)
-        drop(coords, icons) //Placing pins on the map from the game we are currently in
+        console.log('GPFGR', response)
+        drop(pins) //Placing pins on the map from the game we are currently in
       })
-
-      // gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
-      // .then(function(response){
-      //   pins = response
-      //   console.log('GPFGR', response)
-      //   drop(pins) //Placing pins on the map from the game we are currently in
-      // })
 
       var markers = [];
 
-      function drop(pins, icons) {
+      function drop(pins, timeout) {
         // console.log('drop called')
         // clearMarkers();
         for (var i = 0; i < pins.length; i++) {
-          addMarkerWithTimeout(pins[i], i * 100, icons[i]);
+          addMarkerWithTimeout(pins[i], i * 100);
         }
       }
 
@@ -176,7 +156,7 @@ angular.module('trivial.games', [])
         var myCoords = {lat: position.coords.latitude, lng: position.coords.longitude}
         //Checks to see if user is close enough to any pins in the game
         var closePins = pins.filter(function(pin){
-          return (Math.abs(myCoords.lat - pin.coordinates[0].lat) < .003 && Math.abs(myCoords.lng - pin.coordinates[0].lng) < .003)
+          return (Math.abs(myCoords.lat - pin.coordinates[0]) < .003 && Math.abs(myCoords.lng - pin.coordinates[1]) < .003)
         })
         //If use is close enough to a pin to claim it, find the one that they are closest to
         if (closePins.length) {
@@ -188,7 +168,7 @@ angular.module('trivial.games', [])
             }
           })
           gameSrvc.claimPin(closest.game, closest._id)
-          alert('You claimed a pin at latitude ' + closest.coordinates[0].lat + ' and longitude ' + closest.coordinates[0].lng )
+          alert('You claimed a pin at latitude ' + closest.coordinates[0] + ' and longitude ' + closest.coordinates[1] )
           return
         }
         alert('Sorry, too far')
