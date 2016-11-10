@@ -8,6 +8,7 @@ var rename = require('gulp-rename');
 var sh = require('shelljs');
 var babel = require("gulp-babel");
 var plumber = require("gulp-plumber");
+var merge = require('merge-stream');
 
 var paths = {
   es6: ['./src/es6/*.js'],
@@ -29,12 +30,18 @@ gulp.task('sass', function(done) {
     .on('end', done);
 });
 
+var babelFolders = [ "www/js", "test"]
+
 gulp.task("babel", function () {
+  var tasks = babelFolders.map(function(element) {
+
   return gulp.src(paths.es6)
     .pipe(plumber())
     .pipe(babel())
-    .pipe(gulp.dest("www/js"))
-    .pipe(gulp.dest("test"))
+    .pipe(gulp.dest(element))
+
+  })
+  return merge(tasks)
 });
 
 
