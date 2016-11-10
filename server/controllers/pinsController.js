@@ -33,8 +33,10 @@ module.exports = {
   },
 
   getPinsForGame: (req, res) => {
-    Pin.find(`{game : ObjectId(${req.params.gameId})}`)
+    console.log(req.params.gameid)
+    Pin.find({game : req.params.gameid})
     .then((pins) => {
+      console.log('FOUND PINS', pins)
       res.send(pins)
     })
     .catch((err) =>{

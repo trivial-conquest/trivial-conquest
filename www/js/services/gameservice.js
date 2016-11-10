@@ -56,6 +56,7 @@ angular.module('trivial.gamesrvc', [])
         url: '/games/' + gameId + '/pins',
         authorization: localStorage.getItem('satellizer_token')
       }).then(function(resp){
+        console.log('pins resp', resp)
         return resp.data
       })
     },
