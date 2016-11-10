@@ -35,24 +35,11 @@ app.use((req, res, next) => {
 });
 
 function isAuthenticated(req, res, next) {
-<<<<<<< a911fa411f24c03cc8f8be1a5996e2d57948790b
   if(req.isAuthenticated()) {
     return next();
   } else {
     res.redirect('/')
   }
-=======
-    if(req.isAuthenticated()) {
-      return next();
-    }
-
-    if(req.xhr) {
-      res.redirect('/')
-    } else {
-      // You can redirect to login page here aswell
-      res.redirect('/')
-    }
->>>>>>> Adds test to ensure users can join games
 }
 
 app.use('/', router)
