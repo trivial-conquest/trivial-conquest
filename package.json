@@ -41,6 +41,7 @@
     "sinon": "^1.17.6"
   },
   "scripts": {
+    "test": "mocha",
     "postinstall": "bower install",
     "start": "node ./server/server.js"
   },
