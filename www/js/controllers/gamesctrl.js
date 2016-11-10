@@ -5,15 +5,8 @@ angular.module('trivial.games', [])
 
   $scope.logout = function(){
     userService.logout()
-    .then(function(){
-      console.log('User successfully logged out')
-      $window.location = '/'
-    }).catch(function(err) {
-      console.log('This is my error: ', err)
-    })
-
+    $window.location = '/login'
   }
-
 
   var pins = [];
   var options = {timeout: 10000, enableHighAccuracy: true};
@@ -114,10 +107,10 @@ angular.module('trivial.games', [])
 
       // function placeMarker(location) {
       //   var marker = new google.maps.Marker({
-      //     position: location, 
+      //     position: location,
       //     map: map
       //   });
-      //   map.panTo(location);  
+      //   map.panTo(location);
       // }
 
       function addMarkerWithTimeout(position, timeout) {
@@ -153,14 +146,14 @@ angular.module('trivial.games', [])
         }
       }
 
-      $scope.claimPin = function() { 
+      $scope.claimPin = function() {
         var myCoords = {lat: position.coords.latitude, lng: position.coords.longitude}
         //Checks to see if user is close enough to any pins in the game
         var closePins = pins.filter(function(pin){
           return (Math.abs(myCoords.lat - pin.coordinates[0].lat) < .003 && Math.abs(myCoords.lng - pin.coordinates[0].lng) < .003)
         })
         //If use is close enough to a pin to claim it, find the one that they are closest to
-        if (closePins.length) {  
+        if (closePins.length) {
           var closest = closePins.reduce(function(min, next){
             if (Math.abs(myCoords.lat - next.lat) + Math.abs(myCoords.lng - next.lng) < Math.abs(myCoords.lat - min.lat) + Math.abs(myCoords.lng - min.lng)) {
               return next
@@ -174,7 +167,7 @@ angular.module('trivial.games', [])
         }
         alert('Sorry, too far')
       }
- 
+
     $scope.joinGame = function(currentGameID) {
        gameSrvc.joinGame()
        .then(function(){
@@ -220,10 +213,10 @@ angular.module('trivial.games', [])
     console.log("Could not get location", error);
 
   });
-    
+
 }]);
 
-// THIS IS THE OLD DRAWING LIBRARY 
+// THIS IS THE OLD DRAWING LIBRARY
 //  var drawingManager = new google.maps.drawing.DrawingManager({
 //   drawingMode: google.maps.drawing.OverlayType.MARKER,
 //   drawingControl: true,
