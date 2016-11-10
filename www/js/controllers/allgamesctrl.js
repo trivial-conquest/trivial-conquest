@@ -1,6 +1,6 @@
 angular.module('trivial.allgames', [])
 
-.controller('AllGamesCtrl', ['$scope', '$stateParams', 'gameSrvc', '$window', 'userService', '$auth', function($scope, $stateParams, gameSrvc, $window, userService) {
+.controller('AllGamesCtrl', ['$scope', '$stateParams', 'gameSrvc', '$window', 'userService', '$auth', function($scope, $stateParams, gameSrvc, $window, userService, $auth) {
  //will need to pull all games fom the server and attach them to scope variable
  var userData = $auth.getPayload();
 
