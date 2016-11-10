@@ -20,6 +20,7 @@ angular.module('trivial.games', [])
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
       var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+      var originalCenter = map.getCenter()
 
               // Create the search box and link it to the UI element.
       var input = document.getElementById('pac-input');
@@ -205,7 +206,17 @@ angular.module('trivial.games', [])
         .then(function(response){
           pinToDelete = response[response.length - 1]
           gameSrvc.deletePin(pinToDelete._id, currentGameID)
-          location.reload()
+          
+          gameSrvc.getPinsForGame(currentGameID)
+          .then(function(response){
+            pins = response
+            map.setCenter(originalCenter)
+            map.setZoom(15)
+            markers.forEach(function(marker) {
+              marker.setMap(null);
+            })
+            drop(pins)
+          })
         })
       }
 
