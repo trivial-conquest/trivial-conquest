@@ -26,6 +26,17 @@ describe('Games', function() {
         done();
       });
   });
+
+  it('should not get list of all games on /games GET if user is not authenticated', function(done) {
+    chai.request(server)
+      .get('/games')
+      .end(function(err, res){
+        res.should.have.status(200);
+        res.body.should.be.an('object');
+        done();
+      });
+  });
+
   it('should add a SINGLE game on /games POST', function(done) {
     chai.request(server)
       .post('/games/game')
