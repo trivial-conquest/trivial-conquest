@@ -10,11 +10,6 @@ var babel = require("gulp-babel");
 var plumber = require("gulp-plumber");
 var merge = require('merge-stream');
 
-var paths = {
-  es6: ['./src/es6/*.js'],
-  sass: ['./scss/**/*.scss']
-};
-
 gulp.task('default', ['babel','sass']);
 
 gulp.task('sass', function(done) {
@@ -30,26 +25,21 @@ gulp.task('sass', function(done) {
     .on('end', done);
 });
 
-var babelFolders = [ "www/js", "test", "server/**/*.js"]
+var babelFolders =
+[
+  "./www/js",
+  "./test",
+  "./server"
+]
 
 gulp.task("babel", function () {
   var tasks = babelFolders.map(function(element) {
-
-  return gulp.src(paths.es6)
-    .pipe(plumber())
-    .pipe(babel({
-            presets: ['es2015']
-        }))
-    .pipe(gulp.dest(element))
-
+    return gulp.src(element + '*')
+      .pipe(plumber())
+      .pipe(babel({ presets: ['es2015'] }))
+      .pipe(gulp.dest(element))
   })
-  return merge(tasks)
-});
-
-
-gulp.task('watch', function() {
-  gulp.watch(paths.es6, ['babel']);
-  gulp.watch(paths.sass, ['sass']);
+  return merge(tasks);
 });
 
 gulp.task('install', ['git-check'], function() {
