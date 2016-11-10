@@ -130,7 +130,6 @@ angular.module('trivial.games', [])
       }
 
       var currentGameID = getCurrentGameID();
-      console.log(currentGameID)
 
       gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
       .then(function(response){
@@ -155,6 +154,13 @@ angular.module('trivial.games', [])
         console.log(icons)
         drop(coords, icons) //Placing pins on the map from the game we are currently in
       })
+
+      // gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
+      // .then(function(response){
+      //   pins = response
+      //   console.log('GPFGR', response)
+      //   drop(pins) //Placing pins on the map from the game we are currently in
+      // })
 
       var markers = [];
 

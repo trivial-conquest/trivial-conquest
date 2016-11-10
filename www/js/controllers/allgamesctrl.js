@@ -19,7 +19,6 @@ angular.module('trivial.allgames', [])
  $scope.getGames = function(){
     gameSrvc.getAllGames()
     .then(function(games){
-      console.log('all games retrieved', games)
       if(typeof(games) === 'string') $window.location = '#/login'
       $scope.games = games
     })
@@ -34,7 +33,6 @@ angular.module('trivial.allgames', [])
     console.log('this is inside createGmae', $scope.allgames.gamename, $scope.allgames.playerlimit)
     gameSrvc.createGame($scope.allgames.gamename, $scope.allgames.playerlimit)
     .then(function(game){
-      console.log("$$$$%%%^^#", game._id)
       $scope.getGames()
       $scope.allgames.gamename = null
       $scope.allgames.repeat = function(){
@@ -53,7 +51,7 @@ angular.module('trivial.allgames', [])
   }
 
   var getCurrentUser = function(){
-    console.log(userData)
+
     $scope.user = userData;
   }
 
