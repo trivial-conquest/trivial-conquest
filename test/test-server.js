@@ -5,7 +5,7 @@ var chaiHttp = require('chai-http');
 var server = require('../server/server');
 var should = chai.should();
 var Game = require("../server/models/game");
-var User = require("../server/models/user");
+var Pin = require("../server/models/pin");
 
 chai.use(chaiHttp);
 
@@ -14,6 +14,7 @@ describe('Games', function() {
 
   afterEach(function(done){
     Game.collection.drop();
+    Pin.collection.drop();
     done();
   });
 
@@ -91,23 +92,27 @@ describe('Games', function() {
 });
 
 describe('Pins', function() {
-  it('should allow a logged in user to create a pin', function(done) {
+  it('should allow users to create pins, and should be able to get pins for specific game', function(done) {
     new Game ({
       name: 'test game name',
       pins: [],
       users: []
     })
     .save((err, game) => {
-        chai.request(server)
+        chai.request(server)  // Sending post request to create a pin for a specific game
         .post('/games/' + game._id + '/pins')
         .set({'authorization': 'test'})
         .send({address: '123 Testing Ave'})
+        .end();
+        chai.request(server)  // Sending get request to retrieve all pins for that same game (only the one we added)
+        .get('/games/' + game._id + '/pins')
+        .set({'authorization': 'test'})
         .end(function(err, res) {
           res.should.have.status(200);
-          res.body.owner.should.equal('58221b1deb8543b7ba21e39f');
-          res.body.address.should.equal('123 Testing Ave');
-          done();
-        });
+          res.body[0].owner.should.equal('58221b1deb8543b7ba21e39f');
+          res.body[0].address.should.equal('123 Testing Ave');
+          done()
+        })
     })
   })
 })
