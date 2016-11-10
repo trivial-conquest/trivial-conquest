@@ -32,12 +32,7 @@ angular.module('trivial.allgames', [])
 
   $scope.logout = function(){
     userService.logout()
-    .then(function(){
-      console.log('User successfully logged out')
-      $window.location = '/'
-    }).catch(function(err) {
-      console.log('This is my error: ', err)
-    })
+    $window.location = '/'
 
   }
 
