@@ -5,6 +5,7 @@ var chaiHttp = require('chai-http');
 var server = require('../server/server');
 var should = chai.should();
 var Game = require("../server/models/game");
+var User = require("../server/models/user");
 
 chai.use(chaiHttp);
 
@@ -69,4 +70,22 @@ describe('Games', function() {
         });
     })
   });
+
+  it('should allow a logged in user to join a game', function(done) {
+    new Game ({
+      name: 'test game name',
+      pins: [],
+      users: []
+    })
+    .save((err, game) => {
+        chai.request(server)
+        .put('/games/' + game._id)
+        .set({'authorization': 'test'})
+        .end(function(err, res) {
+          res.should.have.status(200);
+          res.body[0].users[0].should.equal('58221b1deb8543b7ba21e39f');
+          done();
+        });
+    })
+  })
 });

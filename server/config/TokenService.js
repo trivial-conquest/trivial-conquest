@@ -8,7 +8,6 @@ class TokenService {
        this.validToken = false;
 
        this._verifyToken();
-       console.log('be valid', this.validToken)
    }
 
    static createToken(options, cb) {
@@ -38,7 +37,7 @@ class TokenService {
        if(this.token === 'test') {
          this.validToken = true
          this.payload =
-         { 
+         {
             profilePicture: 'https://graph.facebook.com/1510418812305277/picture?type=large',
             firstName: 'Charlie',
             lastName: 'Person',

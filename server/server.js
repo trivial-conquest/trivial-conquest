@@ -37,7 +37,6 @@ app.use((req, res, next) => {
 
 function isAuthenticated(req, res, next) {
     if(req.isAuthenticated()) {
-      console.log('1')
       return next();
     }
 
