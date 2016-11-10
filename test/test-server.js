@@ -112,7 +112,7 @@ describe('Games', function() {
 });
 
 describe('Pins', function() {
-  it('should allow a logged in user to create a pin', function(done) {
+  it('should allow users to create pins, and should be able to get pins for specific game', function(done) {
     new Game ({
       name: 'test game name',
       pins: [],
