@@ -5,7 +5,7 @@ angular.module('trivial.games', [])
 
   $scope.logout = function(){
     userService.logout()
-    $window.location = '#/login'
+    $window.location = '/#/login'
   }
 
   var pins = [];
@@ -114,18 +114,25 @@ angular.module('trivial.games', [])
       //   map.panTo(location);
       // }
 
-      function addMarkerWithTimeout(position, timeout) {
+      //drawingManager.setMap(map);
+
+      function addMarkerWithTimeout(pinObj, timeout) {
+        var coordinatesObj = {}
+        var image = pinObj.icon.replace('large', 'small') //Changing from large fb pic to small
+        //Formatting coordinates so that the API can recognize them
+        coordinatesObj.lat = pinObj.coordinates[0]
+        coordinatesObj.lng = pinObj.coordinates[1]
         window.setTimeout(function() {
           markers.push(new google.maps.Marker({
-            position: position,
+            position: coordinatesObj,
             map: map,
             animation: google.maps.Animation.DROP,
+            icon: image
           }));
         }, timeout);
       }
 
       var getCurrentGameID = function(){ //Getting game ID based on URL in order to look up that game's pins
-        console.log('game url', $location.$$url.replace('/games/',''))
         return $location.$$url.replace('/games/','')
       }
 
@@ -140,10 +147,11 @@ angular.module('trivial.games', [])
 
       var markers = [];
 
-      function drop(pins) {
+      function drop(pins, timeout) {
+        // console.log('drop called')
+        // clearMarkers();
         for (var i = 0; i < pins.length; i++) {
-          console.log('DROP', {lat: pins[i].coordinates[0]})
-          addMarkerWithTimeout({lat: pins[i].coordinates[0], lng: pins[i].coordinates[1]}, i * 100);
+          addMarkerWithTimeout(pins[i], i * 100);
         }
       }
 
@@ -151,7 +159,7 @@ angular.module('trivial.games', [])
         var myCoords = {lat: position.coords.latitude, lng: position.coords.longitude}
         //Checks to see if user is close enough to any pins in the game
         var closePins = pins.filter(function(pin){
-          return (Math.abs(myCoords.lat - pin.coordinates[0].lat) < .003 && Math.abs(myCoords.lng - pin.coordinates[0].lng) < .003)
+          return (Math.abs(myCoords.lat - pin.coordinates[0]) < .003 && Math.abs(myCoords.lng - pin.coordinates[1]) < .003)
         })
         //If use is close enough to a pin to claim it, find the one that they are closest to
         if (closePins.length) {
@@ -163,7 +171,7 @@ angular.module('trivial.games', [])
             }
           })
           gameSrvc.claimPin(closest.game, closest._id)
-          alert('You claimed a pin at latitude ' + closest.coordinates[0].lat + ' and longitude ' + closest.coordinates[0].lng )
+          alert('You claimed a pin at latitude ' + closest.coordinates[0] + ' and longitude ' + closest.coordinates[1] )
           return
         }
         alert('Sorry, too far')
@@ -180,11 +188,8 @@ angular.module('trivial.games', [])
     }
 
       $scope.addPin = function() {
-        console.log('pincoords', pinToAdd.geometry.location.lat(), pinToAdd.geometry.location.lng())
-
         gameSrvc.addPin(pinToAdd, currentGameID)
         .then(function(pin) {
-          console.log('POSTED pin')
         })
         .catch(function(err) {
           console.log('POST pin failed', err)
