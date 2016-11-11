@@ -10,14 +10,16 @@
         <input type='text' ng-model='allgames.gamename'/></input>
         Set Player Limit
         <input type='text' string-to-number ng-model='allgames.playerlimit'/></input>
-        <button value=submit ng-click='createGame()' novalidate></button>
+        <button class="button button-calm" value=submit ng-click='createGame()' novalidate>Create</button>
         </form>
       </div>
       <div ng-show='allgames.repeat()' class=card>
        <p>This game already exists, please choose another name</p>
       </div>
-      <div><button ng-click='myGames()'>Show My Games</button></div>
-      <div><button ng-click='allGames()'>Show All Available Games</button></div>
+      <div class="button-bar">
+        <a class="button button-calm" ng-click='myGames()'>Show My Games</a>
+        <a class="button button-calm" ng-click='allGames()'>Show All Available Games</a>
+      </div>
       <div ng-repeat='game in games' ng-if='game.remain != 0 && allgames'>
         <div class="card">
           <div class="item item-text-wrap">
