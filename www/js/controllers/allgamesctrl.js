@@ -31,7 +31,7 @@ angular.module('trivial.allgames', [])
 
   $scope.createGame = function(){
     console.log('this is inside createGmae', $scope.allgames.gamename, $scope.allgames.playerlimit)
-    gameSrvc.createGame($scope.allgames.gamename, $scope.allgames.playerlimit, 3) //Will change this to a scope variable later
+    gameSrvc.createGame($scope.allgames.gamename, $scope.allgames.playerlimit) //Will change this to a scope variable later
     .then(function(game){
       $scope.getGames()
       $scope.allgames.gamename = null

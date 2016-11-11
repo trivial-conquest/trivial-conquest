@@ -64,7 +64,7 @@ angular.module('trivial.gamesrvc', [])
     joinGame: function(gameId) {
       return $http({
         method: 'PUT',
-        url: '/games/:gameid',
+        url: '/games/' + gameId,
         authorization: localStorage.getItem("satellizer_token"),
         data: {game_id: gameId}
       }).then(function(resp) {
