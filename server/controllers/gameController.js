@@ -45,16 +45,25 @@ module.exports = {
         console.log(`Error in finding game: ${err}`);
         res.send(err);
       } else {
-        console.log(`Game found: ${game}`);
         res.send(game);
       }
     })
   },
 
   joinGame: (req, res, next) => {
-    Game.update({_id: req.params.game_id}, { $addToSet: { users: req.tokenPayload._id }}, {$set: {$inc: {remain: -1} }}).then(game =>{
-      res.send(game)
+    Game.findOne({_id: req.params.gameid}, (err, game) => {
+      console.log(game.remain)
+      if (game.remain > 0) {
+        console.log('UPDATED SUCCESSFULLY')
+        Game.update({_id: req.params.gameid}, {$inc: {remain: -1}, $addToSet: { users: req.tokenPayload._id } }, (err, game) => {
+          next()
+        })
+      } else {
+        console.log('SORRY MATE: GAME IS FULL')
+        next()
+      }
     })
+
   }
 
 };

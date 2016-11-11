@@ -1,0 +1,8 @@
+language: node_js
+
+install:
+- npm install
+- bower install
+- gulp
+
+script: npm test

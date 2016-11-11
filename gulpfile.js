@@ -8,11 +8,7 @@ var rename = require('gulp-rename');
 var sh = require('shelljs');
 var babel = require("gulp-babel");
 var plumber = require("gulp-plumber");
-
-var paths = {
-  es6: ['./src/es6/*.js'],
-  sass: ['./scss/**/*.scss']
-};
+var merge = require('merge-stream');
 
 gulp.task('default', ['babel','sass']);
 
@@ -29,17 +25,21 @@ gulp.task('sass', function(done) {
     .on('end', done);
 });
 
+var babelFolders =
+[
+  "./www/js/",
+  "./test/",
+  "./server/"
+]
+
 gulp.task("babel", function () {
-  return gulp.src(paths.es6)
-    .pipe(plumber())
-    .pipe(babel())
-    .pipe(gulp.dest("./www/js"));
-});
-
-
-gulp.task('watch', function() {
-  gulp.watch(paths.es6, ['babel']);
-  gulp.watch(paths.sass, ['sass']);
+  var tasks = babelFolders.map(function(element) {
+    return gulp.src(element + '*')
+      .pipe(plumber())
+      .pipe(babel())
+      .pipe(gulp.dest(element))
+  })
+  return merge(tasks);
 });
 
 gulp.task('install', ['git-check'], function() {
