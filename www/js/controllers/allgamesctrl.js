@@ -60,8 +60,8 @@ angular.module('trivial.allgames', [])
   }
 
   var getCurrentUser = function(){
-
     $scope.user = userData;
+    console.log('this is getCurrentUser', $scope.user._id)
   }
 
 $scope.getGames()
