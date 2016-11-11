@@ -38,7 +38,6 @@ angular.module('trivial.games', [])
       var pinToAdd;
       searchBox.addListener('places_changed', function() {
         var places = searchBox.getPlaces();
-        console.log('places[0] =', places[0])
         pinToAdd = places[0];
         if (places.length == 0) {
           return;
