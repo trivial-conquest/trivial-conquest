@@ -93,8 +93,8 @@ angular.module('trivial.gamesrvc', [])
         url: '/games/' + gameId + '/pins',
         authorization: localStorage.getItem('satellizer_token'),
         data: {
-          address: pin.formatted_address, 
-          name: pin.name, 
+          address: pin.formatted_address,
+          name: pin.name,
           coordinates: [pin.geometry.location.lat(), pin.geometry.location.lng()]
         }
       }).then(function(resp){
