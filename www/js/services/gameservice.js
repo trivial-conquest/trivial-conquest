@@ -3,12 +3,12 @@ angular.module('trivial.gamesrvc', [])
 .factory('gameSrvc', ['$http', '$window', function ($http, $window) {
   return {
 
-    createGame: function(name, limit, pins) {
+    createGame: function(name, limit) {
       return $http({
         method: 'POST',
         url: '/games',
         authorization: localStorage.getItem('satellizer_token'),
-        data: {name: name, limit: limit, pins: pins}
+        data: {name: name, limit: limit}
       }).then(function(resp){
         console.log('this game creation worked!!!!&&', resp.data)
         return resp.data

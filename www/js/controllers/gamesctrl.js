@@ -5,7 +5,7 @@ angular.module('trivial.games', [])
 
   $scope.logout = function(){
     userService.logout()
-    $window.location = '#/login'
+    $window.location = '/#/login'
   }
 
   var pins = [];
