@@ -35,6 +35,7 @@ angular.module('trivial.allgames', [])
     .then(function(game){
       $scope.getGames()
       $scope.allgames.gamename = null
+      $scope.allgames.playerlimit = null
       $scope.allgames.repeat = function(){
         return false;
       }
@@ -42,6 +43,9 @@ angular.module('trivial.allgames', [])
   	})
   	.catch(function(){
   		console.log('this didnt work')
+      $scope.allgames.repeat = function(){
+        return true;
+      }
   	})
   },
 

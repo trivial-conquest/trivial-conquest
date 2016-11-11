@@ -33,7 +33,7 @@ gulp.task("babel", function () {
   return gulp.src(paths.es6)
     .pipe(plumber())
     .pipe(babel())
-    .pipe(gulp.dest("www/js"));
+    .pipe(gulp.dest("./www/js"));
 });
 
 

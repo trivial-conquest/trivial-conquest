@@ -1,11 +1,11 @@
 angular.module('trivial.games', [])
 
-.controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', 'userService', function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc, userService) {
+.controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', 'userService', '$window', function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc, userService, $window) {
  //will need to pull all games fom the server and attach them to $scope.game
 
   $scope.logout = function(){
     userService.logout()
-    $window.location = '/login'
+    $window.location = '#/login'
   }
 
   var pins = [];
