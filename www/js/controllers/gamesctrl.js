@@ -174,6 +174,7 @@ angular.module('trivial.games', [])
         alert('Sorry, too far')
       }
 
+
     $scope.joinGame = function() {
       console.log('this is joingame', currentGameID)
        gameSrvc.joinGame(currentGameID)
