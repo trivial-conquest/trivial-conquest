@@ -7,3 +7,4 @@ plugins/
 www/config.js
 www/lib
 server/fb.js
+www/css/ionic.app.css
