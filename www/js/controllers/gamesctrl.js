@@ -86,17 +86,14 @@ angular.module('trivial.games', [])
       var youMarker = new google.maps.Marker({
         position: latLng,
         map: map,
-        draggable:true,
+        // draggable:true,
         animation: google.maps.Animation.BOUNCE,
-        // maybe we can use the user's facebook photo for the icon
-        icon: 'https://images-na.ssl-images-amazon.com/images/M/MV5BMTgwMzQ4ODYxMV5BMl5BanBnXkFtZTcwNDAwMTc2NQ@@._V1._SX20_SY32_.jpg',
-        // also possible to add a text title on top of marker
-        // label: 'YOUR LOCATION'
+        icon: './img/youAreHere.png'
       });
 
       google.maps.event.addListener(youMarker , 'click', function(){
         var infowindow = new google.maps.InfoWindow({
-          content:'Maybe we can use a title?',
+          // content:'Maybe we can use a title?',
           position: latLng,
         });
         infowindow.open(map);
@@ -191,6 +188,14 @@ angular.module('trivial.games', [])
       $scope.addPin = function() {
         gameSrvc.addPin(pinToAdd, currentGameID)
         .then(function(pin) {
+          gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
+          .then(function(response){
+            pins = response;
+            map.setCenter(originalCenter)
+            map.setZoom(15)
+            console.log('GPFGR', response)
+            drop(pins) //Placing pins on the map from the game we are currently in
+          })
         })
         .catch(function(err) {
           console.log('POST pin failed', err)
@@ -208,8 +213,8 @@ angular.module('trivial.games', [])
           gameSrvc.getPinsForGame(currentGameID)
           .then(function(response){
             pins = response
-            map.setCenter(originalCenter)
-            map.setZoom(15)
+            // map.setCenter(originalCenter)
+            // map.setZoom(15)
             console.log('markers', markers)
             // markers[markers.length - 1].setMap(null)
             markers.forEach(function(marker) {
