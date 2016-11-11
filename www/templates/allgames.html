@@ -1,15 +1,16 @@
 <ion-view>
-  <ion-header-bar class="bar-stable">
-    <h1 class="title">Trivial Conquest</h1>
+  <ion-header-bar class="allgameshead">
+    <h1 id="allgamestitle" class="title" >Trivial Conquest</h1>
+    <div>
+        <button class="button button-calm" ng-click="logout()">Logout</button>
+    </div>
   </ion-header-bar>
-  <ion-content>
+  <ion-content class="allgames">
       <div class="card">
-        Create Game
+        Create New Game
         <form name="allgames.form" class="item item-input">
-        Set Game Name
-        <input type='text' ng-model='allgames.gamename'/></input>
-        Set Player Limit
-        <input type='text' string-to-number ng-model='allgames.playerlimit'/></input>
+        <input type='text' placeholder= "Set Game Name" ng-model='allgames.gamename'/></input>
+        <input type='text' string-to-number placeholder="Set Player Limit" ng-model='allgames.playerlimit'/></input>
         <button class="button button-calm" value=submit ng-click='createGame()' novalidate>Create</button>
         </form>
       </div>
@@ -26,7 +27,7 @@
             <a href="#/games/{{game._id}}">
                 {{game.name}} 
             </a>
-            <p>{{game.remain}} spaces available</p>
+            <p>{{game.remain}} out of {{game.limit}}</p>
           </div>
         </div>
       </div>
@@ -37,12 +38,10 @@
             <a href="#/games/{{game._id}}">
                 {{game.name}} 
             </a>
-            <p>{{game.remain}} spaces available</p>
+            <p>{{game.remain}} out of {{game.limit}}</p>
           </div>
         </div>
       </div>
-      <div style="text-align: center">
-        <button style="position: absolute" ng-click="logout()">Logout</button>
     </div>
   </ion-content>
 </ion-view>

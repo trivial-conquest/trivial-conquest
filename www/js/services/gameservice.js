@@ -6,7 +6,7 @@ angular.module('trivial.gamesrvc', [])
     createGame: function(name, limit, pins) {
       return $http({
         method: 'POST',
-        url: '/games/game',
+        url: '/games',
         authorization: localStorage.getItem('satellizer_token'),
         data: {name: name, limit: limit, pins: pins}
       }).then(function(resp){

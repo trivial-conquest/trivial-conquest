@@ -5,5 +5,22 @@
  
 #map {
     width: 100%;
-    height: 85%;
+    height: 95%;
+}
+
+.allgames {
+	background: #011627;
+}
+
+.allgameshead {
+  background: #011627;
+  color : white;
+}
+
+#allgamestitle {
+	color: #FDFFFC;
+}
+
+#gameshead {
+	background: #011627;
 }

@@ -8,7 +8,7 @@ module.exports = {
       name: req.body.name,
       pins: req.body.pins,
       users: [req.tokenPayload._id],
-      limit: req.body.limit + 1
+      limit: Number(req.body.limit) +1
     })
     newGame.save((err, game) => {
     if (err) {

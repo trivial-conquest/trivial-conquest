@@ -52,38 +52,28 @@
 </style>
 
 <ion-view>
-<div class="tabs tabs-icon-top">
-  <a class="tab-item" href="#/">
-    <div style="text-align: center">
-        <button style="position: absolute" ng-click="logout()">Logout</button>
+<div id="gameshead" class="tabs tabs-icon-top" >
+    <div>
+        <button class="button button-calm" ng-click="logout()">Logout</button>
     </div>
-     <div style="text-align: left">
-    <button ng-click='joinGame()'>Join Game</button>
+     <div >
+    <button class="button button-calm" ng-click='joinGame()'>Join Game</button>
     </div>
-  </a>
-  <a class="tab-item">
-    <i class="icon ion-gear-a"></i>
-    Settings
-  </a>
-   <a class="tab-item" href="#/allgames">
-    <i class="ion-arrow-left-c"></i>
-  </a>
+   <a class="button button-calm" href="#/allgames">Back</a>
+    <div>
+      <button class="button button-calm" ng-click="claimPin()">Claim Location</button>
+    </div>
+    <div>
+      <button class="button button-calm" ng-click="addPin()">Add Pin</button>
+    </div>
+    <div >
+      <button class="button button-calm" ng-click="deletePin()">Delete Last Pin</button>
+    </div>   
 
 </div>
 	<ion-content>
   <input id="pac-input" class="controls" type="text" placeholder="search for address or name">
 		<div id="map" data-tap-disabled="true"></div>
-    <div style="text-align: center">
-      <button style="position: center" ng-click="claimPin()">Claim Location</button>
-    </div>
-    <div style="text-align: center">
-      <button style="position: center" ng-click="addPin()">Add Pin</button>
-    </div>
-    <div style="text-align: center">
-      <button style="position: center" ng-click="deletePin()">Delete Last Pin</button>
-    </div>    
-    <div style="text-align: left">
-      
     </div>
 	</ion-content>
 </ion-view>
