@@ -32,7 +32,7 @@
         </div>
       </div>
       <div ng-repeat='game in games' ng-if='!allgames'>
-        <span ng-if='game.users=user_id'></span>
+        <span ng-if='game.users.indexOf(user_id)'></span>
          <div class="card">
           <div class="item item-text-wrap">
             <a href="#/games/{{game._id}}">
