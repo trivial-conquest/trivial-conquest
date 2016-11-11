@@ -21,6 +21,11 @@ angular.module('trivial.allgames', [])
     .then(function(games){
       if(typeof(games) === 'string') $window.location = '#/login'
       $scope.games = games
+      console.log('these are all the games', games)
+      games.forEach(function(game){
+        console.log('these are the game users', game.users)
+        $scope.users = game.users
+      })
     })
     .catch(function(){
       console.log('no games retrieved')
@@ -31,7 +36,7 @@ angular.module('trivial.allgames', [])
 
   $scope.createGame = function(){
     console.log('this is inside createGmae', $scope.allgames.gamename, $scope.allgames.playerlimit)
-    gameSrvc.createGame($scope.allgames.gamename, $scope.allgames.playerlimit, 3) //Will change this to a scope variable later
+    gameSrvc.createGame($scope.allgames.gamename, $scope.allgames.playerlimit) //Will change this to a scope variable later
     .then(function(game){
       $scope.getGames()
       $scope.allgames.gamename = null
@@ -51,12 +56,12 @@ angular.module('trivial.allgames', [])
 
   $scope.logout = function(){
     userService.logout()
-    $window.location = '/login'
+    $window.location = '$/login'
   }
 
   var getCurrentUser = function(){
-
     $scope.user = userData;
+    console.log('this is getCurrentUser', $scope.user._id)
   }
 
 $scope.getGames()

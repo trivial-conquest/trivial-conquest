@@ -27,20 +27,21 @@
             <a href="#/games/{{game._id}}">
                 {{game.name}} 
             </a>
-            <p>{{game.remain}} out of {{game.limit}}</p>
+            <p>{{game.remain}} out of {{game.limit}} spots remaining</p>
           </div>
         </div>
       </div>
-      <div ng-repeat='game in games' ng-if='!allgames'>
-        <span ng-if='game.users=user_id'></span>
+      <div ng-repeat='game in games' ng-show='!allgames'>
+        <span ng-if='game.users.indexOf(user._id) != -1'>
          <div class="card">
           <div class="item item-text-wrap">
             <a href="#/games/{{game._id}}">
                 {{game.name}} 
             </a>
-            <p>{{game.remain}} out of {{game.limit}}</p>
+            <p>{{game.remain}} out of {{game.limit}} spots remaining</p>
           </div>
-        </div>
+         </div>
+        </span>
       </div>
     </div>
   </ion-content>
