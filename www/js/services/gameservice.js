@@ -103,7 +103,6 @@ angular.module('trivial.gamesrvc', [])
       }).catch(function(resp){
         console.log(resp)
         alert('Pin not added, stop being greedy!!')
-          $window.location = '/'
       })
     },
 
