@@ -113,7 +113,6 @@ describe('Pins', function () {
       chai.request(server) // Sending get request to retrieve all pins for that same game (only the one we added)
       .get('/games/' + game._id + '/pins').set({ 'authorization': 'test' }).end(function (err, res) {
         res.should.have.status(200);
-        console.log(res.body, 'response body')
         res.body[0].owner.should.equal('58221b1deb8543b7ba21e39f');
         res.body[0].address.should.equal('123 Testing Ave');
         done();
@@ -134,6 +133,27 @@ describe('Pins', function () {
       .put('/games/' + game._id + '/pins/' + pin._id).set({ 'authorization' : 'test'}).end(function (err, res) {
         res.should.have.status(200);
         res.body.owner.should.equal('58221b1deb8543b7ba21e39f');
+        done()
+      })
+    })
+  })
+
+  it('should delete a pin successfully', function (done) {
+    Pin.collection.drop()
+    new Pin({
+      address: '124 Test Ave.',
+      name: 'test pin',
+      coordinates: [],
+      game: game._id,
+    }).save(function (err, pin){
+      if(err) {
+        console.log(err)
+      }
+      chai.request(server)
+      .delete('/games/' + game._id + '/pins/' + pin._id).set({'authorization' : 'test'}).end()
+      chai.request(server)
+      .get('/games/' + game._id + '/pins').set({ 'authorization': 'test' }).end(function (err,res){
+        res.body.length.should.equal(0)
         done()
       })
     })

@@ -40,8 +40,8 @@ module.exports = {
 
   deletePin: (req, res) => {
     Pin.find({_id: req.params.pinId}).remove()
-    .then(() => {
-      console.log('removed pin')
+    .then((pin) => {
+      res.send(pin)
       // res.redirect('/')
     })
     .catch((err) => {
