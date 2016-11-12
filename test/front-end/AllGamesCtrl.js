@@ -83,7 +83,6 @@ describe('AllGamesCtrl', function() {
 
     $httpBackend.expectGET('http:/localhost:8080/games').respond(mockResponse);
     $scope.getGames();
-   
     });
 
    it('should be able to get the data of the current user with getCurrentUser()', function () {
