@@ -7,7 +7,7 @@ module.exports = {
     Pin.find({game : req.params.gameid})
     .then((pins) => {
       var userPins = pins.filter(function(pin){
-        return pin.creator = req.tokenPayload._id
+        return pin.creator == req.tokenPayload._id
       })
       //If the user has created 3 pins already, throw an error
       if(userPins.length >= 3) {
