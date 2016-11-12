@@ -109,10 +109,33 @@ describe('gameSrvc', function() {
       expect(resp.name).to.equal("8110 Red Willow Dr")
     })
     $httpBackend.flush();
-   
     });
 
-    
+   it('should be able to claim a pin with claimPin()', function () {
 
+    $httpBackend.expectPUT('/games/58264fd30b303f2a901899ff/pins/5827662085c81e00ac26e002').respond(201);
+    gameSrvc.claimPin( "58264fd30b303f2a901899ff", "5827662085c81e00ac26e002").then(function(resp){
+      expect(resp.status).to.equal(201)
+    })
+    $httpBackend.flush();
+    });
+    
+    it('should be able to delete a pin with deletePin()', function () {
+
+    $httpBackend.expectDELETE('/games/5827662085c81e00ac26e002/pins/58264fd30b303f2a901899ff').respond(201);
+    gameSrvc.deletePin( "58264fd30b303f2a901899ff", "5827662085c81e00ac26e002").then(function(resp){
+      expect(resp.status).to.equal(201)
+    })
+    $httpBackend.flush();
+    });
+
+    it('should be able to join a pin with joinGame()', function () {
+
+    $httpBackend.expectPUT('/games/58264fd30b303f2a901899ff').respond(201);
+    gameSrvc.joinGame( "58264fd30b303f2a901899ff").then(function(resp){
+    expect(resp.status).to.equal(201)
+    })
+    $httpBackend.flush();
+    });
 
 });
