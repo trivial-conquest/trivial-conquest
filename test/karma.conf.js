@@ -21,22 +21,26 @@ module.exports = function(config) {
       '../www/lib/ngCordova/dist/ng-cordova.js',
       '../www/lib/satellizer/dist/satellizer.js',
       '../www/js/**/*.js',
-      '../templates/*.html',
+      '../www/js/app.js',
+      '../www/templates/*.html',
       'front-end/*.js'
     ],
-
 
     // list of files to exclude
     exclude: [
     ],
 
-
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {
+     preprocessors: {
+      '../www/templates/*.html': ['ng-html2js'],
+      
     },
 
-
+ ngHtml2JsPreprocessor: {
+       stripPrefix: 'C:/Users/cmull/Desktop/Thesis/trivial-conquest/www/',
+        moduleName: "templates"
+      },
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
