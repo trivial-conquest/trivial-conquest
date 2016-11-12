@@ -30,8 +30,11 @@ describe('gameSrvc', function() {
        updatedAt: "2016-11-11T23:10:11.671Z",
        users: ["5820e53a510efd124cee9555"] 
       }
-    $httpBackend.expectPOST('/games').respond(201, mockGame);
-    gameSrvc.createGame()
+    $httpBackend.expectPOST('/games').respond(mockGame);
+    gameSrvc.createGame().then(function(resp){
+      expect(resp.id).to.equal("58264fd30b303f2a901855gg")
+      expect(resp.name).to.equal("started")
+    })
     $httpBackend.flush();
    
   });
@@ -55,10 +58,62 @@ describe('gameSrvc', function() {
        users: ["5820e53a510efd124cee9375", "5820e53a510efd124cee9775"] }, 
       ];
 
-    $httpBackend.expectGET('/games').respond(201, mockResponse);
-   gameSrvc.getAllGames();
+    $httpBackend.expectGET('/games').respond(mockResponse);
+   gameSrvc.getAllGames().then(function(games){
+    expect(games).to.deep.equal(mockResponse)
+   });
     $httpBackend.flush();
    
     });
+
+
+     it('should be able to get all pins for game with getPinsForGame()', function () {
+
+      var mockpins = [{
+       id: "5827662085c81e00ac26e002",
+       formatted_address: "8110 Red Willow Dr, Austin, TX 78736, USA",
+       coordinates: [30.240524, -97.89131499999996], 
+       creator: "5820e53a510efd124cee9375",
+       game:"58264fd30b303f2a901899ff",
+       icon: "https://graph.facebook.com/1844772705756251/picture?type=large",
+       name: "8110 Red Willow Dr",
+       owner: "5820e53a510efd124cee9375" },
+
+       { id: "5827662085c81e00ac26e003",
+       formatted_address: "8000 Red Willow Dr, Austin, TX 78736, USA",
+       coordinates: [30.240524, -97.89131499999996], 
+       creator: "5820e53a510efd124cee9375",
+       game:"58264fd30b303f2a901899ff",
+       icon: "https://graph.facebook.com/1844772705756251/picture?type=large",
+       name: "8000 Red Willow Dr",
+       owner: "5820e53a510efd124cee9375"}
+       ];
+
+    $httpBackend.expectGET('/games/58264fd30b303f2a901899ff/pins').respond(mockpins);
+    gameSrvc.getPinsForGame("58264fd30b303f2a901899ff").then(function(pins){
+      console.log(pins)
+      expect(pins).to.deep.equal(mockpins)
+    })
+    $httpBackend.flush();
+   
+    });
+
+    it('should be able to add a pin with addPin()', function () {
+      var mockpin = {
+      formatted_address: "8110 Red Willow Dr, Austin, TX 78736, USA",
+       coordinates: [30.240524, -97.89131499999996], 
+       geometry: {location: {lat: function(){return 30.240524}, lng: function(){return -97.89131499999996}}},
+       name: "8110 Red Willow Dr" };
+
+    $httpBackend.expectPOST('/games/58264fd30b303f2a901899ff/pins').respond(mockpin);
+    gameSrvc.addPin(mockpin, "58264fd30b303f2a901899ff").then(function(resp){
+      expect(resp.name).to.equal("8110 Red Willow Dr")
+    })
+    $httpBackend.flush();
+   
+    });
+
+    
+
 
 });

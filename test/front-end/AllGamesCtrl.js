@@ -39,6 +39,7 @@ describe('AllGamesCtrl', function() {
     createController();
   }));
 
+
    it('should have a createGame property on the $scope', function () {
     expect($scope.createGame).to.be.a('function');
   });
@@ -81,27 +82,10 @@ describe('AllGamesCtrl', function() {
        users: ["5820e53a510efd124cee9375", "5820e53a510efd124cee9775"] }, 
       ];
 
-    $httpBackend.expectGET('http:/localhost:8080/games').respond(mockResponse);
+    $httpBackend.expectGET('http:/localhost:8080/games').respond(200, mockResponse);
     $scope.getGames();
+   
     });
 
-   it('should be able to get the data of the current user with getCurrentUser()', function () {
-     var mockUser ={
-      _id : "5820e53a510efd124cee9375",
-      updatedAt : "2016-11-07T20:34:02.327Z",
-      createdAt : "2016-11-07T20:34:02.327Z",
-      profilePicture : "https://graph.facebook.com/1844772705756251/picture?type=large",
-      firstName : "Tina", 
-      lastName : "Mull", 
-      email : "cmullenxx@gmail.com", 
-      tokens : [ ], 
-      profiles : { "facebook" : "1844772705756251" }, "__v" : 0 }
-
-    $scope.getCurrentUser()
-    // .then(function(user){
-    //   expect(user).to.equal('mockUser');
-    // })
-
-  });
 
 });

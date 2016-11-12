@@ -56,7 +56,7 @@ angular.module('trivial.gamesrvc', [])
         url: '/games/' + gameId + '/pins',
         authorization: localStorage.getItem('satellizer_token')
       }).then(function(resp){
-        console.log('pins resp', resp)
+        console.log('pins resp', resp.data)
         return resp.data
       })
     },
@@ -88,6 +88,7 @@ angular.module('trivial.gamesrvc', [])
     },
 
     addPin: function(pin, gameId) {
+      console.log('this is the pin body', pin)
       return $http({
         method: 'POST',
         url: '/games/' + gameId + '/pins',
@@ -98,7 +99,7 @@ angular.module('trivial.gamesrvc', [])
           coordinates: [pin.geometry.location.lat(), pin.geometry.location.lng()]
         }
       }).then(function(resp){
-        console.log('server POST pin success')
+        console.log('server POST pin success', resp)
         return resp.data
       }).catch(function(resp){
         console.log(resp)
