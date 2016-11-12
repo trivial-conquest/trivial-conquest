@@ -39,7 +39,6 @@ describe('AllGamesCtrl', function() {
     createController();
   }));
 
-
    it('should have a createGame property on the $scope', function () {
     expect($scope.createGame).to.be.a('function');
   });
@@ -60,7 +59,6 @@ describe('AllGamesCtrl', function() {
       }
     $httpBackend.expectPOST('/games').respond(201, mockGame);
     $scope.createGame();
- 
   });
 
     it('should be able to get all games with getGames()', function () {
@@ -82,7 +80,7 @@ describe('AllGamesCtrl', function() {
        users: ["5820e53a510efd124cee9375", "5820e53a510efd124cee9775"] }, 
       ];
 
-    $httpBackend.expectGET('http:/localhost:8080/games').respond(200, mockResponse);
+    $httpBackend.expectGET('/games').respond(200, mockResponse);
     $scope.getGames();
    
     });

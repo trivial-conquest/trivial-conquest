@@ -91,8 +91,7 @@ describe('gameSrvc', function() {
 
     $httpBackend.expectGET('/games/58264fd30b303f2a901899ff/pins').respond(mockpins);
     gameSrvc.getPinsForGame("58264fd30b303f2a901899ff").then(function(pins){
-      console.log(pins)
-      expect(pins).to.deep.equal(mockpins)
+     expect(pins).to.deep.equal(mockpins)
     })
     $httpBackend.flush();
    
