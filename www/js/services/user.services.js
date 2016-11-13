@@ -30,12 +30,13 @@
       },
       successAuth: function() {
         userData = $auth.getPayload();
-
         $rootScope.$emit('userLoggedIn', {data: userData});
+        return userData;
       },
       failedAuth: function() {
         userData = undefined;
         $rootScope.$emit('userFailedLogin');
+        return userData
       }
     }
   }
