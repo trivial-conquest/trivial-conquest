@@ -7,6 +7,7 @@ var should = chai.should();
 var Game = require("../server/models/game");
 var Pin = require("../server/models/pin");
 
+
 chai.use(chaiHttp);
 
 describe('Games', function () {
@@ -74,6 +75,7 @@ describe('Games', function () {
       });
     });
   });
+
   it('should not allow a logged in user to join a game if there is not space', function (done) {
     new Game({
       name: 'test game name',
@@ -91,6 +93,31 @@ describe('Games', function () {
         })
     })
   })
+
+  it('should not allow a user to join game if they have already joined it', function (done) {
+    new Game({
+      name: "test game name",
+      pins: [],
+      users: ['58221b1deb8543b7ba21e39f']
+    })
+    .save(function(err, game) {
+      if(err) { console.log("Error: ", err) }
+      chai.request(server)  // Sending post request to create game
+      .post('/games/')
+      .set({'authorization': 'test'})
+      .end(function() {
+        chai.request(server) //Sending put request to attempt to join game
+        .put('/games/' + game._id)
+        .set({'authorization': 'test'})
+        .end(function(err, res) {
+          res.body[0].users.length.should.equal(1);
+          done();
+        })
+      })
+
+    })
+  })
+
 });
 
 
@@ -188,4 +215,7 @@ describe('Pins', function () {
       })
     })
   })
+
+
+
 });
