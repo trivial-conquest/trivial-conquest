@@ -7,34 +7,38 @@ module.exports = {
     Pin.find({game : req.params.gameid})
     .then((pins) => {
       var userPins = pins.filter(function(pin){
-        console.log('Token Payload', req.tokenPayload._id)
-        console.log('Pin creator', pin.creator)
-        return pin.creator == req.tokenPayload._id
+        return pin.creator === req.tokenPayload._id
       })
-      console.log(userPins)
       //If the user has created 3 pins already, throw an error
       if(userPins.length >= 3) {
-        console.log('Over pins limit', userPins)
+        console.log('Over pins limit')
         throw new Error('You have already created the maximum number of pins allowed')
       }
-      //Otherwise, add a new pin
-      new Pin({
-        address: req.body.address,
-        name: req.body.name,
-        coordinates: req.body.coordinates,
-        owner: req.tokenPayload._id,
-        creator: req.tokenPayload._id,
-        game: req.params.gameid,
-        icon: req.tokenPayload.profilePicture
-      }).save()
-    })
-    .then((pin) => {
-      console.log('successfully created pin: ', pin)
-      res.send(pin)
-    })
-    .catch((err) => {
-      console.log('ERROR: ', err)
-      res.status(500).send('Pin limit reached')
+      Pin.find({address: req.body.address}).then(repeats => {
+        console.log('REPEATS: ', repeats)
+        if(repeats.length > 0){
+          res.status(500).send('Sorry mate- that pin already exists')
+        } else {
+          //Otherwise, add a new pin
+          new Pin({
+            address: req.body.address,
+            name: req.body.name,
+            coordinates: req.body.coordinates,
+            owner: req.tokenPayload._id,
+            creator: req.tokenPayload._id,
+            game: req.params.gameid,
+            icon: req.tokenPayload.profilePicture
+          }).save()
+          .then((pin) => {
+            console.log('successfully created pin: ', pin)
+            res.send(pin)
+          })
+          .catch((err) => {
+            console.log('ERROR: ', err)
+            res.status(500).send('Pin limit reached')
+          })
+        }
+      })
     })
   },
 
