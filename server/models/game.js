@@ -8,8 +8,15 @@ const gameSchema = new Schema({
   name: { type: String, required: true, index: { unique: true } },
   users: [],
   limit: {type: String},
-  remain: {type: Number}
-}, 
+  remain: {type: Number},
+  scoreboard: [{
+    points: Number,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
+  }]
+},
 {
   timestamps: true
 })

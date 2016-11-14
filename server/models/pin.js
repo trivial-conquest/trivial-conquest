@@ -11,7 +11,8 @@ const pinSchema = new Schema({
   owner: {type: Schema.ObjectId, ref: 'User' },
   creator: {type: Schema.ObjectId, ref: 'User'},
   game: {type: Schema.ObjectId, ref: 'Game' },
-  icon: { type: String}
+  icon: { type: String},
+  points: Number
 })
 
 const Pin      = mongoose.model('Pin', pinSchema)
