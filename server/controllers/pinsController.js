@@ -7,11 +7,14 @@ module.exports = {
     Pin.find({game : req.params.gameid})
     .then((pins) => {
       var userPins = pins.filter(function(pin){
+        console.log('Token Payload', req.tokenPayload._id)
+        console.log('Pin creator', pin.creator)
         return pin.creator == req.tokenPayload._id
       })
+      console.log(userPins)
       //If the user has created 3 pins already, throw an error
       if(userPins.length >= 3) {
-        console.log('Over pins limit')
+        console.log('Over pins limit', userPins)
         throw new Error('You have already created the maximum number of pins allowed')
       }
       //Otherwise, add a new pin
@@ -37,8 +40,8 @@ module.exports = {
 
   deletePin: (req, res) => {
     Pin.find({_id: req.params.pinId}).remove()
-    .then(() => {
-      console.log('removed pin')
+    .then((pin) => {
+      res.send(pin)
       // res.redirect('/')
     })
     .catch((err) => {
@@ -49,7 +52,6 @@ module.exports = {
   getPinsForGame: (req, res) => {
     Pin.find({game : req.params.gameid})
     .then((pins) => {
-      console.log('FOUND PINS', pins)
       res.send(pins)
     })
     .catch((err) =>{
@@ -58,9 +60,9 @@ module.exports = {
   },
 
   updatePinOwner: (req, res) => {
-    Pin.findOneAndUpdate({_id: req.params.pinId}, {owner: req.tokenPayload._id, icon: req.tokenPayload.profilePicture}, function(err, doc){
+    Pin.findOneAndUpdate({_id: req.params.pinId}, {owner: req.tokenPayload._id, icon: req.tokenPayload.profilePicture}, {new: true}, function(err, pin){
         if (err) return res.send(500, { error: err });
-        return res.send("succesfully saved");
+        return res.send(pin);
     });
   }
 };

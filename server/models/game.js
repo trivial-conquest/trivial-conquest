@@ -6,7 +6,7 @@ const Schema = mongoose.Schema
 
 const gameSchema = new Schema({
   name: { type: String, required: true, index: { unique: true } },
-  users: [{type: Schema.ObjectId, ref: 'User'}],
+  users: [],
   limit: {type: String},
   remain: {type: Number}
 }, 

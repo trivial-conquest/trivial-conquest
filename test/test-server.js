@@ -95,12 +95,19 @@ describe('Games', function () {
 
 
 describe('Pins', function () {
-  it('should allow users to create pins, and should be able to get pins for specific game', function (done) {
+  var game;
+  before(function(done){
     new Game({
       name: 'test game name',
       pins: [],
       users: []
-    }).save(function (err, game) {
+    }).save(function (err, testGame) {
+      game = testGame
+      done()
+    })
+  })
+  
+  it('should allow users to create pins, and should be able to get pins for specific game', function (done) {
       chai.request(server) // Sending post request to create a pin for a specific game
       .post('/games/' + game._id + '/pins').set({ 'authorization': 'test' }).send({ address: '123 Testing Ave' }).end();
       chai.request(server) // Sending get request to retrieve all pins for that same game (only the one we added)
@@ -109,7 +116,46 @@ describe('Pins', function () {
         res.body[0].owner.should.equal('58221b1deb8543b7ba21e39f');
         res.body[0].address.should.equal('123 Testing Ave');
         done();
-      });
     });
   });
+
+  it('should show the user as owner after a successful claim', function (done) {
+    new Pin({
+      address: '123 Test Ave.',
+      name: 'test pin',
+      coordinates: [],
+      game: game._id,
+    }).save(function (err, pin){
+      if(err) {
+        console.log(err)
+      }
+      chai.request(server)
+      .put('/games/' + game._id + '/pins/' + pin._id).set({ 'authorization' : 'test'}).end(function (err, res) {
+        res.should.have.status(200);
+        res.body.owner.should.equal('58221b1deb8543b7ba21e39f');
+        done()
+      })
+    })
+  })
+
+  it('should delete a pin successfully', function (done) {
+    Pin.collection.drop()
+    new Pin({
+      address: '124 Test Ave.',
+      name: 'test pin',
+      coordinates: [],
+      game: game._id,
+    }).save(function (err, pin){
+      if(err) {
+        console.log(err)
+      }
+      chai.request(server)
+      .delete('/games/' + game._id + '/pins/' + pin._id).set({'authorization' : 'test'}).end()
+      chai.request(server)
+      .get('/games/' + game._id + '/pins').set({ 'authorization': 'test' }).end(function (err,res){
+        res.body.length.should.equal(0)
+        done()
+      })
+    })
+  })
 });
