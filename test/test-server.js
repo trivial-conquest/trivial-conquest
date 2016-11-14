@@ -37,7 +37,7 @@ describe('Games', function () {
     chai.request(server).post('/games').set({ 'authorization': 'test' }).send({ 'name': 'Testy Johnson', limit: 4 }).end(function (err, res) {
       res.should.have.status(200);
       res.body.name.should.equal('Testy Johnson');
-      res.body.users[0].should.equal('58221b1deb8543b7ba21e39f');
+      res.body.users[0]._id.should.equal('58221b1deb8543b7ba21e39f');
       done();
     });
   });
@@ -69,7 +69,7 @@ describe('Games', function () {
         res.should.have.status(200);
         res.body[0].name.should.equal('test game name');
         res.body[0].remain.should.equal(11);
-        res.body[0].users[0].should.equal('58221b1deb8543b7ba21e39f');
+        res.body[0].users[0]._id.should.equal('58221b1deb8543b7ba21e39f');
         done();
       });
     });
@@ -106,16 +106,20 @@ describe('Pins', function () {
       done()
     })
   })
-  
+
   it('should allow users to create pins, and should be able to get pins for specific game', function (done) {
       chai.request(server) // Sending post request to create a pin for a specific game
-      .post('/games/' + game._id + '/pins').set({ 'authorization': 'test' }).send({ address: '123 Testing Ave' }).end();
-      chai.request(server) // Sending get request to retrieve all pins for that same game (only the one we added)
-      .get('/games/' + game._id + '/pins').set({ 'authorization': 'test' }).end(function (err, res) {
-        res.should.have.status(200);
-        res.body[0].owner.should.equal('58221b1deb8543b7ba21e39f');
-        res.body[0].address.should.equal('123 Testing Ave');
-        done();
+      .post('/games/' + game._id + '/pins')
+      .set({ 'authorization': 'test' })
+      .send({ address: '123 Testing Ave' })
+      .end(function(){
+        chai.request(server) // Sending get request to retrieve all pins for that same game (only the one we added)
+        .get('/games/' + game._id + '/pins').set({ 'authorization': 'test' }).end(function (err, res) {
+          res.should.have.status(200);
+          res.body[0].owner.should.equal('58221b1deb8543b7ba21e39f');
+          res.body[0].address.should.equal('123 Testing Ave');
+          done();
+      });
     });
   });
 
@@ -155,6 +159,32 @@ describe('Pins', function () {
       .get('/games/' + game._id + '/pins').set({ 'authorization': 'test' }).end(function (err,res){
         res.body.length.should.equal(0)
         done()
+      })
+    })
+  })
+
+  it('should not allow a user to add a pin to the same address twice in a game', function (done) {
+    Game.collection.drop();
+    Pin.collection.drop();
+    new Game({
+      name: 'test game name',
+      pins: [],
+      users: []
+    })
+    .save(function(err, game) {
+      chai.request(server) // Sending post request to create a pin for a specific game
+      .post('/games/' + game._id + '/pins')
+      .set({ 'authorization': 'test' })
+      .send({ address: '123 Testing Ave' })
+      .end((err, res1) => {
+        chai.request(server) // Sending post request to create a pin for a specific game
+        .post('/games/' + game._id + '/pins')
+        .set({ 'authorization': 'test' })
+        .send({ address: '123 Testing Ave' })
+        .end((err, res2) => {
+          res2.text.should.equal('Sorry mate- that pin already exists')
+          done()
+        })
       })
     })
   })
