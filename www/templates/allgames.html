@@ -33,7 +33,7 @@
         </div>
       </div>
       <div ng-repeat='game in games' ng-show='!allgames'>
-        <span ng-if='iterateGames(game, user)'>
+        <span ng-if='iterateGameUser(game, user)'>
          <div class="card">
           <div class="item item-text-wrap">
             <a href="#/games/{{game._id}}">
