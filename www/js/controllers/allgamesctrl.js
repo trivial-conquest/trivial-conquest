@@ -16,6 +16,17 @@ angular.module('trivial.allgames', [])
     $scope.allgames = true;
   }
 
+  $scope.iterateGames = function(game, user){
+    console.log('this is the game', game)
+    console.log('this is the user', user)
+    for(var i = 0; i <game.users.length; i++){
+      console.log('this is gameuserslength', game.users.length)
+      if(game.users._id = user._id){
+        return true
+      }
+    }
+  }
+
  $scope.getGames = function(){
     gameSrvc.getAllGames()
     .then(function(games){
