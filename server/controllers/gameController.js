@@ -7,7 +7,7 @@ module.exports = {
     var newGame = new Game ({
       name: req.body.name,
       pins: req.body.pins,
-      users: [req.tokenPayload._id],
+      users: [req.tokenPayload],
       limit: Number(req.body.limit) +1
     })
     newGame.save((err, game) => {
@@ -54,8 +54,9 @@ module.exports = {
     Game.findOne({_id: req.params.gameid}, (err, game) => {
       console.log(game.remain)
       if (game.remain > 0) {
-        console.log('UPDATED SUCCESSFULLY')
-        Game.update({_id: req.params.gameid}, {$inc: {remain: -1}, $addToSet: { users: req.tokenPayload._id } }, (err, game) => {
+        console.log('UPDATED SUCCESSFULLY', req.tokenPayload)
+        //Changed to include all user's info
+        Game.update({_id: req.params.gameid}, {$inc: {remain: -1}, $addToSet: { users: req.tokenPayload } }, (err, game) => {
           next()
         })
       } else {
