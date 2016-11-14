@@ -14,7 +14,7 @@ module.exports = {
         console.log('Over pins limit')
         throw new Error('You have already created the maximum number of pins allowed')
       }
-      Pin.find({address: req.body.address}).then(repeats => {
+      Pin.find({game: req.params.gameid, address: req.body.address}).then(repeats => {
         console.log('REPEATS: ', repeats)
         if(repeats.length > 0){
           res.status(500).send('Sorry mate- that pin already exists')

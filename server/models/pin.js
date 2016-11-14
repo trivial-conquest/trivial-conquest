@@ -5,7 +5,7 @@ const User     = require('./user')
 const Schema = mongoose.Schema
 
 const pinSchema = new Schema({
-  address: { type: String, required: true, unique: true },
+  address: { type: String, required: true},
   name: { type: String },
   coordinates: [],
   owner: {type: Schema.ObjectId, ref: 'User' },
