@@ -77,7 +77,7 @@ angular.module('trivial.gamesrvc', [])
       })
     },
 
-    claimPin: function(gameId,pinId) {
+    claimPin: function(gameId,pinId,winnerId,loserId) {
       console.log('claimPin called')
       return $http({
         method: 'PUT',
