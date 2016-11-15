@@ -69,10 +69,8 @@ describe('Games', function () {
       users: [],
       remain: 12
     }).save(function (err, game) {
-      console.log('NOW WERE ROCKIN: ', JSON.stringify(game))
       chai.request(server).put('/games/' + game._id).set({ 'authorization': 'test' }).end(function (err, res) {
         res.should.have.status(200);
-              console.log('NOW WERE ROCKIN: ', JSON.stringify(res.body))
         res.body[0].scoreboard[0].user.should.equal('58221b1deb8543b7ba21e39f')
         res.body[0].scoreboard[0].points.should.equal(100)
         res.body[0].name.should.equal('test game name');
