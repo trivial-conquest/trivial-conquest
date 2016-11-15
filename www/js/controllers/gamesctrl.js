@@ -202,6 +202,8 @@ angular.module('trivial.games', [])
         gameSrvc.addPin(pinToAdd, currentGameID, $scope.onegame.points)
         .then(function(pin) {
           console.log('this is pin', pin)
+          $scope.onegame.points = null
+          $scope.onegame.search = null
           gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
           .then(function(response){
             pins = response;
