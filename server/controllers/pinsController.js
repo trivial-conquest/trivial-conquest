@@ -94,5 +94,31 @@ module.exports = {
         res.send('Sorry mate- this pin does not have that many points')
       }
     })
+  },
+
+  deposit: (req, res) => {
+    var sufficientFunds = false
+    Game.findOne({_id: req.params.gameid}, (err, game) => {
+      game.scoreboard.forEach(score => {
+        if(score.user == req.tokenPayload._id) {
+          if(score.points >= req.body.points) { // if user has as many points as they are trying to deposit
+            score.points -= req.body.points // deduct that many points from that user
+            sufficientFunds = true
+          }
+        }
+      })
+      if(sufficientFunds) {
+        game.save().then(() => {  // save the game
+          Pin.findOne({_id: req.params.pinId}, (err, pin) => {
+            pin.points += req.body.points
+            pin.save().then(() => {
+              res.send(pin)
+            })
+          })
+        })
+      } else {
+        res.send('Sorry mate- insufficient funds')
+      }
+    })
   }
 };
