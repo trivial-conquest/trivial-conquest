@@ -4,6 +4,7 @@ angular.module('trivial.gamesrvc', [])
   return {
 
     createGame: function(name, limit) {
+      if(limit !==0){
       return $http({
         method: 'POST',
         url: '/games',
@@ -15,6 +16,7 @@ angular.module('trivial.gamesrvc', [])
       }).catch(function(resp){
         console.log('this game creation didnt work', resp)
       })
+    }
     },
 
     getAllGames: function () {

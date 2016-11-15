@@ -102,11 +102,13 @@ describe('gameSrvc', function() {
       formatted_address: "8110 Red Willow Dr, Austin, TX 78736, USA",
        coordinates: [30.240524, -97.89131499999996], 
        geometry: {location: {lat: function(){return 30.240524}, lng: function(){return -97.89131499999996}}},
-       name: "8110 Red Willow Dr" };
+       name: "8110 Red Willow Dr",
+       points: 50 };
 
     $httpBackend.expectPOST('/games/58264fd30b303f2a901899ff/pins').respond(mockpin);
-    gameSrvc.addPin(mockpin, "58264fd30b303f2a901899ff").then(function(resp){
+    gameSrvc.addPin(mockpin, "58264fd30b303f2a901899ff", 50).then(function(resp){
       expect(resp.name).to.equal("8110 Red Willow Dr")
+      expect(resp.points).to.equal(50)
     })
     $httpBackend.flush();
     });
