@@ -198,7 +198,8 @@ describe('Pins', function () {
     new Game({
       name: 'test game name',
       pins: [],
-      users: []
+      users: [],
+      remain: 12
     })
     .save(function(err, game) {
       chai.request(server) // Sending post request to create a pin for a specific game
