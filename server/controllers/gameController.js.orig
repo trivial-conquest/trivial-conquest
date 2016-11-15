@@ -41,26 +41,34 @@ module.exports = {
       }
     })
   },
-<<<<<<< 4b5c72302ec97fd8879014caa72dc8fcd8a2511b
 //Gets a specific game
   getOneGame: (req, res, next) => {
-=======
-//Get a player's points for a given game
-  getPlayerPoints: (req, res, next) => {
->>>>>>> Working on game logic, front end
     Game.find({_id: req.params.gameid}, (err, game) => {
       if (err) {
         console.log(`Error in finding game: ${err}`);
         res.send(err);
       } else {
-        var userStats = game.scoreboard.filter(function(board){
-          return board.user === req.tokenPayload._id
-        })
-        res.send(userStats.points);
+        res.send(game);
       }
     })
   },
 
+//Gets a players current point total for a game
+  getPlayerPoints: (req, res, next) => {
+    Game.find({_id: req.params.gameid}, (err, game) => {
+      if (err) {
+        console.log(`Error in getting points: ${err}`);
+        res.send(err);
+      } else {
+        var userStats = game.scoreboard.filter(function(board){
+          return board.user === req.tokenPayload._id
+        })
+        res.send(userStats);
+      }
+    })
+  },
+
+<<<<<<< 8af2d05cdee5c3f13fcea09c1f640654f20754b7
 //Gets a players current point total for a game
   getPlayerPoints: (req, res, next) => {
     Game.find({_id: req.params.gameid}, (err, game) => {
@@ -79,6 +87,8 @@ module.exports = {
     })
   },
 
+=======
+>>>>>>> Added new route for getting players points in a game
 //Allows a user to join a game
   joinGame: (req, res, next) => {
     Game.findOne({_id: req.params.gameid}, (err, game) => {
