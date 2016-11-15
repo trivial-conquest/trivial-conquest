@@ -93,16 +93,22 @@ angular.module('trivial.gamesrvc', [])
     },
 
     addPin: function(pin, gameId, points) {
+      var pinId;
       console.log('this is the pin body', pin, points)
       return $http({
         method: 'POST',
         url: '/games/' + gameId + '/pins',
-        authorization: localStorage.getItem('satellizer_token')
-        // data: {
-        //   points: points
-        // }
+        authorization: localStorage.getItem('satellizer_token'),
+        data: {
+          address: pin.formatted_address,
+          name: pin.name,
+          coordinates: [pin.geometry.location.lat(), pin.geometry.location.lng()],
+          points: 0
+        }
       }).then(function(resp){
-        console.log('server POST pin success', resp)
+        console.log('server POST pin success resp for pinId', resp)
+        pinId = resp.data._id
+        console.log(pinId)
         return resp.data
       }).then(function() {
         return $http({
@@ -113,7 +119,7 @@ angular.module('trivial.gamesrvc', [])
             points: points
           }
         }).then(function(resp) {
-          console.log('points deposited on creation');
+          console.log('points deposited on creation', resp);
           return resp;
         }).catch(function(err) {
           console.log('points deposit on creation ERR', err)
