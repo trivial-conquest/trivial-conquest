@@ -188,6 +188,7 @@ angular.module('trivial.games', [])
           gameSrvc.getPlayerPoints(closest.game)
           .then(function(gameRes){
             //gameRes gives you the amount of points the user has in this game
+            console.log('player points game',gameRes)
             var pinPoints = closest.points
             var userPoints = gameRes.points
             var outcome = (Math.random() * (pinPoints + userPoints))
