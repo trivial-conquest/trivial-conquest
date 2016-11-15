@@ -1,0 +1,27 @@
+const express = require('express')
+const router = require('express').Router();
+const games = require('../controllers/gameController')
+const pins = require('../controllers/pinsController')
+
+
+
+//returns all games
+router.get('/', games.getAllGames)
+router.post('/', games.createGame)
+<<<<<<< 4b5c72302ec97fd8879014caa72dc8fcd8a2511b
+router.get('/:gameid', games.getOneGame)
+router.get('/:gameid/points', games.getPlayerPoints)
+=======
+router.get('/:gameid', games.getPlayerPoints)
+>>>>>>> Working on game logic, front end
+router.put('/:gameid', games.joinGame, games.getOneGame)
+
+router.post('/:gameid/pins', pins.createNewPin)
+router.delete('/:gameid/pins/:pinId', pins.deletePin)
+router.put('/:gameid/pins/:pinId', pins.updatePinOwner)
+router.put('/:gameid/pins/:pinId/withdrawal', pins.withdrawal)
+router.put('/:gameid/pins/:pinId/deposit', pins.deposit)
+router.put('/:gameid/pins/:pinId/settleDispute', pins.settleDispute)
+router.get('/:gameid/pins', pins.getPinsForGame)
+
+module.exports = router;

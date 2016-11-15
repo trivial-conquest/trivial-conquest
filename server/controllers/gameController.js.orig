@@ -41,8 +41,13 @@ module.exports = {
       }
     })
   },
+<<<<<<< 4b5c72302ec97fd8879014caa72dc8fcd8a2511b
+//Gets a specific game
+  getOneGame: (req, res, next) => {
+=======
 //Get a player's points for a given game
   getPlayerPoints: (req, res, next) => {
+>>>>>>> Working on game logic, front end
     Game.find({_id: req.params.gameid}, (err, game) => {
       if (err) {
         console.log(`Error in finding game: ${err}`);
@@ -77,22 +82,14 @@ module.exports = {
 //Allows a user to join a game
   joinGame: (req, res, next) => {
     Game.findOne({_id: req.params.gameid}, (err, game) => {
-      var alreadyJoined = false;
-      game.users.forEach((user) => {
-        if(user._id == req.tokenPayload._id) alreadyJoined = true;
-      })
-      if(!alreadyJoined) {
-        if (game.remain > 0) {
-          Game.update({_id: req.params.gameid},
-            {$inc: {remain: -1}, $addToSet: { users: req.tokenPayload, "scoreboard": {user: req.tokenPayload._id}}}, (err, mod) => {
-              next()
-            })
-        } else {
-          console.log('SORRY MATE: GAME IS FULL')
+      if (game.remain > 0) {
+        Game.update({_id: req.params.gameid},
+          {$inc: {remain: -1}, $addToSet: { users: req.tokenPayload, "scoreboard": {user: req.tokenPayload._id}}}, (err, mod) => {
           next()
-        }
+        })
       } else {
-        res.send('You already joined this game')
+        console.log('SORRY MATE: GAME IS FULL')
+        next()
       }
     })
 
