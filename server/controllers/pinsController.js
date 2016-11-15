@@ -121,5 +121,34 @@ module.exports = {
         res.send('Sorry mate- insufficient funds')
       }
     })
+  },
+
+  settleDispute: (req, res) => {
+    Pin.findOne({_id: req.params.pinId}, (err, pin) => {
+      if(err) res.send(err)
+      if(pin.owner == req.body.loser) { // IF THE OWNER OF THE PIN LOSES
+        pin.owner = req.body.winner     // THE WINNER NOW OWNS THAT PIN
+        pin.save().then(() => {
+          res.send(pin)
+        })
+      } else { // IF THE CHALLENGER LOSES
+        Game.findOne({_id: req.params.gameid}, (err, game) => {
+          if(err) res.send(err)
+          var amountToBeAddedToPin;
+          game.scoreboard.forEach((score) => {
+            if(score.user == req.body.loser){
+              amountToBeAddedToPin = score.points
+              score.points = 0  // REDUCE LOSER'S POINTS TO NOTHING!
+            }
+          })
+          game.save().then(() => {
+            pin.points += amountToBeAddedToPin // TRANSFER ALL OF THE CHALLENGER'S POINTS TO THE WINNER'S PIN
+            pin.save().then(() => {
+              res.send(pin)
+            })
+          })
+        })
+      }
+    })
   }
 };
