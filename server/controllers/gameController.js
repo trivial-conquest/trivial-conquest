@@ -41,11 +41,23 @@ module.exports = {
       }
     })
   },
-//Get a player's points for a given game
-  getPlayerPoints: (req, res, next) => {
+//Gets a specific game
+  getOneGame: (req, res, next) => {
     Game.find({_id: req.params.gameid}, (err, game) => {
       if (err) {
         console.log(`Error in finding game: ${err}`);
+        res.send(err);
+      } else {
+        res.send(game);
+      }
+    })
+  },
+
+//Gets a players current point total for a game
+  getPlayerPoints: (req, res, next) => {
+    Game.find({_id: req.params.gameid}, (err, game) => {
+      if (err) {
+        console.log(`Error in getting points: ${err}`);
         res.send(err);
       } else {
         var userStats = game.scoreboard.filter(function(board){
@@ -56,6 +68,7 @@ module.exports = {
     })
   },
 
+//Allows a user to join a game
   joinGame: (req, res, next) => {
     Game.findOne({_id: req.params.gameid}, (err, game) => {
       if (game.remain > 0) {

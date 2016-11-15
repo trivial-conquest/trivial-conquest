@@ -31,7 +31,18 @@ angular.module('trivial.gamesrvc', [])
       })
     },
 
-    getPlayerPoints: function (gameId) {
+    getPlayerPoints: function () {
+      return $http({
+        method: 'GET',
+        authorization: localStorage.getItem('satellizer_token'),
+        url: '/games/:gameid/points'
+      }).then(function(resp){
+        console.log(resp.data)
+        return resp.data
+      })
+    },
+
+    getOneGame: function (gameId) {
        return $http({
           method: 'GET',
           authorization: localStorage.getItem('satellizer_token'),
