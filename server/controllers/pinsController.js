@@ -1,5 +1,6 @@
 const db = require('../models/config')
 const Pin = require('../models/pin')
+const Game = require('../models/game')
 
 module.exports = {
   createNewPin: (req, res) => {
@@ -22,6 +23,7 @@ module.exports = {
           new Pin({
             address: req.body.address,
             name: req.body.name,
+            points: req.body.points,
             coordinates: req.body.coordinates,
             owner: req.tokenPayload._id,
             creator: req.tokenPayload._id,
@@ -67,5 +69,28 @@ module.exports = {
         if (err) return res.send(500, { error: err });
         return res.send(pin);
     });
+  },
+
+  withdrawal: (req, res) => {
+    Pin.findOne({_id: req.params.pinId}, (err, pin) => {
+      if(pin.points > req.body.points) {
+        var newPointAmount = pin.points - req.body.points;
+        pin.points = newPointAmount
+        pin.save().then(() => {
+          console.log("This pin's points are now: ", pin.points)
+          Game.findOne({_id: req.params.gameid}, (err, game) => {
+            game.scoreboard.forEach(score => {
+              if(score.user == req.tokenPayload._id) {
+                score.points += req.body.points
+              }
+            })
+            game.save().then(() => {
+              console.log(req.tokenPayload.firstName + " has withdrawn " + req.body.points.toString())
+              res.send(game)
+            })
+          })
+        })
+      }
+    })
   }
 };
