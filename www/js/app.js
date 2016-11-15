@@ -50,7 +50,7 @@ angular.module('trivial', ['ionic', 'trivial.login', 'trivial.games', 'trivial.a
     url: '/games/:gameId',
     cache: false,
     templateUrl: 'templates/games.html',
-    controller: 'GamesCtrl'
+    controller: 'GamesCtrl as onegame'
   })
 
   // if none of the above states are matched, use this as the fallback
