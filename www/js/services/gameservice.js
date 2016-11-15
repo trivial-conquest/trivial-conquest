@@ -97,13 +97,27 @@ angular.module('trivial.gamesrvc', [])
       return $http({
         method: 'POST',
         url: '/games/' + gameId + '/pins',
-        authorization: localStorage.getItem('satellizer_token'),
-        data: {
-          points: points
-        }
+        authorization: localStorage.getItem('satellizer_token')
+        // data: {
+        //   points: points
+        // }
       }).then(function(resp){
         console.log('server POST pin success', resp)
         return resp.data
+      }).then(function() {
+        return $http({
+          method: 'PUT',
+          url: '/games/' + gameId + '/pins/' + pinId + '/deposit',
+          authorization: localStorage.getItem('satellizer_token'),
+          data: {
+            points: points
+          }
+        }).then(function(resp) {
+          console.log('points deposited on creation');
+          return resp;
+        }).catch(function(err) {
+          console.log('points deposit on creation ERR', err)
+        })
       }).catch(function(err){
         console.log('response when over pin limit', err)
         alert('Pin not added, stop being greedy!!')
