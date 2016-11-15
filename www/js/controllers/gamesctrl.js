@@ -35,7 +35,7 @@ angular.module('trivial.games', [])
        var pointInput = document.getElementById('points');
           var div = document.createElement('div');
           pointInput.appendChild(div);
-        
+
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(pointInput)
 
       var pinButton = document.getElementById('pinbtn');
@@ -185,6 +185,16 @@ angular.module('trivial.games', [])
         alert('Sorry, too far')
       }
 
+    //This function checks user location to determine button rendering
+    $scope.checkLocation = function() {
+      var myCoords = {lat: position.coords.latitude, lng: position.coords.longitude}
+      var closePins = pins.filter(function(pin){
+          return (Math.abs(myCoords.lat - pin.coordinates[0]) < .003 && Math.abs(myCoords.lng - pin.coordinates[1]) < .003)
+        })
+      if(closePins.length) {
+        return true
+      } else return false
+    }
 
     $scope.joinGame = function() {
       console.log('this is joingame', currentGameID)
@@ -225,7 +235,7 @@ angular.module('trivial.games', [])
         .then(function(response){
           pinToDelete = response[response.length - 1]
           gameSrvc.deletePin(pinToDelete._id, currentGameID)
-          
+
           gameSrvc.getPinsForGame(currentGameID)
           .then(function(response){
             pins = response
@@ -246,7 +256,7 @@ angular.module('trivial.games', [])
     .catch(function(error){
     console.log("Could not get location", error);
 
-  });
+    });
 
 }]);
 
