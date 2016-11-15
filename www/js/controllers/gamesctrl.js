@@ -148,7 +148,6 @@ angular.module('trivial.games', [])
 
       var scoreRedirect = function(){
         $scope.scoreUrl = {url: "#/games/" + currentGameID + "/score"}
-        console.log("this is in scorered",  $scope.scoreUrl)
         return  $scope.scoreUrl
       }
 
