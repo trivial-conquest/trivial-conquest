@@ -28,12 +28,12 @@
                 {{game.name}} 
             </a>
             <p>{{game.remain}} out of {{game.limit}} spots remaining</p>
-            <p><img ng-repeat='user in users' src={{user.profilePicture}} height='30' width = '30'></p>
+            <p><img ng-repeat='user in users' ng-src={{user.profilePicture}} height='30' width = '30'></p>
           </div>
         </div>
       </div>
       <div ng-repeat='game in games' ng-show='!allgames'>
-        <span ng-if='game.users.indexOf(user._id) != -1'>
+        <span ng-if='iterateGameUser(game, user)'>
          <div class="card">
           <div class="item item-text-wrap">
             <a href="#/games/{{game._id}}">

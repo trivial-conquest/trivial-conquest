@@ -19,7 +19,7 @@ describe('UI ROUTER', function () {
     var state = $state.get('games');
     assert.isDefined(state.templateUrl);
     expect(state.templateUrl).to.equal('templates/games.html');
-    expect(state.controller).to.equal('GamesCtrl');
+    expect(state.controller).to.equal('GamesCtrl as onegame');
   });
 
    it('should load the login page.', function() {

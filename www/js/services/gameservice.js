@@ -90,8 +90,8 @@ angular.module('trivial.gamesrvc', [])
       })
     },
 
-    addPin: function(pin, gameId) {
-      console.log('this is the pin body', pin)
+    addPin: function(pin, gameId, points) {
+      console.log('this is the pin body', pin, points)
       return $http({
         method: 'POST',
         url: '/games/' + gameId + '/pins',
@@ -99,7 +99,8 @@ angular.module('trivial.gamesrvc', [])
         data: {
           address: pin.formatted_address,
           name: pin.name,
-          coordinates: [pin.geometry.location.lat(), pin.geometry.location.lng()]
+          coordinates: [pin.geometry.location.lat(), pin.geometry.location.lng()], 
+          points: points
         }
       }).then(function(resp){
         console.log('server POST pin success', resp)
