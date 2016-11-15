@@ -38,6 +38,9 @@ describe('Games', function () {
     chai.request(server).post('/games').set({ 'authorization': 'test' }).send({ 'name': 'Testy Johnson', limit: 4 }).end(function (err, res) {
       res.should.have.status(200);
       res.body.name.should.equal('Testy Johnson');
+      console.log('res.body: ', res.body)
+      res.body.scoreboard[0].points.should.equal(100)
+      res.body.scoreboard[0].user.should.equal('58221b1deb8543b7ba21e39f')
       res.body.users[0]._id.should.equal('58221b1deb8543b7ba21e39f');
       done();
     });
@@ -68,6 +71,8 @@ describe('Games', function () {
     }).save(function (err, game) {
       chai.request(server).put('/games/' + game._id).set({ 'authorization': 'test' }).end(function (err, res) {
         res.should.have.status(200);
+        res.body[0].scoreboard[0].user.should.equal('58221b1deb8543b7ba21e39f')
+        res.body[0].scoreboard[0].points.should.equal(100)
         res.body[0].name.should.equal('test game name');
         res.body[0].remain.should.equal(11);
         res.body[0].users[0]._id.should.equal('58221b1deb8543b7ba21e39f');
