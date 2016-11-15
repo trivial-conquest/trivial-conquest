@@ -41,14 +41,17 @@ module.exports = {
       }
     })
   },
-//Get one game from the db
-  getOneGame: (req, res, next) => {
+//Get a player's points for a given game
+  getPlayerPoints: (req, res, next) => {
     Game.find({_id: req.params.gameid}, (err, game) => {
       if (err) {
         console.log(`Error in finding game: ${err}`);
         res.send(err);
       } else {
-        res.send(game);
+        var userStats = game.scoreboard.filter(function(board){
+          return board.user === req.tokenPayload._id
+        })
+        res.send(userStats.points);
       }
     })
   },

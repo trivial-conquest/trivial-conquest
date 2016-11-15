@@ -185,6 +185,15 @@ angular.module('trivial.games', [])
               return min
             }
           })
+          gameSrvc.getOneGame(closest.game)
+          .then(function(gameRes){
+            var pinPoints = closest.points
+            var userPoints = gameRes
+            var outcome = (Math.random() * (pinPoints + userPoints))
+            if(outcome < userPoints) {
+              
+            }
+          })
           gameSrvc.claimPin(closest.game, closest._id)
           alert('You claimed a pin at latitude ' + closest.coordinates[0] + ' and longitude ' + closest.coordinates[1] )
           return

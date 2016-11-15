@@ -31,17 +31,16 @@ angular.module('trivial.gamesrvc', [])
       })
     },
 
-    // This function doesnt seem to be used so is a candidate for deletion
-    // getOneGame: function (gameId) {
-    //    return $http({
-    //       method: 'GET',
-    //       authorization: localStorage.getItem('satellizer_token'),
-    //       url: 'games/:gameid'
-    //     }).then(function(resp) {
-    //       console.log(resp.data)
-    //       return resp.data;
-    //     })
-    //   },
+    getPlayerPoints: function (gameId) {
+       return $http({
+          method: 'GET',
+          authorization: localStorage.getItem('satellizer_token'),
+          url: 'games/:gameid'
+        }).then(function(resp) {
+          console.log(resp.data)
+          return resp.data;
+        })
+      },
 
     getQuestion: function() {
       return $http({
