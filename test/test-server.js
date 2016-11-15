@@ -281,7 +281,8 @@ describe('Pins', function () {
       })
     })
   })
-  it('should not allow a user to withdrawal from a pin if it does not have that many points', function (done) {
+
+  it('should allow a user to deposit to a pin they have enough points', function (done) {
     new Game({
       name: 'test game name',
       pins: [],
@@ -296,14 +297,47 @@ describe('Pins', function () {
         chai.request(server) // Sending post request to create a pin for a specific game
         .post('/games/' + game._id + '/pins')
         .set({ 'authorization': 'test' })
-        .send({ address: '123 Testing Ave', points: 25 })
+        .send({ address: '123 Testing Ave', points: 10 })
         .end((err, pin) => {
           chai.request(server)
-          .put('/games/' + game._id + '/pins/' + pin.body._id + '/withdrawal')
+          .put('/games/' + game._id + '/pins/' + pin.body._id + '/deposit')
           .set({ 'authorization': 'test' })
           .send({ points: 30 })
           .end((err, res) => {
-            res.text.should.equal('Sorry mate- this pin does not have that many points')
+            res.body.points.should.equal(40) // Test that points were added to pin
+            Game.findOne({_id: res.body.game}, (err, game) => {
+              game.scoreboard[0].points.should.equal(70) // Test that points were deducted from user
+              done()
+            })
+          })
+        })
+      })
+    })
+  })
+
+  it('should not allow a user to deposit to a pin if they do not have enough points', function (done) {
+    new Game({
+      name: 'test game name',
+      pins: [],
+      users: [],
+      remain: 12
+    })
+    .save(function(err, game) {
+      chai.request(server)
+      .put('/games/' + game._id)
+      .set({ 'authorization': 'test' })
+      .end(function () {
+        chai.request(server) // Sending post request to create a pin for a specific game
+        .post('/games/' + game._id + '/pins')
+        .set({ 'authorization': 'test' })
+        .send({ address: '123 Testing Ave', points: 10 })
+        .end((err, pin) => {
+          chai.request(server)
+          .put('/games/' + game._id + '/pins/' + pin.body._id + '/deposit')
+          .set({ 'authorization': 'test' })
+          .send({ points: 101 })
+          .end((err, res) => {
+            res.text.should.equal('Sorry mate- insufficient funds')
             done()
           })
         })
