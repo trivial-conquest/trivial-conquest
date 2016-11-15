@@ -8,6 +8,10 @@ module.exports = {
       name: req.body.name,
       pins: req.body.pins,
       users: [req.tokenPayload],
+      scoreboard: [{
+          points: 100,
+          user: req.tokenPayload._id
+      }],
       limit: Number(req.body.limit) +1
     })
     newGame.save((err, game) => {
