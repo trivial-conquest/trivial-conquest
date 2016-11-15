@@ -41,8 +41,8 @@ module.exports = {
       }
     })
   },
-//Get a player's points for a given game
-  getPlayerPoints: (req, res, next) => {
+//Gets a specific game
+  getOneGame: (req, res, next) => {
     Game.find({_id: req.params.gameid}, (err, game) => {
       if (err) {
         console.log(`Error in finding game: ${err}`);
