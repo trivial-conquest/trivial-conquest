@@ -12,7 +12,9 @@
     height: 32px;
     outline: none;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    display: inline-block;
   }
+
 
   #pac-input {
     background-color: #fff;
@@ -23,10 +25,44 @@
     padding: 0 11px 0 13px;
     text-overflow: ellipsis;
     width: 300px;
+    display: inline-block;
   }
+
+  #points {
+    background-color: #fff;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: 12px;
+    padding: 0 11px 0 13px;
+    text-overflow: ellipsis;
+    width: 100px;
+    display: inline-block;
+  }
+
+  #pinbtn {
+     background-color: #fff;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: 12px;
+    padding: 0 11px 0 13px;
+    text-overflow: ellipsis;
+    width: 150px;
+    display: inline-block;
+  }
+
 
   #pac-input:focus {
     border-color: #4d90fe;
+  }
+
+  #points:focus {
+     border-color: #4d90fe;
+  }
+
+  #pinbtn:focus {
+     border-color: #4d90fe;
   }
 
   .pac-container {
@@ -63,16 +99,19 @@
     <div>
       <button class="button button-calm" ng-click="claimPin()">Claim Location</button>
     </div>
-    <div>
+    <!-- <div>
       <button class="button button-calm" ng-click="addPin()">Add Pin</button>
-    </div>
+    </div> -->
     <div >
       <button class="button button-calm" ng-click="deletePin()">Delete Last Pin</button>
     </div>   
 
 </div>
 	<ion-content>
-  <input id="pac-input" class="controls" type="text" onfocus="{this.value=''}" placeholder="search for address or name">
+   <input id="pac-input" class="controls" type="text" onfocus="{this.value=''}" placeholder="search for address or name" ng-model="onegame.search"></input>
+  <input id="points" class="controls" type="text" onfocus="{this.value=''}" placeholder="Set Value" ng-model="onegame.points"></input>
+   <button id="pinbtn" class="controls" ng-click="addPin()">Add Pin</button>
+
 		<div id="map" data-tap-disabled="true"></div>
     </div>
 	</ion-content>

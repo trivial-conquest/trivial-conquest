@@ -55,7 +55,7 @@ describe('AllGamesCtrl', function() {
        name: "started",
        remain:2,
        updatedAt: "2016-11-11T23:10:11.671Z",
-       users: ["5820e53a510efd124cee9555"] 
+       users: [{_id: "5820e53a510efd124cee9375", firstName: 'Tina', lastName:'Mull'}] 
       }
     $httpBackend.expectPOST('/games').respond(201, mockGame);
     $scope.createGame();
@@ -77,13 +77,44 @@ describe('AllGamesCtrl', function() {
        name: "test",
        remain:3,
        updatedAt: "2016-11-11T23:10:11.671Z",
-       users: ["5820e53a510efd124cee9375", "5820e53a510efd124cee9775"] }, 
+       users: [{_id: "5820e53a510efd124cee9375", firstName: 'Tina', lastName:'Mull'}, {_id: "5820e53a510efd124cee9777", firstName: 'Oscar', lastName:'Lew'}] 
+      }, 
       ];
 
     $httpBackend.expectGET('/games').respond(200, mockResponse);
     $scope.getGames();
-   
     });
+
+ it('should be able to show games the user is playing in $scope.iterateGameUser', function () {
+
+  var gameMock = {id: "58264fd30b303f2a901988ff",
+   createdAt:"2016-11-11T23:10:11.663Z",
+   limit: 5, 
+   name: "test",
+   remain:3,
+   updatedAt: "2016-11-11T23:10:11.671Z",
+   users: [{_id: "5820e53a510efd124cee9375", firstName: 'Tina', lastName:'Mull'}, {_id: "5820e53a510efd124cee9777", firstName: 'Oscar', lastName:'Lew'}] 
+  } 
+
+  var userMock ={_id: "5820e53a510efd124cee9375", firstName: 'Tina', lastName:'Mull'}
+   expect($scope.iterateGameUser(gameMock, userMock)).to.equal(true); 
+  });
+   
+ it('should be able to not show games the user is not playing in with $scope.iterateGameUser', function () {
+
+  var gameMock = {id: "58264fd30b303f2a901988ff",
+   createdAt:"2016-11-11T23:10:11.663Z",
+   limit: 5, 
+   name: "test",
+   remain:3,
+   updatedAt: "2016-11-11T23:10:11.671Z",
+   users: [{_id: "5820e53a510efd124cee9375", firstName: 'Tina', lastName:'Mull'}, {_id: "5820e53a510efd124cee9777", firstName: 'Oscar', lastName:'Lew'}] 
+  } 
+
+  var userMock ={_id: "5820e53a510efd124cee9555", firstName: 'Ash', lastName:'Nan'}
+   expect($scope.iterateGameUser(gameMock, userMock)).to.equal(false); 
+  });
+
 
 
 });

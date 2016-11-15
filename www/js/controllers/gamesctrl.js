@@ -32,6 +32,18 @@ angular.module('trivial.games', [])
         searchBox.setBounds(map.getBounds());
       });
 
+       var pointInput = document.getElementById('points');
+          var div = document.createElement('div');
+          pointInput.appendChild(div);
+        
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(pointInput)
+
+      var pinButton = document.getElementById('pinbtn');
+        var pindiv = document.createElement('div');
+        pointInput.appendChild(div)
+
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(pinButton)
+
       var markers = [];
         // Listen for the event fired when the user selects a prediction and retrieve
         // more details for that place.
@@ -186,8 +198,12 @@ angular.module('trivial.games', [])
     }
 
       $scope.addPin = function() {
-        gameSrvc.addPin(pinToAdd, currentGameID)
+        console.log('these are the points for the pin', $scope.onegame.points)
+        gameSrvc.addPin(pinToAdd, currentGameID, $scope.onegame.points)
         .then(function(pin) {
+          console.log('this is pin', pin)
+          $scope.onegame.points = null
+          $scope.onegame.search = null
           gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
           .then(function(response){
             pins = response;

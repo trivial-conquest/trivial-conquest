@@ -30,7 +30,7 @@ angular.module('trivial', ['ionic', 'trivial.login', 'trivial.games', 'trivial.a
      // commonConfig.redirectUri = 'https://intense-journey-25938.herokuapp.com/auth/facebook';
   }
   $authProvider.facebook(angular.extend({}, commonConfig, {
-  clientId: '137143283427760',
+  clientId: '535661349967737',
   url: 'http://localhost:8080/auth/facebook'
   // url: 'https://intense-journey-25938.herokuapp.com/auth/facebook'
   }));
@@ -50,7 +50,7 @@ angular.module('trivial', ['ionic', 'trivial.login', 'trivial.games', 'trivial.a
     url: '/games/:gameId',
     cache: false,
     templateUrl: 'templates/games.html',
-    controller: 'GamesCtrl'
+    controller: 'GamesCtrl as onegame'
   })
 
   // if none of the above states are matched, use this as the fallback
