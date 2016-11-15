@@ -1,0 +1,17 @@
+<ion-modal-view>  
+  <ion-header-bar>
+    <h1 class="title">ScoreBoard</h1>
+    <div class="buttons">
+    <a class="button button-calm" ng-href="{{goBack.url}}">Close</a>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+  <div class="list">
+    <a class="item item-avatar" href="#" ng-repeat="user in users">
+      <img ng-src="{{user.profilePicture}}">
+      <h2>{{user.firstName}} {{user.lastName}}</h2>
+      <p>{{user.points}}</p>
+    </a>
+  </div>
+  </ion-content>
+</ion-modal-view>

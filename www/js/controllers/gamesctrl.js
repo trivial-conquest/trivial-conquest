@@ -146,6 +146,14 @@ angular.module('trivial.games', [])
 
       var currentGameID = getCurrentGameID();
 
+      var scoreRedirect = function(){
+        $scope.scoreUrl = {url: "#/games/" + currentGameID + "/score"}
+        console.log("this is in scorered",  $scope.scoreUrl)
+        return  $scope.scoreUrl
+      }
+
+      scoreRedirect()
+
       gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
       .then(function(response){
         pins = response
