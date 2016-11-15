@@ -226,7 +226,6 @@ angular.module('trivial.games', [])
             pins = response;
             map.setCenter(originalCenter)
             map.setZoom(15)
-            console.log('GPFGR', response)
             drop(pins) //Placing pins on the map from the game we are currently in
           })
         })

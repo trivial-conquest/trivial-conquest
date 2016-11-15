@@ -103,6 +103,7 @@ module.exports = {
         if(score.user == req.tokenPayload._id) {
           if(score.points >= req.body.points) { // if user has as many points as they are trying to deposit
             score.points -= req.body.points // deduct that many points from that user
+            console.log('score points')
             sufficientFunds = true
           }
         }
