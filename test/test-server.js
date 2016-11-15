@@ -6,6 +6,7 @@ var server = require('../server/server');
 var should = chai.should();
 var Game = require("../server/models/game");
 var Pin = require("../server/models/pin");
+var User = require("../server/models/user");
 
 chai.use(chaiHttp);
 
@@ -325,7 +326,7 @@ describe('Pins', function () {
     .save(function(err, game) {
       chai.request(server)
       .put('/games/' + game._id)
-      .set({ 'authorization': 'test' })
+      .set({ 'authorization': 'test' }) // test user joins the game
       .end(function () {
         chai.request(server) // Sending post request to create a pin for a specific game
         .post('/games/' + game._id + '/pins')
@@ -339,6 +340,45 @@ describe('Pins', function () {
           .end((err, res) => {
             res.text.should.equal('Sorry mate- insufficient funds')
             done()
+          })
+        })
+      })
+    })
+  })
+
+  it('should appropriately settle dispute if challenger wins', function (done) {
+    User.collection.drop();
+    new User({
+      firstName: 'Test Challenger',  // CREATE TEST USER NUMBER ONE
+      email: 'test@test.com'
+    })
+    .save(function(err, user) {
+      new Game({  //  CREATE NEW GAME AND ASSOCIATE TEST USER NUMBER ONE WITH THAT GAME
+        name: 'test game name',
+        pins: [],
+        users: [{_id: user._id, firstName: user.firstName}],
+        scoreboard: [{user: user._id, points: 100}],
+        remain: 12
+      })
+      .save(function(err, game) {
+        chai.request(server)
+        .put('/games/' + game._id)
+        .set({ 'authorization': 'test' }) // CREATE AND ASSOCIATE TEST USER NUMBER TWO WITH SAME GAME
+        .end(function (err, game) {
+          chai.request(server) // Sending post request to create a pin for a specific game
+          .post('/games/' + game.body[0]._id + '/pins')
+          .set({ 'authorization': 'test' })
+          .send({ address: '123 Testing Ave', points: 10 })
+          .end((err, pin) => {
+            pin.body.owner.should.equal('58221b1deb8543b7ba21e39f')
+            chai.request(server)
+            .put('/games/' + game.body[0]._id + '/pins/' + pin.body._id + '/settleDispute')
+            .set({'authorization': 'test'})
+            .send({winner: user._id, loser: '58221b1deb8543b7ba21e39f'})
+            .end((err, res) => {
+              res.body.owner.should.equal(user._id.toString())
+              done()
+            })
           })
         })
       })

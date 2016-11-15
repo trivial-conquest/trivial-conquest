@@ -121,5 +121,18 @@ module.exports = {
         res.send('Sorry mate- insufficient funds')
       }
     })
+  },
+
+  settleDispute: (req, res) => {
+    Pin.findOne({_id: req.params.pinId}, (err, pin) => {
+      console.log('PIN OWNER: ', pin.owner)
+      console.log('LOSER: ', req.body.loser)
+      if(pin.owner == req.body.loser) {
+        pin.owner = req.body.winner
+        pin.save().then(() => {
+          res.send(pin)
+        })
+      }
+    })
   }
 };
