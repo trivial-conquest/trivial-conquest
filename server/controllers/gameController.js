@@ -51,7 +51,7 @@ module.exports = {
         var userStats = game.scoreboard.filter(function(board){
           return board.user === req.tokenPayload._id
         })
-        res.send(userStats.points);
+        res.send(userStats);
       }
     })
   },
