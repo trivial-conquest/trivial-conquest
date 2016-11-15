@@ -281,4 +281,33 @@ describe('Pins', function () {
       })
     })
   })
+  it('should not allow a user to withdrawal from a pin if it does not have that many points', function (done) {
+    new Game({
+      name: 'test game name',
+      pins: [],
+      users: [],
+      remain: 12
+    })
+    .save(function(err, game) {
+      chai.request(server)
+      .put('/games/' + game._id)
+      .set({ 'authorization': 'test' })
+      .end(function () {
+        chai.request(server) // Sending post request to create a pin for a specific game
+        .post('/games/' + game._id + '/pins')
+        .set({ 'authorization': 'test' })
+        .send({ address: '123 Testing Ave', points: 25 })
+        .end((err, pin) => {
+          chai.request(server)
+          .put('/games/' + game._id + '/pins/' + pin.body._id + '/withdrawal')
+          .set({ 'authorization': 'test' })
+          .send({ points: 30 })
+          .end((err, res) => {
+            res.text.should.equal('Sorry mate- this pin does not have that many points')
+            done()
+          })
+        })
+      })
+    })
+  })
 });
