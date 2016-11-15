@@ -90,6 +90,8 @@ module.exports = {
             })
           })
         })
+      } else {
+        res.send('Sorry mate- this pin does not have that many points')
       }
     })
   }
