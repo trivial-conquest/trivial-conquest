@@ -104,8 +104,8 @@ angular.module('trivial.gamesrvc', [])
       }).then(function(resp){
         console.log('server POST pin success', resp)
         return resp.data
-      }).catch(function(resp){
-        console.log(resp)
+      }).catch(function(err){
+        console.log('response when over pin limit', err)
         alert('Pin not added, stop being greedy!!')
       })
     },

@@ -7,12 +7,11 @@ module.exports = {
     Pin.find({game : req.params.gameid})
     .then((pins) => {
       var userPins = pins.filter(function(pin){
-        return pin.creator === req.tokenPayload._id
+        return pin.creator == req.tokenPayload._id
       })
       //If the user has created 3 pins already, throw an error
       if(userPins.length >= 3) {
-        console.log('Over pins limit')
-        throw new Error('You have already created the maximum number of pins allowed')
+        res.status(500).send()
       }
       Pin.find({game: req.params.gameid, address: req.body.address}).then(repeats => {
         console.log('REPEATS: ', repeats)
