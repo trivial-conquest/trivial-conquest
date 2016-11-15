@@ -41,8 +41,13 @@ module.exports = {
       }
     })
   },
+<<<<<<< 4b5c72302ec97fd8879014caa72dc8fcd8a2511b
 //Gets a specific game
   getOneGame: (req, res, next) => {
+=======
+//Get a player's points for a given game
+  getPlayerPoints: (req, res, next) => {
+>>>>>>> Working on game logic, front end
     Game.find({_id: req.params.gameid}, (err, game) => {
       if (err) {
         console.log(`Error in finding game: ${err}`);
@@ -51,7 +56,7 @@ module.exports = {
         var userStats = game.scoreboard.filter(function(board){
           return board.user === req.tokenPayload._id
         })
-        res.send(userStats);
+        res.send(userStats.points);
       }
     })
   },
@@ -63,16 +68,10 @@ module.exports = {
         console.log(`Error in getting points: ${err}`);
         res.send(err);
       } else {
-<<<<<<< b02ae2cb9cb018619bc2d514a4d8e344b09835f0
         console.log('FOUND GAME FOR POINTS', game[0])
         console.log(game[0].user)
         var userStats = game[0].scoreboard.filter(function(board){
           return board.user == req.tokenPayload._id
-=======
-        console.log('found game for points', game)
-        var userStats = game.scoreboard.filter(function(board){
-          return board.user === req.tokenPayload._id
->>>>>>> Progressing on get points test
         })
         console.log('users stats', userStats)
         res.send(userStats);
