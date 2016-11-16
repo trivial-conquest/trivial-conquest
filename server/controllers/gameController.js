@@ -43,15 +43,13 @@ module.exports = {
   },
 //Gets a specific game
   getOneGame: (req, res, next) => {
+    console.log('Game ID', req.params.gameid)
     Game.find({_id: req.params.gameid}, (err, game) => {
       if (err) {
         console.log(`Error in finding game: ${err}`);
         res.send(err);
       } else {
-        var userStats = game.scoreboard.filter(function(board){
-          return board.user === req.tokenPayload._id
-        })
-        res.send(userStats);
+        res.send(game);
       }
     })
   },
@@ -68,7 +66,6 @@ module.exports = {
         var userStats = game[0].scoreboard.filter(function(board){
           return board.user == req.tokenPayload._id
         })
-        console.log('users stats', userStats)
         res.send(userStats);
       }
     })

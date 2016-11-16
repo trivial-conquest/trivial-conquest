@@ -31,13 +31,12 @@ angular.module('trivial.gamesrvc', [])
       })
     },
 
-    getPlayerPoints: function () {
+    getPlayerPoints: function (gameId) {
       return $http({
         method: 'GET',
         authorization: localStorage.getItem('satellizer_token'),
-        url: '/games/:gameid/points'
+        url: '/games/' + gameId + '/points'
       }).then(function(resp){
-        console.log(resp.data)
         return resp.data
       })
     },
@@ -57,7 +56,7 @@ angular.module('trivial.gamesrvc', [])
        return $http({
           method: 'GET',
           authorization: localStorage.getItem('satellizer_token'),
-          url: 'games/:gameid'
+          url: 'games/' + gameId
         }).then(function(resp) {
           console.log(resp.data)
           return resp.data;

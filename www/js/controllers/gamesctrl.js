@@ -102,13 +102,16 @@ angular.module('trivial.games', [])
         icon: './img/youAreHere.png'
       });
 
-      google.maps.event.addListener(youMarker , 'click', function(){
-        var infowindow = new google.maps.InfoWindow({
-          // content:'Maybe we can use a title?',
-          position: latLng,
+      youMarker.addListener('click', function() {
+          gameSrvc.getPlayerPoints(currentGameID)
+          .then(function(response){
+            var youPoints = response[0].points
+            var infowindow = new google.maps.InfoWindow({
+              content: youPoints.toString()
+            });
+            infowindow.open(map, youMarker); 
+          }) 
         });
-        infowindow.open(map);
-      });
 
       // google.maps.event.addListener(map, 'click', function(event) {
       //   placeMarker(event.latLng);
