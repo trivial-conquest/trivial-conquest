@@ -60,9 +60,10 @@ module.exports = {
         console.log(`Error in getting points: ${err}`);
         res.send(err);
       } else {
-        console.log('found game for points', game)
-        var userStats = game.scoreboard.filter(function(board){
-          return board.user === req.tokenPayload._id
+        console.log('FOUND GAME FOR POINTS', game[0])
+        console.log(game[0].user)
+        var userStats = game[0].scoreboard.filter(function(board){
+          return board.user == req.tokenPayload._id
         })
         console.log('users stats', userStats)
         res.send(userStats);

@@ -18,7 +18,7 @@ describe('Games', function () {
     done();
   });
 
-  xit('should get a list of ALL games on /games GET', function (done) {
+  it('should get a list of ALL games on /games GET', function (done) {
     chai.request(server).get('/games').set({ 'authorization': 'test' }).end(function (err, res) {
       res.should.have.status(200);
       res.body.should.be.an('array'); //would be an array of games if they were authenticated
@@ -26,7 +26,7 @@ describe('Games', function () {
     });
   });
 
-  xit('should not get list of all games on /games GET if user is not authenticated', function (done) {
+  it('should not get list of all games on /games GET if user is not authenticated', function (done) {
     chai.request(server).get('/games').end(function (err, res) {
       res.should.have.status(200);
       res.body.should.be.an('object');
@@ -34,7 +34,7 @@ describe('Games', function () {
     });
   });
 
-  xit('should add a game on /games POST', function (done) {
+  it('should add a game on /games POST', function (done) {
     chai.request(server).post('/games').set({ 'authorization': 'test' }).send({ 'name': 'Testy Johnson', limit: 4 }).end(function (err, res) {
       res.should.have.status(200);
       res.body.name.should.equal('Testy Johnson');
@@ -46,7 +46,7 @@ describe('Games', function () {
     });
   });
 
-  xit('should get a single game on GET /games/:gameid', function (done) {
+  it('should get a single game on GET /games/:gameid', function (done) {
     new Game({
       name: 'test game name',
       pins: [],
@@ -62,7 +62,7 @@ describe('Games', function () {
     });
   });
 
-  xit('should allow a logged in user to join a game if there is space', function (done) {
+  it('should allow a logged in user to join a game if there is space', function (done) {
     new Game({
       name: 'test game name',
       pins: [],
@@ -81,7 +81,7 @@ describe('Games', function () {
     });
   });
 
-  xit('should not allow a logged in user to join a game if there is not space', function (done) {
+  it('should not allow a logged in user to join a game if there is not space', function (done) {
     new Game({
       name: 'test game name',
       pins: [],
@@ -99,7 +99,7 @@ describe('Games', function () {
     })
   })
 
-  xit('should not allow a user to join game if they have already joined it', function (done) {
+  it('should not allow a user to join game if they have already joined it', function (done) {
     new Game({
       name: "test game name",
       pins: [],
@@ -139,7 +139,7 @@ describe('Pins', function () {
     })
   })
 
-  xit('should allow users to create pins, and should be able to get pins for specific game', function (done) {
+  it('should allow users to create pins, and should be able to get pins for specific game', function (done) {
       chai.request(server) // Sending post request to create a pin for a specific game
       .post('/games/' + game._id + '/pins')
       .set({ 'authorization': 'test' })
@@ -155,7 +155,7 @@ describe('Pins', function () {
     });
   });
 
-  xit('should show the user as owner after a successful claim', function (done) {
+  it('should show the user as owner after a successful claim', function (done) {
     new Pin({
       address: '123 Test Ave.',
       name: 'test pin',
@@ -174,7 +174,7 @@ describe('Pins', function () {
     })
   })
 
-  xit('should delete a pin successfully', function (done) {
+  it('should delete a pin successfully', function (done) {
     Pin.collection.drop()
     new Pin({
       address: '124 Test Ave.',
@@ -196,17 +196,28 @@ describe('Pins', function () {
   })
 
   it('should get a users current points', function (done){
-    chai.request(server)
-    .put('/games/' + game._id).set({ 'authorization': 'test' }).end()
-    chai.request(server)
-    .get('/games/' + game._id + '/points').set({ 'authorization': 'test' }).end(function (err,res){
-      res.body.points.to.equal(100)
-      done()
-    })
+    new Game({
+      name: 'test game name',
+      pins: [],
+      users: [],
+      remain: 12
+    }).save(function (err, game) {
+      chai.request(server).put('/games/' + game._id)
+      .set({ 'authorization': 'test' })
+      .end(function(err, res) {
+        chai.request(server)
+        .get('/games/' + game._id + '/points')
+        .set({ 'authorization' : 'test'})
+        .end(function (err,res){
+          console.log('RES BOWLS: ', res.body)
+          res.body[0].points.should.equal(100)
+          done()
+        })
+      })
+    });
+  });
 
-  })
-
-  xit('should not allow a user to add a pin to the same address twice in a game', function (done) {
+  it('should not allow a user to add a pin to the same address twice in a game', function (done) {
     new Game({
       name: 'test game name',
       pins: [],
@@ -436,4 +447,4 @@ describe('Pins', function () {
       })
     })
   })
-});
+})
