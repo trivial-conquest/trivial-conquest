@@ -12,7 +12,7 @@ module.exports = {
       })
       //If the user has created 3 pins already, throw an error
       if(userPins.length >= 3) {
-        return res.status(500).send()
+        return res.status(500).send('Sorry mate- you have already added three pins to this game')
       }
       Pin.find({game: req.params.gameid, address: req.body.address}).then(repeats => {
         console.log('REPEATS: ', repeats)
