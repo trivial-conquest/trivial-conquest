@@ -191,7 +191,6 @@ describe('Pins', function () {
         .get('/games/' + game._id + '/points')
         .set({ 'authorization' : 'test'})
         .end(function (err,res){
-          console.log('RES BOWLS: ', res.body)
           res.body[0].points.should.equal(100)
           done()
         })

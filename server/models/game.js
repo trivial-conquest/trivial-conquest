@@ -11,10 +11,8 @@ const gameSchema = new Schema({
   remain: {type: Number},
   scoreboard: [{
     points: { type: Number, default: 100 },
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }
+    pins: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Pin' }],
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
   }]
 },
 {

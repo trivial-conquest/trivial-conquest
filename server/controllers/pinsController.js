@@ -7,7 +7,6 @@ module.exports = {
     //First checking to see how many pins user has already created
     Pin.find({game: req.params.gameid})
     .then((pins) => {
-      console.log('WHATEVA', pins)
       var userPins = pins.filter(function(pin){
         console.log(pin.creator.toString() == req.tokenPayload._id)
         return pin.creator.toString() == req.tokenPayload._id
