@@ -99,12 +99,13 @@ angular.module('trivial.gamesrvc', [])
       })
     },
 
-    claimPin: function(gameId,pinId,winnerId,loserId) {
-      console.log('claimPin called')
+    settleDispute: function(gameId,pinId,winnerId,loserId) {
+      console.log('settleDispute called')
       return $http({
         method: 'PUT',
-        url: '/games/' + gameId + '/pins/' + pinId,
-        authorization: localStorage.getItem('satellizer_token')
+        url: '/games/' + gameId + '/pins/' + pinId + '/settleDispute',
+        authorization: localStorage.getItem('satellizer_token'),
+        data: {loser: loserId, winner: winnerId}
       }).then(function(resp){
         console.log('Pin claimed', resp)
         return resp

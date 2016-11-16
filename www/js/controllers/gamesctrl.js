@@ -130,13 +130,33 @@ angular.module('trivial.games', [])
         //Formatting coordinates so that the API can recognize them
         coordinatesObj.lat = pinObj.coordinates[0]
         coordinatesObj.lng = pinObj.coordinates[1]
-        window.setTimeout(function() {
-          markers.push(new google.maps.Marker({
+
+        var newPin = new google.maps.Marker({
             position: coordinatesObj,
             map: map,
             animation: google.maps.Animation.DROP,
             icon: image
-          }));
+          });
+        
+        newPin.addListener('click', function() {
+          gameSrvc.getPinsForGame(currentGameID)
+          .then(function(response){
+            console.log('res on click', response)
+            var currPoints = response.filter(function(pin){
+              return pin._id == pinObj._id
+            }).map(function(obj){
+              return obj.points
+            })
+            console.log('currPoints', currPoints)
+            var infowindow = new google.maps.InfoWindow({
+              content: currPoints.toString()
+            });
+            infowindow.open(map, newPin); 
+          }) 
+        });
+
+        window.setTimeout(function() {
+          markers.push(newPin);
         }, timeout);
       }
 
@@ -195,12 +215,12 @@ angular.module('trivial.games', [])
             if(outcome < userPoints) {
               alert('Victory is yours!')
               //Takes a winner first and then a loser, so in this case the user wins
-              gameSrvc.claimPin(closest.game, closest._id, gameRes.user, closest.owner)
+              gameSrvc.settleDispute(closest.game, closest._id, gameRes.user, closest.owner)
               return
             } else {
               alert('You lose sucka!')
               //In this case, the pin owner is the winner and the user is the loser
-              gameSrvc.claimPin(closest.game, closest._id, closest.owner, gameRes.user)
+              gameSrvc.settleDispute(closest.game, closest._id, closest.owner, gameRes.user)
               return
             }
           })
