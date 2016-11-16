@@ -1,6 +1,6 @@
 angular.module('trivial.games', [])
 
-.controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', 'userService', '$window', function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc, userService, $window) {
+.controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', 'userService', '$window', '$auth', function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc, userService, $window, $auth) {
  //will need to pull all games fom the server and attach them to $scope.game
   var userData = $auth.getPayload();
 
@@ -177,6 +177,13 @@ angular.module('trivial.games', [])
 
       scoreRedirect()
 
+       var bankRedirect = function(){
+        $scope.bankUrl = {url: "#/games/" + currentGameID + "/bank"}
+        return  $scope.bankUrl
+      }
+
+      bankRedirect()
+
       gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
       .then(function(response){
         pins = response
@@ -240,6 +247,16 @@ angular.module('trivial.games', [])
           return (Math.abs(myCoords.lat - pin.coordinates[0]) < .003 && Math.abs(myCoords.lng - pin.coordinates[1]) < .003)
         })
       if(closePins.length) {
+        return true
+      } else return false
+    }
+
+     $scope.checkLocOwner = function() {
+      var myCoords = {lat: position.coords.latitude, lng: position.coords.longitude}
+      var closePins = pins.filter(function(pin){
+          return (Math.abs(myCoords.lat - pin.coordinates[0]) < .003 && Math.abs(myCoords.lng - pin.coordinates[1]) < .003)
+        })
+      if(closePins.length && closePins[0].owner === userData._id) {
         return true
       } else return false
     }
