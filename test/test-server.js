@@ -10,20 +10,12 @@ var User = require("../server/models/user");
 
 chai.use(chaiHttp);
 
-describe('Games', function () {
+describe('Game', function () {
 
   afterEach(function (done) {
     Game.collection.drop();
     Pin.collection.drop();
     done();
-  });
-
-  it('should get a list of ALL games on /games GET', function (done) {
-    chai.request(server).get('/games').set({ 'authorization': 'test' }).end(function (err, res) {
-      res.should.have.status(200);
-      res.body.should.be.an('array'); //would be an array of games if they were authenticated
-      done();
-    });
   });
 
   it('should not get list of all games on /games GET if user is not authenticated', function (done) {
@@ -114,7 +106,8 @@ describe('Pins', function () {
     new Game({
       name: 'test game name',
       pins: [],
-      users: []
+      users: [],
+      remain: 12
     }).save(function (err, testGame) {
       game = testGame
       done()
@@ -134,6 +127,24 @@ describe('Pins', function () {
           res.body[0].address.should.equal('123 Testing Ave');
           done();
       });
+    });
+  });
+
+  it('should allow a logged in user to join a game, create a pin, and have that pin logged in the scoreboard', function (done) {
+    chai.request(server)
+    .put('/games/' + game._id) // JOIN THE GAME
+    .set({ 'authorization': 'test' })
+    .end(function (err, res) {
+      chai.request(server) // Sending post request to create a pin for a specific game
+      .post('/games/' + game._id + '/pins')
+      .set({ 'authorization': 'test' })
+      .send({ address: 'Testing Ave' })
+      .end(function(err, res){
+        Game.findOne({_id: game._id}, (err, game) => {
+          game.scoreboard[0].pins[0].toString().should.equal(res.body._id)
+          done()
+        })
+      })
     });
   });
 
@@ -395,7 +406,6 @@ describe('Pins', function () {
   })
 
   it('should appropriately settle dispute if defender wins', function (done) {
-    User.collection.drop();
     new User({
       firstName: 'Test Defender',  // CREATE TEST USER NUMBER ONE
       email: 'test@test.com'

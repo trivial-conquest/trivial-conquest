@@ -33,7 +33,17 @@ module.exports = {
           }).save()
           .then((pin) => {
             console.log('successfully created pin: ', pin)
-            res.send(pin)
+            Game.findOne({_id: req.params.gameid}, (err, game) => {
+
+              game.scoreboard.forEach((score) => {
+                if(score.user == req.tokenPayload._id) {
+                  score.pins.push(pin._id)
+                }
+              })
+              game.save().then(() => {
+                res.send(pin)
+              })
+            })
           })
           .catch((err) => {
             console.log('ERROR: ', err)
