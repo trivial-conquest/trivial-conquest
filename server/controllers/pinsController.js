@@ -5,14 +5,16 @@ const Game = require('../models/game')
 module.exports = {
   createNewPin: (req, res) => {
     //First checking to see how many pins user has already created
-    Pin.find({game : req.params.gameid})
+    Pin.find({game: req.params.gameid})
     .then((pins) => {
+      console.log('WHATEVA', pins)
       var userPins = pins.filter(function(pin){
-        return pin.creator == req.tokenPayload._id
+        console.log(pin.creator.toString() == req.tokenPayload._id)
+        return pin.creator.toString() == req.tokenPayload._id
       })
       //If the user has created 3 pins already, throw an error
       if(userPins.length >= 3) {
-        return res.status(500).send()
+        return res.send('Sorry dude- 3 pins already')
       }
       Pin.find({game: req.params.gameid, address: req.body.address}).then(repeats => {
         console.log('REPEATS: ', repeats)

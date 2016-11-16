@@ -224,39 +224,44 @@ describe('Pins', function () {
     })
   })
 
-// it('should not allow a user to add more than 3 pins to a game', function (done){
-//   new Pin({
-//       address: '123 Test Ave.',
-//       name: 'test pin',
-//       coordinates: [],
-//       game: game._id,
-//     }).save()
-//   new Pin({
-//       address: '124 Test Ave.',
-//       name: 'test pin',
-//       coordinates: [],
-//       game: game._id,
-//     }).save()
-//   new Pin({
-//       address: '125 Test Ave.',
-//       name: 'test pin',
-//       coordinates: [],
-//       game: game._id,
-//     }).save()
-//   //Adding three pins to the database for the logged in user
-//   chai.request(server)
-//   .post('/games/' + game._id + '/pins')
-//   .set({'authorization' : 'test'})
-//   .send({address: '126 Testing Ave'})
-//   .end(function(err, res){
-//     chai.request(server) // Sending get request to retrieve all pins for game, should still only be three
-//     .get('/games/' + game._id + '/pins').set({ 'authorization': 'test' }).end(function (err, res) {
-//       res.should.have.status(200);
-//       console.log(res.body.length)
-//       done();
-//     });
-//   });
-// })
+  it('should not allow a user to add more than 3 pins to a game', function (done){
+    new Pin({
+        address: '123 Test Ave.',
+        name: 'test pin',
+        coordinates: [],
+        game: game._id,
+        creator: '58221b1deb8543b7ba21e39f'
+      }).save(() => {
+        new Pin({
+            address: '124 Test Ave.',
+            name: 'test pin',
+            coordinates: [],
+            game: game._id,
+            creator: '58221b1deb8543b7ba21e39f'
+          }).save(() => {
+            new Pin({
+                address: '125 Test Ave.',
+                name: 'test pin',
+                coordinates: [],
+                game: game._id,
+                creator: '58221b1deb8543b7ba21e39f'
+              }).save(() => {
+                console.log('made it: ', game._id)
+                chai.request(server)
+                .post('/games/' + game._id + '/pins')
+                .set({'authorization' : 'test'})
+                .send({address: '126 Testing Ave'})
+                .end(function(err, res){
+                  console.log('res bod', res.text)
+                  res.text.should.equal('Sorry dude- 3 pins already')
+                  done();
+                });
+              })
+          })
+      })
+    //Adding three pins to the database for the logged in user
+  })
+
   it('should allow a user to withdrawal from a pin if it has that many points', function (done) {
     new Game({
       name: 'test game name',
