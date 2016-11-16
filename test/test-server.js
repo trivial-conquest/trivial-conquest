@@ -195,6 +195,28 @@ describe('Pins', function () {
     })
   })
 
+  it('should get a users current points', function (done){
+    new Game({
+      name: 'test game name',
+      pins: [],
+      users: [],
+      remain: 12
+    }).save(function (err, game) {
+      chai.request(server).put('/games/' + game._id)
+      .set({ 'authorization': 'test' })
+      .end(function(err, res) {
+        chai.request(server)
+        .get('/games/' + game._id + '/points')
+        .set({ 'authorization' : 'test'})
+        .end(function (err,res){
+          console.log('RES BOWLS: ', res.body)
+          res.body[0].points.should.equal(100)
+          done()
+        })
+      })
+    });
+  });
+
   it('should not allow a user to add a pin to the same address twice in a game', function (done) {
     new Game({
       name: 'test game name',
@@ -425,4 +447,4 @@ describe('Pins', function () {
       })
     })
   })
-});
+})

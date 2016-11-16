@@ -41,7 +41,7 @@ module.exports = {
       }
     })
   },
-//Get one game from the db
+//Gets a specific game
   getOneGame: (req, res, next) => {
     Game.find({_id: req.params.gameid}, (err, game) => {
       if (err) {
@@ -53,6 +53,25 @@ module.exports = {
     })
   },
 
+//Gets a players current point total for a game
+  getPlayerPoints: (req, res, next) => {
+    Game.find({_id: req.params.gameid}, (err, game) => {
+      if (err) {
+        console.log(`Error in getting points: ${err}`);
+        res.send(err);
+      } else {
+        console.log('FOUND GAME FOR POINTS', game[0])
+        console.log(game[0].user)
+        var userStats = game[0].scoreboard.filter(function(board){
+          return board.user == req.tokenPayload._id
+        })
+        console.log('users stats', userStats)
+        res.send(userStats);
+      }
+    })
+  },
+
+//Allows a user to join a game
   joinGame: (req, res, next) => {
     Game.findOne({_id: req.params.gameid}, (err, game) => {
       if (game.remain > 0) {

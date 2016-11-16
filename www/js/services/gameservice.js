@@ -31,17 +31,27 @@ angular.module('trivial.gamesrvc', [])
       })
     },
 
-    // This function doesnt seem to be used so is a candidate for deletion
-    // getOneGame: function (gameId) {
-    //    return $http({
-    //       method: 'GET',
-    //       authorization: localStorage.getItem('satellizer_token'),
-    //       url: 'games/:gameid'
-    //     }).then(function(resp) {
-    //       console.log(resp.data)
-    //       return resp.data;
-    //     })
-    //   },
+    getPlayerPoints: function () {
+      return $http({
+        method: 'GET',
+        authorization: localStorage.getItem('satellizer_token'),
+        url: '/games/:gameid/points'
+      }).then(function(resp){
+        console.log(resp.data)
+        return resp.data
+      })
+    },
+
+    getOneGame: function (gameId) {
+       return $http({
+          method: 'GET',
+          authorization: localStorage.getItem('satellizer_token'),
+          url: 'games/:gameid'
+        }).then(function(resp) {
+          console.log(resp.data)
+          return resp.data;
+        })
+      },
 
     getQuestion: function() {
       return $http({
@@ -78,7 +88,7 @@ angular.module('trivial.gamesrvc', [])
       })
     },
 
-    claimPin: function(gameId,pinId) {
+    claimPin: function(gameId,pinId,winnerId,loserId) {
       console.log('claimPin called')
       return $http({
         method: 'PUT',

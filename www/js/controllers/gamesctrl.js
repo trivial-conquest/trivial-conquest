@@ -185,10 +185,27 @@ angular.module('trivial.games', [])
               return min
             }
           })
-          gameSrvc.claimPin(closest.game, closest._id)
-          alert('You claimed a pin at latitude ' + closest.coordinates[0] + ' and longitude ' + closest.coordinates[1] )
-          return
+          gameSrvc.getPlayerPoints(closest.game)
+          .then(function(gameRes){
+            //gameRes gives you the amount of points the user has in this game
+            console.log('player points game',gameRes)
+            var pinPoints = closest.points
+            var userPoints = gameRes.points
+            var outcome = (Math.random() * (pinPoints + userPoints))
+            if(outcome < userPoints) {
+              alert('Victory is yours!')
+              //Takes a winner first and then a loser, so in this case the user wins
+              gameSrvc.claimPin(closest.game, closest._id, gameRes.user, closest.owner)
+              return
+            } else {
+              alert('You lose sucka!')
+              //In this case, the pin owner is the winner and the user is the loser
+              gameSrvc.claimPin(closest.game, closest._id, closest.owner, gameRes.user)
+              return
+            }
+          })
         }
+        //Alerts if you are too far away to claim a pin
         alert('Sorry, too far')
       }
 

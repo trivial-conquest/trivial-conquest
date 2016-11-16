@@ -9,6 +9,7 @@ const pins = require('../controllers/pinsController')
 router.get('/', games.getAllGames)
 router.post('/', games.createGame)
 router.get('/:gameid', games.getOneGame)
+router.get('/:gameid/points', games.getPlayerPoints)
 router.put('/:gameid', games.joinGame, games.getOneGame)
 
 router.post('/:gameid/pins', pins.createNewPin)
