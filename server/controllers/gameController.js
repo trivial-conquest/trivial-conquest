@@ -74,14 +74,22 @@ module.exports = {
 //Allows a user to join a game
   joinGame: (req, res, next) => {
     Game.findOne({_id: req.params.gameid}, (err, game) => {
-      if (game.remain > 0) {
-        Game.update({_id: req.params.gameid},
-          {$inc: {remain: -1}, $addToSet: { users: req.tokenPayload, "scoreboard": {user: req.tokenPayload._id}}}, (err, mod) => {
+      var alreadyJoined = false;
+      game.users.forEach((user) => {
+        if(user._id == req.tokenPayload._id) alreadyJoined = true;
+      })
+      if(!alreadyJoined) {
+        if (game.remain > 0) {
+          Game.update({_id: req.params.gameid},
+            {$inc: {remain: -1}, $addToSet: { users: req.tokenPayload, "scoreboard": {user: req.tokenPayload._id}}}, (err, mod) => {
+              next()
+            })
+        } else {
+          console.log('SORRY MATE: GAME IS FULL')
           next()
-        })
+        }
       } else {
-        console.log('SORRY MATE: GAME IS FULL')
-        next()
+        res.send('You already joined this game')
       }
     })
 

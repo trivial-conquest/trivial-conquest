@@ -62,21 +62,27 @@ describe('Games', function () {
     });
   });
 
-  it('should allow a logged in user to join a game if there is space', function (done) {
+  it('should allow a logged in user to join a game if there is space- but not more than once', function (done) {
     new Game({
       name: 'test game name',
       pins: [],
       users: [],
       remain: 12
     }).save(function (err, game) {
-      chai.request(server).put('/games/' + game._id).set({ 'authorization': 'test' }).end(function (err, res) {
+      chai.request(server).put('/games/' + game._id)
+      .set({ 'authorization': 'test' })
+      .end(function (err, res) {
         res.should.have.status(200);
         res.body[0].scoreboard[0].user.should.equal('58221b1deb8543b7ba21e39f')
         res.body[0].scoreboard[0].points.should.equal(100)
-        res.body[0].name.should.equal('test game name');
         res.body[0].remain.should.equal(11);
         res.body[0].users[0]._id.should.equal('58221b1deb8543b7ba21e39f');
-        done();
+        chai.request(server).put('/games/' + game._id)
+        .set({ 'authorization': 'test' })
+        .end(function (err, res) {
+          res.text.should.equal('You already joined this game')
+          done();
+        });
       });
     });
   });
@@ -96,30 +102,6 @@ describe('Games', function () {
           res.body[0].users.length.should.equal(0);
           done();
         })
-    })
-  })
-
-  it('should not allow a user to join game if they have already joined it', function (done) {
-    new Game({
-      name: "test game name",
-      pins: [],
-      users: ['58221b1deb8543b7ba21e39f']
-    })
-    .save(function(err, game) {
-      if(err) { console.log("Error: ", err) }
-      chai.request(server)  // Sending post request to create game
-      .post('/games/')
-      .set({'authorization': 'test'})
-      .end(function() {
-        chai.request(server) //Sending put request to attempt to join game
-        .put('/games/' + game._id)
-        .set({'authorization': 'test'})
-        .end(function(err, res) {
-          res.body[0].users.length.should.equal(1);
-          done();
-        })
-      })
-
     })
   })
 
