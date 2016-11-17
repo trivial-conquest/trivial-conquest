@@ -90,12 +90,12 @@
 <ion-view>
 <div id="gameshead" class="tabs tabs-icon-top" >
     <div>
-        <button ng-click="logout()">Logout</button>
+      <button ng-click="logout()">Logout</button>
     </div>
-     <div >
-    <button ng-click='joinGame()'>Join Game</button>
+    <div>
+      <button ng-click='joinGame()'>Join Game</button>
     </div>
-   <a href="#/allgames">Back</a>
+    <a href="#/allgames">Back</a>
     <div>
       <button ng-click="claimPin()" ng-show="checkLocation()" class="ng-hide">Claim Location</button>
     </div>
@@ -105,17 +105,17 @@
    <div>
      <a ng-href={{scoreUrl.url}}>Score</a>
     </div>
-    <div >
+    <div>
       <button ng-click="deletePin()" ng-show="checkUserPins()" class="ng-hide">Delete Last Pin</button>
     </div>
-
 </div>
-	<ion-content>
-  <form name="pinspoints">
-   <input id="pac-input" class="controls" type="text" onfocus="{this.value=''}" placeholder="search for address or name" ng-model="onegame.search" required></input>
-  <input id="points" class="controls" type="number" onfocus="{this.value=''}" placeholder="Set Value" ng-model="onegame.points" required></input>
-   <button id="pinbtn" class="controls" ng-click="addPin()" ng-hide="pinspoints.$invalid">Add Pin</button>
-   </form>
+
+  <ion-content>
+    <form name="pinspoints">
+      <input id="pac-input" class="controls" type="text" onfocus="{this.value=''}" placeholder="search for address or name" ng-model="onegame.search" ng-show="checkPinCount()" class="ng-hide" required></input>
+      <input id="points" class="controls" type="number" onfocus="{this.value=''}" placeholder="Set Value" ng-model="onegame.points" ng-show="checkPinCount()" class="ng-hide" required></input>
+      <button id="pinbtn" class="controls" ng-click="addPin()" ng-hide="pinspoints.$invalid">Add Pin</button>
+    </form>
 
 		<div id="map" data-tap-disabled="true"></div>
     </div>
