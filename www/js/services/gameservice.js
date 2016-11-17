@@ -42,15 +42,14 @@ angular.module('trivial.gamesrvc', [])
     },
 
     getOneGame: function (gameId) {
-      return $http({
-        method: 'GET',
-        authorization: localStorage.getItem('satellizer_token'),
-        url: '/games/' + gameId
-      }).then(function(resp) {
-        console.log(resp.data)
-        return resp.data;
-      })
-    },
+       return $http({
+          method: 'GET',
+          authorization: localStorage.getItem('satellizer_token'),
+          url: 'games/' + gameId
+        }).then(function(resp) {
+          return resp.data;
+        })
+      },
 
     getPlayer: function (userId) {
       return $http({
@@ -86,6 +85,37 @@ angular.module('trivial.gamesrvc', [])
         console.log('THROW NEW ERROR: ', err)
       })
     },
+
+    withDraw: function(points, gameId, pinId){
+      console.log('this is withDraw gameid', gameId, 'pinId', pinId)
+      return $http({
+        method: 'PUT',
+        url: '/games/' + gameId + '/pins/' + pinId + '/withdrawal',
+        authorization: localStorage.getItem("satellizer_token"),
+        data: {points: points}
+      }).then(function(resp) {
+        console.log('withDraw works', resp)
+        return resp
+      }).catch(function(err) {
+        console.log('withdraw error: ', err)
+      })
+    },
+
+     deposit: function(points, gameId, pinId){
+      console.log('this is deposit gameid', gameId, 'pinId', pinId)
+      return $http({
+        method: 'PUT',
+        url: '/games/' + gameId + '/pins/' + pinId + '/deposit',
+        authorization: localStorage.getItem("satellizer_token"),
+        data: {points: points}
+      }).then(function(resp) {
+        console.log('deposit works', resp)
+        return resp
+      }).catch(function(err) {
+        console.log('deposit error: ', err)
+      })
+    },
+
 
     settleDispute: function(gameId,pinId,winnerId,loserId) {
       console.log('settleDispute called')

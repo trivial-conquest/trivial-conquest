@@ -1,11 +1,24 @@
 <ion-modal-view>  
   <ion-header-bar>
-    <h1 class="title">Bank  </h1>
+    <h1 class="title">Deposit or Withdraw</h1>
     <div class="buttons">
     <a class="button button-calm" ng-href="{{goBack.url}}">Close</a>
     </div>
   </ion-header-bar>
+
   <ion-content>
+		<div class="card">
+		Deposit
+		<form class="item item-input">
+		<input type='text' placeholder= "How much do you want to deposit?" ng-model="pindeposit" required/></input>
+		 <button class="button button-calm" value=submit ng-click='deposit()'>Deposit</button>
+		</form>
+		Withdraw
+		<form class="item item-input">
+		<input type='text' placeholder= "How much do you want to withdraw?" ng-model="pinwithdraw" required/></input>
+		 <button class="button button-calm" value=submit ng-click='withdraw()'>Withdraw</button>
+		</form>
+		</div>
   
   </ion-content>
 </ion-modal-view>

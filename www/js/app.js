@@ -57,7 +57,7 @@ angular.module('trivial', ['ionic', 'trivial.login', 'trivial.games', 'trivial.a
     templateUrl: 'templates/score.html',
     controller: 'ScoreCtrl'
   }).state('bank', {
-    url: '/games/:gameId/bank',
+    url: '/games/:gameId/pin/:pinId/bank',
     cache: false,
     templateUrl: 'templates/bank.html',
     controller: 'BankCtrl'
