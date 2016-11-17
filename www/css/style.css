@@ -58,3 +58,8 @@ img.banner {
 	width: 100%;
 	height: 40%;
 }
+
+#balance {
+	background: white;
+	font-family: 'Homemade Apple', cursive;
+}

@@ -7,19 +7,26 @@
   </ion-header-bar>
 
   <ion-content>
+		 <div class="card">
+		  <div class="item item-text-wrap" id="balance">
+		  <img ng-src={{currentUser.profilePicture}} height='50' width = '50'> You are worth {{userPoints}} points
+		</div>
+		 <div class="card">
+		  <div class="item item-text-wrap" id="balance">
+		  The pin at {{pin.name}} is worth {{pin.points}} points
+		  </div>
+		</div>
 		<div class="card">
-		Deposit
+		Make a Deposit
 		<form class="item item-input">
 		<input type='text' placeholder= "How much do you want to deposit?" ng-model="bank.pindeposit" required/></input>
 		 <button class="button button-calm" value=submit ng-click='deposit()'>Deposit</button>
 		</form>
-		<div ng-if="pinDeposited">This pin is now worth {{bank.pinworth}} points</div>
-		Withdraw
+		Make a Withdrawal
 		<form class="item item-input">
 		<input type='text' placeholder= "How much do you want to withdraw?" ng-model="bank.pinwithdraw" required/></input>
 		 <button class="button button-calm" value=submit ng-click='withdraw()'>Withdraw</button>
 		</form>
-		<div ng-if="pinWithdrawn">This pin is now worth {{bank.pinworth}} points</div>
 		</div>
   
   </ion-content>

@@ -73,6 +73,17 @@ module.exports = {
     })
   },
 
+ getOnePin: (req, res) => {
+    Pin.findOne({_id: req.params.pinId}, (err, pin) => {
+      if (err) {
+        console.log(`Error in finding game: ${err}`);
+        res.send(err);
+      } else {
+        res.send(pin);
+      }
+    })
+  },
+
   updatePinOwner: (req, res) => {
     Pin.findOneAndUpdate({_id: req.params.pinId}, {owner: req.tokenPayload._id, icon: req.tokenPayload.profilePicture}, {new: true}, function(err, pin){
         if (err) return res.send(500, { error: err });
@@ -81,7 +92,6 @@ module.exports = {
   },
 
   withdrawal: (req, res) => {
-    console.log('this is withdraw body', req.body, req.params)
     Pin.findOne({_id: req.params.pinId}, (err, pin) => {
       if(pin.points > req.body.points) {
         var newPointAmount = pin.points - req.body.points;
@@ -106,7 +116,6 @@ module.exports = {
   },
 
   deposit: (req, res) => {
-    console.log('this is deposit body', req.body, req.params)
     var sufficientFunds = false
     Game.findOne({_id: req.params.gameid}, (err, game) => {
       game.scoreboard.forEach(score => {
