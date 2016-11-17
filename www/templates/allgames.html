@@ -36,21 +36,9 @@
                 {{game.name}} 
             </a>
             <p>{{game.remain}} out of {{game.limit}} spots remaining</p>
-            <p><img ng-repeat='user in users' ng-src={{user.profilePicture}} height='30' width = '30'></p>
+            <p><img class = "profPic" ng-repeat='user in game.users' ng-src={{user.profilePicture}} height='30' width = '30'></p>
           </div>
         </div>
-      </div>
-      <div ng-repeat='game in games' ng-show='!allgames'>
-        <span ng-if='iterateGameUser(game, user)'>
-         <div class="card">
-          <div class="item item-text-wrap">
-            <a href="#/games/{{game._id}}">
-                {{game.name}} 
-            </a>
-            <p>{{game.remain}} out of {{game.limit}} spots remaining</p>
-          </div>
-         </div>
-        </span>
       </div>
     </div>
   </ion-content>
