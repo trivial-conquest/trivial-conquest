@@ -26,21 +26,26 @@
   var getGame = function(){
     gameSrvc.getOneGame(currentGameID)
     .then(function(game){
-      $scope.games = game[0].scoreboard
-      console.log('SCOREBOARD', $scope.games)
-      console.log($scope.games.pins)
-      $scope.games.forEach(function(game){
-        var player = game.user
-        points.push(game.points)
+      $scope.scoreboard = game[0].scoreboard
+      // is an array of objects w/ user, pins array, points
+      console.log('SCOREBOARD', $scope.scoreboard)
+      $scope.scoreboard.forEach(function(user){
+        // each user object
+        var player = user.user
+        var pins = user.pins
+        points.push(user.points)
+
         gameSrvc.getPlayer(player)
         .then(function(player){
           $scope.users.push(player[0])
-          $scope.users.forEach(function(user){
+          $scope.users.forEach(function(person){
             points.forEach(function(point){
-              user.points = point
+              console.log('pers', person, 'pt', point)
+              person.points = point
             })
           })
         })
+        gameSrvc
       })
     })
     .catch(function(err){
