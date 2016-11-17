@@ -138,11 +138,19 @@ describe('Pins', function () {
       chai.request(server) // Sending post request to create a pin for a specific game
       .post('/games/' + game._id + '/pins')
       .set({ 'authorization': 'test' })
-      .send({ address: 'Testing Ave' })
+      .send({ address: 'Testing Ave', points: 20 })
       .end(function(err, res){
         Game.findOne({_id: game._id}, (err, game) => {
           game.scoreboard[0].pins[0].toString().should.equal(res.body._id)
-          done()
+          game.scoreboard[0].points.should.equal(80)
+          chai.request(server) // Sending post request to create a pin for a specific game
+          .post('/games/' + game._id + '/pins')
+          .set({ 'authorization': 'test' })
+          .send({ address: 'Testing Ave 2', points: 300 })
+          .end(function(err, res2){
+            res2.text.should.equal('Sorry dude- not enough points')
+            done()
+          })
         })
       })
     });
@@ -326,7 +334,7 @@ describe('Pins', function () {
           .end((err, res) => {
             res.body.points.should.equal(40) // Test that points were added to pin
             Game.findOne({_id: res.body.game}, (err, game) => {
-              game.scoreboard[0].points.should.equal(70) // Test that points were deducted from user
+              game.scoreboard[0].points.should.equal(60) // Test that points were deducted from user
               done()
             })
           })
