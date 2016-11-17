@@ -9,7 +9,11 @@
   <ion-content>
 		 <div class="card">
 		  <div class="item item-text-wrap" id="balance">
-		   Your current balance {{userPoints}}, this is the Pin balance {{pinPoints}}
+		  <img ng-src={{currentUser.profilePicture}} height='50' width = '50'> You are worth {{userPoints}} points
+		</div>
+		 <div class="card">
+		  <div class="item item-text-wrap" id="balance">
+		  The pin at {{pin.name}} is worth {{pin.points}} points
 		  </div>
 		</div>
 		<div class="card">

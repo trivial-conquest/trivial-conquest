@@ -179,7 +179,6 @@ angular.module('trivial.games', [])
       scoreRedirect()
 
        var bankRedirect = function(pinId){
-        console.log('this is closestPins id&^^$%', pinId)
         $scope.bankUrl = {url: "#/games/" + currentGameID + "/pin/" + pinId +"/bank"}
         return  $scope.bankUrl
       }
@@ -295,7 +294,6 @@ angular.module('trivial.games', [])
     }
 
       $scope.addPin = function() {
-        console.log('these are the points for the pin', $scope.onegame.points)
         gameSrvc.addPin(pinToAdd, currentGameID, $scope.onegame.points)
         .then(function(pin) {
           console.log('this is pin', pin)

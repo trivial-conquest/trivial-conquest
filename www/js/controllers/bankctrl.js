@@ -72,7 +72,8 @@ angular.module('trivial.bank', [])
   var currentPin = function(){
     gameSrvc.getOnePin(pinId)
     .then(function(pin){
-      $scope.pinPoints = pin.points
+      $scope.pin = pin
+      console.log('cp', pin)
       return pin
     })
   }
