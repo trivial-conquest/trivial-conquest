@@ -6,23 +6,13 @@ f<ion-modal-view>
     </div>
   </ion-header-bar>
   <ion-content>
-<!--   <table>
-    <th>Picture</th>
-    <th>Name</th>
-    <th>Bullion</th>
-
-    <tr ng-repeat="user in users">
-      <td><img ng-src="{{user.profilePicture}}"></td>
-      <td>{{user.firstName}} {{user.lastName}}</td>
-      <td>{{user.points}}</td>
-    </tr>
-  </table> -->
   <div class="list">
     <a class="item item-avatar" href="#" ng-repeat="user in users">
       <img ng-src="{{user.profilePicture}}">
       <h2>{{user.firstName}} {{user.lastName}}</h2>
       <p>Bullion: {{user.points}}</p>
-      <p ng-repeat="pin in pins">pins: {{pin}}</p>
+      <p>address: {{user.pins[0]}}</p>
+      <p>points: {{user.pins[1]}}</p>
     </a>
   </div>
   </ion-content>

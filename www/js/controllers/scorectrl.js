@@ -46,15 +46,21 @@
             //   person.points = point
             // })
           // })
-          for (var i = 0 ; i < $scope.users.length ; i++) {
-            $scope.users[i].points = points[i]
-            $scope.users[i].pins = pins[i]
-          }
+          gameSrvc.getPinsForGame(currentGameID)
+          .then(function(pins) {
+            pins = pins.filter(function(pin) {
+              console.log('pincreat', pin.creator, 'player', user.user)
+              return pin.creator === user.user
+            })
+            .map(function(userPin) {
+              return [userPin.address, userPin.points]
+            })
+            for (var i = 0 ; i < $scope.users.length ; i++) {
+              $scope.users[i].points = points[i]
+              $scope.users[i].pins = pins[i]
+            }
+          })          
         })
-        // gameSrvc.getPinsForGame(currentGameID)
-        // .then(function(pins) {
-
-        // })
       })
     })
     .catch(function(err){
