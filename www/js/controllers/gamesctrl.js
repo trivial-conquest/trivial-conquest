@@ -3,6 +3,7 @@ angular.module('trivial.games', [])
 .controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', 'userService', '$window', '$auth', function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc, userService, $window, $auth) {
  //will need to pull all games fom the server and attach them to $scope.game
   var userData = $auth.getPayload();
+  var closestPin; 
 
   $scope.logout = function(){
     userService.logout()
@@ -177,12 +178,12 @@ angular.module('trivial.games', [])
 
       scoreRedirect()
 
-       var bankRedirect = function(){
-        $scope.bankUrl = {url: "#/games/" + currentGameID + "/bank"}
+       var bankRedirect = function(pinId){
+        console.log('this is closestPins id&^^$%', pinId)
+        $scope.bankUrl = {url: "#/games/" + currentGameID + "/pin/" + pinId +"/bank"}
         return  $scope.bankUrl
       }
 
-      bankRedirect()
 
       gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
       .then(function(response){
@@ -277,6 +278,7 @@ angular.module('trivial.games', [])
           return (Math.abs(myCoords.lat - pin.coordinates[0]) < .003 && Math.abs(myCoords.lng - pin.coordinates[1]) < .003)
         })
       if(closePins.length && closePins[0].owner === userData._id) {
+         bankRedirect(closePins[0]._id)
         return true
       } else return false
     }
