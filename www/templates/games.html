@@ -90,23 +90,23 @@
 <ion-view>
 <div id="gameshead" class="tabs tabs-icon-top" >
     <div>
-        <button class="button button-calm" ng-click="logout()">Logout</button>
+        <button ng-click="logout()">Logout</button>
     </div>
      <div >
-    <button class="button button-calm" ng-click='joinGame()'>Join Game</button>
+    <button ng-click='joinGame()'>Join Game</button>
     </div>
-   <a class="button button-calm" href="#/allgames">Back</a>
+   <a href="#/allgames">Back</a>
     <div>
-      <button class="button button-calm" ng-click="claimPin()" ng-show="checkLocation()" class="ng-hide">Claim Location</button>
+      <button ng-click="claimPin()" ng-show="checkLocation()" class="ng-hide">Claim Location</button>
     </div>
     <div>
-     <a class="button button-calm" ng-if="checkLocOwner()" ng-href={{bankUrl.url}}>Deposit/Withdraw</a>
+     <a ng-if="checkLocOwner()" ng-href={{bankUrl.url}}>Deposit/Withdraw</a>
     </div>
    <div>
-     <a class="button button-calm" ng-href={{scoreUrl.url}}>Score</a>
+     <a ng-href={{scoreUrl.url}}>Score</a>
     </div>
     <div >
-      <button class="button button-calm" ng-click="deletePin()" ng-show="checkUserPins()" class="ng-hide">Delete Last Pin</button>
+      <button ng-click="deletePin()" ng-show="checkUserPins()" class="ng-hide">Delete Last Pin</button>
     </div>
 
 </div>

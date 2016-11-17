@@ -45,7 +45,7 @@ angular.module('trivial.gamesrvc', [])
       return $http({
         method: 'GET',
         authorization: localStorage.getItem('satellizer_token'),
-        url: 'games/:gameid'
+        url: '/games/' + gameId
       }).then(function(resp) {
         console.log(resp.data)
         return resp.data;
