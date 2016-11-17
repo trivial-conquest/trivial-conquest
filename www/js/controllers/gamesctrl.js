@@ -104,15 +104,15 @@ angular.module('trivial.games', [])
       });
 
       youMarker.addListener('click', function() {
-          gameSrvc.getPlayerPoints(currentGameID)
-          .then(function(response){
-            var youPoints = response[0].points
-            var infowindow = new google.maps.InfoWindow({
-              content: youPoints.toString()
-            });
-            infowindow.open(map, youMarker); 
-          }) 
+        gameSrvc.getPlayerPoints(currentGameID)
+        .then(function(response){
+          var youPoints = response[0].points
+          var infowindow = new google.maps.InfoWindow({
+          content: youPoints.toString()
         });
+        infowindow.open(map, youMarker);
+        })
+      });
 
       // google.maps.event.addListener(map, 'click', function(event) {
       //   placeMarker(event.latLng);
@@ -141,22 +141,22 @@ angular.module('trivial.games', [])
             animation: google.maps.Animation.DROP,
             icon: image
           });
-        
+
         newPin.addListener('click', function() {
           gameSrvc.getPinsForGame(currentGameID)
           .then(function(response){
             console.log('res on click', response)
             var currPoints = response.filter(function(pin){
               return pin._id == pinObj._id
-            }).map(function(obj){
-              return obj.points
-            })
-            console.log('currPoints', currPoints)
-            var infowindow = new google.maps.InfoWindow({
-              content: currPoints.toString()
-            });
-            infowindow.open(map, newPin); 
-          }) 
+          }).map(function(obj){
+            return obj.points
+          })
+          console.log('currPoints', currPoints)
+          var infowindow = new google.maps.InfoWindow({
+            content: currPoints.toString()
+          });
+            infowindow.open(map, newPin);
+          })
         });
 
         window.setTimeout(function() {
@@ -238,6 +238,16 @@ angular.module('trivial.games', [])
         }
         //Alerts if you are too far away to claim a pin
         alert('Sorry, too far')
+      }
+
+    //This function checks a user's pins in one game to determine delete button render
+    $scope.checkUserPins = function() {
+      var myUser = userData._id
+      var userPins = pins.filter(function(pin) {
+        return pin.creator == myUser
+      })
+      if(userPins.length > 0) { return true }
+      else { return false }
       }
 
     //This function checks user location to determine button rendering
