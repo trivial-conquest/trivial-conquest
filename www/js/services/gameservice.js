@@ -143,7 +143,7 @@ angular.module('trivial.gamesrvc', [])
           address: pin.formatted_address,
           name: pin.name,
           coordinates: [pin.geometry.location.lat(), pin.geometry.location.lng()],
-          points: 0
+          points: points
         }
       }).then(function(resp){
         console.log('server POST pin success resp for pinId', resp)
