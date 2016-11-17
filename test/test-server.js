@@ -294,7 +294,7 @@ describe('Pins', function () {
           .set({ 'authorization': 'test' })
           .send({ points: 20 })
           .end((err, res) => {
-            res.body.scoreboard[0].points.should.equal(120)
+            res.body.points.should.equal(5)
             done()
           })
         })
