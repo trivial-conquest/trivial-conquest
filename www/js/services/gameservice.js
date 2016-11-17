@@ -95,14 +95,14 @@ angular.module('trivial.gamesrvc', [])
         data: {points: points}
       }).then(function(resp) {
         console.log('withDraw works', resp)
-        return resp
+        return resp.data
       }).catch(function(err) {
         console.log('withdraw error: ', err)
       })
     },
 
      deposit: function(points, gameId, pinId){
-      console.log('this is deposit gameid', gameId, 'pinId', pinId)
+      console.log('this is deposit gameid', gameId, 'pinId', pinId, "and points", points)
       return $http({
         method: 'PUT',
         url: '/games/' + gameId + '/pins/' + pinId + '/deposit',
@@ -110,7 +110,7 @@ angular.module('trivial.gamesrvc', [])
         data: {points: points}
       }).then(function(resp) {
         console.log('deposit works', resp)
-        return resp
+        return resp.data
       }).catch(function(err) {
         console.log('deposit error: ', err)
       })

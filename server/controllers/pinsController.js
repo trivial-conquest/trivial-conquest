@@ -81,6 +81,7 @@ module.exports = {
   },
 
   withdrawal: (req, res) => {
+    console.log('this is withdraw body', req.body, req.params)
     Pin.findOne({_id: req.params.pinId}, (err, pin) => {
       if(pin.points > req.body.points) {
         var newPointAmount = pin.points - req.body.points;
@@ -105,6 +106,7 @@ module.exports = {
   },
 
   deposit: (req, res) => {
+    console.log('this is deposit body', req.body, req.params)
     var sufficientFunds = false
     Game.findOne({_id: req.params.gameid}, (err, game) => {
       game.scoreboard.forEach(score => {
