@@ -7,9 +7,7 @@ module.exports = {
     //First checking to see how many pins user has already created
     Pin.find({game: req.params.gameid})
     .then((pins) => {
-      console.log('WHATEVA', pins)
       var userPins = pins.filter(function(pin){
-        console.log(pin.creator.toString() == req.tokenPayload._id)
         return pin.creator.toString() == req.tokenPayload._id
       })
       //If the user has created 3 pins already, throw an error
@@ -17,7 +15,6 @@ module.exports = {
         return res.send('Sorry dude- 3 pins already')
       }
       Pin.find({game: req.params.gameid, address: req.body.address}).then(repeats => {
-        console.log('REPEATS: ', repeats)
         if(repeats.length > 0){
           res.status(500).send('Sorry mate- that pin already exists')
         } else {
@@ -34,7 +31,17 @@ module.exports = {
           }).save()
           .then((pin) => {
             console.log('successfully created pin: ', pin)
-            res.send(pin)
+            Game.findOne({_id: req.params.gameid}, (err, game) => {
+
+              game.scoreboard.forEach((score) => {
+                if(score.user == req.tokenPayload._id) {
+                  score.pins.push(pin._id)
+                }
+              })
+              game.save().then(() => {
+                res.send(pin)
+              })
+            })
           })
           .catch((err) => {
             console.log('ERROR: ', err)
@@ -79,7 +86,6 @@ module.exports = {
         var newPointAmount = pin.points - req.body.points;
         pin.points = newPointAmount
         pin.save().then(() => {
-          console.log("This pin's points are now: ", pin.points)
           Game.findOne({_id: req.params.gameid}, (err, game) => {
             game.scoreboard.forEach(score => {
               if(score.user == req.tokenPayload._id) {
@@ -88,7 +94,7 @@ module.exports = {
             })
             game.save().then(() => {
               console.log(req.tokenPayload.firstName + " has withdrawn " + req.body.points.toString())
-              res.send(game)
+              res.send(pin)
             })
           })
         })
@@ -105,7 +111,6 @@ module.exports = {
         if(score.user == req.tokenPayload._id) {
           if(score.points >= req.body.points) { // if user has as many points as they are trying to deposit
             score.points -= req.body.points // deduct that many points from that user
-            console.log('score points')
             sufficientFunds = true
           }
         }
