@@ -10,6 +10,9 @@ const TokenService = require('./config/TokenService');
 const router = require('./routes/routes');
 const games = require('./routes/games');
 const auth = require('./routes/auth');
+const user = require('./routes/user');
+
+
 
 const app = express();
 
@@ -45,6 +48,7 @@ function isAuthenticated(req, res, next) {
 app.use('/', router);
 app.use('/games', isAuthenticated, games);
 app.use('/auth', auth);
+app.use('/user', user);
 
 const port = process.env.PORT || 8080;
 

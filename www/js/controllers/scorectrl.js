@@ -1,12 +1,11 @@
 angular.module('trivial.score', [])
 
-.controller('ScoreCtrl', ['$window', '$rootScope', '$scope', '$ionicModal', '$location', function($window, $rootScope, $scope,  $ionicModal, $location) {
+.controller('ScoreCtrl', ['$window', '$rootScope', '$scope', '$ionicModal', '$location', 'gameSrvc', function($window, $rootScope, $scope,  $ionicModal, $location, gameSrvc) {
 
 
-  $scope.users = [{firstName: "Christina", lastName: "Mullen", profilePicture: "https://graph.facebook.com/1844772705756251/picture?type=small", 
-  points: 13808302}, {firstName: "Anon", lastName: "Ymous", profilePicture: "https://graph.facebook.com/1844772705756259/picture?type=small", 
-  points: 12}]
-  // Create the login modal that we will use later
+  $scope.users = [];
+  var points = [];
+    // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/score.html', {
     scope: $scope
   }).then(function(modal) {
@@ -21,11 +20,33 @@ angular.module('trivial.score', [])
 
   var goBack = function(){
     $scope.goBack = {url: "#/games/" + currentGameID}
-    console.log("this is in scorered",  $scope.goBack)
     return  $scope.goBack
   }
 
-  goBack()
+  var getGame = function(){
+    gameSrvc.getOneGame(currentGameID)
+    .then(function(game){
+      $scope.games = game[0].scoreboard
+      $scope.games.forEach(function(game){
+        var player = game.user
+        points.push(game.points)
+        gameSrvc.getPlayer(player)
+        .then(function(player){
+          $scope.users.push(player[0])
+          $scope.users.forEach(function(user){
+            points.forEach(function(point){
+              user.points = point
+            })
+          })
+        })
+      })
+    })
+    .catch(function(err){
+      console.log('this is a getGame err', err)
+    })
+  }
 
+  getGame()
+  goBack()
  
 }]);

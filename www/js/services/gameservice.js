@@ -45,42 +45,20 @@ angular.module('trivial.gamesrvc', [])
        return $http({
           method: 'GET',
           authorization: localStorage.getItem('satellizer_token'),
-          url: 'games/:gameid'
-        }).then(function(resp) {
-          console.log(resp.data)
-          return resp.data;
-        })
-      },
-
-    getOneGame: function (gameId) {
-       return $http({
-          method: 'GET',
-          authorization: localStorage.getItem('satellizer_token'),
           url: 'games/' + gameId
         }).then(function(resp) {
-          console.log(resp.data)
           return resp.data;
         })
       },
 
-    getOneGame: function (gameId) {
-       return $http({
-          method: 'GET',
-          authorization: localStorage.getItem('satellizer_token'),
-          url: 'games/:gameid'
-        }).then(function(resp) {
-          console.log(resp.data)
-          return resp.data;
-        })
-      },
 
-    getQuestion: function() {
+    getPlayer: function (userId) {
       return $http({
         method: 'GET',
-        url: '/trivia',
-      }).then(function(resp){
-        console.log(resp.data.results);
-        return resp.data.results
+        authorization: localStorage.getItem('satellizer_token'),
+        url: 'user/' + userId
+      }).then(function(resp) {
+        return resp.data;
       })
     },
 
