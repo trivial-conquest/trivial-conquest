@@ -27,6 +27,8 @@
     gameSrvc.getOneGame(currentGameID)
     .then(function(game){
       $scope.games = game[0].scoreboard
+      console.log('SCOREBOARD', $scope.games)
+      console.log($scope.games.pins)
       $scope.games.forEach(function(game){
         var player = game.user
         points.push(game.points)
