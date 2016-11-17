@@ -249,9 +249,18 @@ angular.module('trivial.games', [])
       if(userPins.length > 0 && userPins.length < 3) { return true }
       else if(userPins.length === 0) { return false }
       else if(userPins.length === 3) { return false }
-      }
+    }
 
-    //This function checks user location to determine button rendering
+    $scope.checkPinCount = function() {
+      var myUser = userData._id
+      var userPins = pins.filter(function(pin) {
+        return pin.creator == myUser
+      })
+      if(userPins.length === 3) { return false}
+      else { return true }
+    }
+
+    //This function checks user location to determine claim button rendering
     $scope.checkLocation = function() {
       var myCoords = {lat: position.coords.latitude, lng: position.coords.longitude}
       var closePins = pins.filter(function(pin){
