@@ -51,6 +51,17 @@ angular.module('trivial.gamesrvc', [])
         })
       },
 
+     getOnePin: function (pinId) {
+     return $http({
+        method: 'GET',
+        authorization: localStorage.getItem('satellizer_token'),
+        url: 'games/pins/' + pinId
+      }).then(function(resp) {
+        console.log('this is in GetOnePin', resp)
+        return resp.data;
+      })
+    },
+
     getPlayer: function (userId) {
       return $http({
         method: 'GET',

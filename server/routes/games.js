@@ -19,5 +19,6 @@ router.put('/:gameid/pins/:pinId/withdrawal', pins.withdrawal)
 router.put('/:gameid/pins/:pinId/deposit', pins.deposit)
 router.put('/:gameid/pins/:pinId/settleDispute', pins.settleDispute)
 router.get('/:gameid/pins', pins.getPinsForGame)
+router.get('/pins/:pinId', pins.getOnePin)
 
 module.exports = router;
