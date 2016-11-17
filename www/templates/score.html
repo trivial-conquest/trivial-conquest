@@ -6,12 +6,23 @@ f<ion-modal-view>
     </div>
   </ion-header-bar>
   <ion-content>
+  <table>
+    <th>Picture</th>
+    <th>Name</th>
+    <th>Bullion</th>
+    
+    <tr ng-repeat="user in users">
+      <td><img ng-src="{{user.profilePicture}}"></td>
+      <td>{{user.firstName}} {{user.lastName}}</td>
+      <td>{{user.points}}</td>
+    </tr>
+  </table>
   <div class="list">
     <a class="item item-avatar" href="#" ng-repeat="user in users">
       <img ng-src="{{user.profilePicture}}">
       <h2>{{user.firstName}} {{user.lastName}}</h2>
-      <p>{{user.points}}</p>
-      <p>{{user.pins}}</p>
+      <p>Bullion: {{user.points}}</p>
+      <p>pins</p>
     </a>
   </div>
   </ion-content>
@@ -20,3 +31,32 @@ f<ion-modal-view>
 <!--   // scoreboard
   // owner's points (cash) | pins {address, points}
   // for each member of game -->
+
+<!--   user.points √
+  user.pins.address
+  user.pins.points -->
+
+<!--   <table style="width:100%">
+  <tr>
+    <th>Firstname</th>
+    <th>Lastname</th> 
+    <th>Age</th>
+  </tr>
+  <tr>
+    <td>Jill</td>
+    <td>Smith</td> 
+    <td>50</td>
+  </tr>
+  <tr>
+    <td>Eve</td>
+    <td>Jackson</td> 
+    <td>94</td>
+  </tr>
+</table>
+
+<table>
+  <tr ng-repeat="x in names">
+    <td>{{ x.Name }}</td>
+    <td>{{ x.Country }}</td>
+  </tr>
+</table> -->
