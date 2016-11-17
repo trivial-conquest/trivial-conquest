@@ -129,7 +129,7 @@ angular.module('trivial.gamesrvc', [])
 
 
     settleDispute: function(gameId,pinId,winnerId,loserId) {
-      console.log('settleDispute called')
+      console.log('settled dispute', gameId, pinId, winnerId, loserId)
       return $http({
         method: 'PUT',
         url: '/games/' + gameId + '/pins/' + pinId + '/settleDispute',

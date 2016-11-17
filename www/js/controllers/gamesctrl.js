@@ -219,25 +219,25 @@ angular.module('trivial.games', [])
           gameSrvc.getPlayerPoints(closest.game)
           .then(function(gameRes){
             //gameRes gives you the amount of points the user has in this game
-            console.log('player points game',gameRes)
             var pinPoints = closest.points
-            var userPoints = gameRes.points
+            var userPoints = gameRes[0].points
             var outcome = (Math.random() * (pinPoints + userPoints))
+            console.log('Result of battle', outcome, userPoints)
+            console.log('owner of pin', closest)
             if(outcome < userPoints) {
               alert('Victory is yours!')
               //Takes a winner first and then a loser, so in this case the user wins
-              gameSrvc.settleDispute(closest.game, closest._id, gameRes.user, closest.owner)
+              gameSrvc.settleDispute(closest.game, closest._id, gameRes[0].user, closest.owner)
               return
             } else {
               alert('You lose sucka!')
+
               //In this case, the pin owner is the winner and the user is the loser
-              gameSrvc.settleDispute(closest.game, closest._id, closest.owner, gameRes.user)
+              gameSrvc.settleDispute(closest.game, closest._id, closest.owner, gameRes[0].user)
               return
             }
           })
         }
-        //Alerts if you are too far away to claim a pin
-        alert('Sorry, too far')
       }
 
     //This function checks a user's pins in one game to determine delete button render
@@ -264,7 +264,7 @@ angular.module('trivial.games', [])
     $scope.checkLocation = function() {
       var myCoords = {lat: position.coords.latitude, lng: position.coords.longitude}
       var closePins = pins.filter(function(pin){
-          return (Math.abs(myCoords.lat - pin.coordinates[0]) < .003 && Math.abs(myCoords.lng - pin.coordinates[1]) < .003)
+          return (Math.abs(myCoords.lat - pin.coordinates[0]) < .003 && Math.abs(myCoords.lng - pin.coordinates[1]) < .003 && pin.owner !== userData._id)
         })
       if(closePins.length) {
         return true
