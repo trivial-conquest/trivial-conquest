@@ -29,10 +29,6 @@ angular.module('trivial.allgames', [])
     .then(function(games){
       if(typeof(games) === 'string') $window.location = '#/login'
       $scope.games = games
-      games.forEach(function(game){
-        $scope.users = game.users
-        console.log('all users', $scope.users)
-      })
     })
     .catch(function(){
       console.log('no games retrieved')
