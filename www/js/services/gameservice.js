@@ -52,12 +52,11 @@ angular.module('trivial.gamesrvc', [])
       })
     },
 
-
-    getOneGame: function (gameId) {
-     return $http({
+    getPlayer: function (userId) {
+      return $http({
         method: 'GET',
         authorization: localStorage.getItem('satellizer_token'),
-        url: 'games/:gameid'
+        url: 'user/' + userId
       }).then(function(resp) {
         return resp.data;
       })
