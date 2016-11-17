@@ -170,7 +170,6 @@ angular.module('trivial.games', [])
       }
 
       var currentGameID = getCurrentGameID();
-
       var scoreRedirect = function(){
         $scope.scoreUrl = {url: "#/games/" + currentGameID + "/score"}
         return  $scope.scoreUrl
@@ -222,8 +221,6 @@ angular.module('trivial.games', [])
             var pinPoints = closest.points
             var userPoints = gameRes[0].points
             var outcome = (Math.random() * (pinPoints + userPoints))
-            console.log('Result of battle', outcome, userPoints)
-            console.log('owner of pin', closest)
             if(outcome < userPoints) {
               alert('Victory is yours!')
               //Takes a winner first and then a loser, so in this case the user wins
@@ -271,13 +268,13 @@ angular.module('trivial.games', [])
       } else return false
     }
 
-     $scope.checkLocOwner = function() {
+    $scope.checkLocOwner = function() {
       var myCoords = {lat: position.coords.latitude, lng: position.coords.longitude}
       var closePins = pins.filter(function(pin){
-          return (Math.abs(myCoords.lat - pin.coordinates[0]) < .003 && Math.abs(myCoords.lng - pin.coordinates[1]) < .003)
-        })
+        return (Math.abs(myCoords.lat - pin.coordinates[0]) < .003 && Math.abs(myCoords.lng - pin.coordinates[1]) < .003)
+      })
       if(closePins.length && closePins[0].owner === userData._id) {
-         bankRedirect(closePins[0]._id)
+        bankRedirect(closePins[0]._id)
         return true
       } else return false
     }
@@ -332,6 +329,28 @@ angular.module('trivial.games', [])
             drop(pins)
           })
         })
+      }
+
+      // Init variable and point at game object to access each game's props
+      var gameData ;
+      gameSrvc.getOneGame(currentGameID)
+      .then(function(game) {
+        gameData = game
+      })
+
+      // This function checks if user has already joined game to determind joinGame render
+      $scope.checkUserJoin = function() {
+        var myUser = userData._id
+        console.log('myUser: ', myUser)
+        var users = gameData[0].users
+        console.log('users: ', users)
+        var bool = true
+        users.forEach(function(user){
+          if(user._id === myUser) {
+            console.log("myUser has already joined - button should be hidden")
+            bool = false }
+        })
+       return bool
       }
 
     })
