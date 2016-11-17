@@ -246,8 +246,9 @@ angular.module('trivial.games', [])
       var userPins = pins.filter(function(pin) {
         return pin.creator == myUser
       })
-      if(userPins.length > 0) { return true }
-      else { return false }
+      if(userPins.length > 0 && userPins.length < 3) { return true }
+      else if(userPins.length === 0) { return false }
+      else if(userPins.length === 3) { return false }
       }
 
     //This function checks user location to determine button rendering
