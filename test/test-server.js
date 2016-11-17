@@ -30,7 +30,6 @@ describe('Game', function () {
     chai.request(server).post('/games').set({ 'authorization': 'test' }).send({ 'name': 'Testy Johnson', limit: 4 }).end(function (err, res) {
       res.should.have.status(200);
       res.body.name.should.equal('Testy Johnson');
-      console.log('res.body: ', res.body)
       res.body.scoreboard[0].points.should.equal(100)
       res.body.scoreboard[0].user.should.equal('58221b1deb8543b7ba21e39f')
       res.body.users[0]._id.should.equal('58221b1deb8543b7ba21e39f');
@@ -264,13 +263,11 @@ describe('Pins', function () {
                 game: game._id,
                 creator: '58221b1deb8543b7ba21e39f'
               }).save(() => {
-                console.log('made it: ', game._id)
                 chai.request(server)
                 .post('/games/' + game._id + '/pins')
                 .set({'authorization' : 'test'})
                 .send({address: '126 Testing Ave'})
                 .end(function(err, res){
-                  console.log('res bod', res.text)
                   res.text.should.equal('Sorry dude- 3 pins already')
                   done();
                 });
