@@ -1,4 +1,4 @@
-angular.module('trivial.score', [])
+  angular.module('trivial.score', [])
 
 .controller('ScoreCtrl', ['$window', '$rootScope', '$scope', '$ionicModal', '$location', 'gameSrvc', function($window, $rootScope, $scope,  $ionicModal, $location, gameSrvc) {
 
@@ -45,6 +45,10 @@ angular.module('trivial.score', [])
       console.log('this is a getGame err', err)
     })
   }
+
+  // scoreboard
+  // owner's points (cash) | pins {address, points}
+  // for each member of game 
 
   getGame()
   goBack()
