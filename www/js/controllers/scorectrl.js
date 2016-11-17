@@ -26,6 +26,7 @@
   var getGame = function(){
     gameSrvc.getOneGame(currentGameID)
     .then(function(game){
+      console.log('GAMES', game)
       $scope.games = game[0].scoreboard
       $scope.games.forEach(function(game){
         var player = game.user
