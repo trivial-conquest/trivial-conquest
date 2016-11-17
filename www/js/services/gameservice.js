@@ -42,15 +42,15 @@ angular.module('trivial.gamesrvc', [])
     },
 
     getOneGame: function (gameId) {
-       return $http({
-          method: 'GET',
-          authorization: localStorage.getItem('satellizer_token'),
-          url: 'games/' + gameId
-        }).then(function(resp) {
-          return resp.data;
-        })
-      },
-
+      return $http({
+        method: 'GET',
+        authorization: localStorage.getItem('satellizer_token'),
+        url: '/games/' + gameId
+      }).then(function(resp) {
+        console.log(resp.data)
+        return resp.data;
+      })
+    },
 
     getPlayer: function (userId) {
       return $http({
@@ -155,6 +155,4 @@ angular.module('trivial.gamesrvc', [])
         console.log(pinId)
       })
     }
-
-  }
-}]);
+}}]);
