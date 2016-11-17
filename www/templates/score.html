@@ -22,7 +22,7 @@ f<ion-modal-view>
       <img ng-src="{{user.profilePicture}}">
       <h2>{{user.firstName}} {{user.lastName}}</h2>
       <p>Bullion: {{user.points}}</p>
-      <p>pins</p>
+      <p ng-repeat="pin in pins">pins: {{pin}}</p>
     </a>
   </div>
   </ion-content>

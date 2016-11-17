@@ -5,6 +5,7 @@
 
   $scope.users = [];
   var points = [];
+  var pins = [];
     // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/score.html', {
     scope: $scope
@@ -32,20 +33,28 @@
       $scope.scoreboard.forEach(function(user){
         // each user object
         var player = user.user
-        var pins = user.pins
+        pins.push(user.pins)
+        console.log('PINs', pins)
         points.push(user.points)
 
         gameSrvc.getPlayer(player)
         .then(function(player){
           $scope.users.push(player[0])
-          $scope.users.forEach(function(person){
-            points.forEach(function(point){
-              console.log('pers', person, 'pt', point)
-              person.points = point
-            })
-          })
+          // $scope.users.forEach(function(person){
+            // points.forEach(function(point){
+            //   console.log('pers', person, 'pt', point)
+            //   person.points = point
+            // })
+          // })
+          for (var i = 0 ; i < $scope.users.length ; i++) {
+            $scope.users[i].points = points[i]
+            $scope.users[i].pins = pins[i]
+          }
         })
-        gameSrvc
+        // gameSrvc.getPinsForGame(currentGameID)
+        // .then(function(pins) {
+
+        // })
       })
     })
     .catch(function(err){
