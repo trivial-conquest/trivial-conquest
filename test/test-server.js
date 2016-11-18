@@ -386,7 +386,7 @@ describe('Pins', function () {
     })
   })
 
-  it.only('should appropriately settle dispute if challenger wins', function (done) {
+  it('should appropriately settle dispute if challenger wins', function (done) {
     User.collection.drop();
     var gameId;
     var pinId
@@ -422,11 +422,9 @@ describe('Pins', function () {
             .end((err, res) => {
               res.body.owner.should.equal(user._id.toString())
               res.body.points.should.equal(10) // PIN'S POINTS SHOULD NOT CHANGE
-              Game.findOne({_id: gameId}, (err, g) => {
-                console.log('GAME: ', g)
-                console.log('GAME SCOREBOARD: ', g.scoreboard)
-                g.scoreboard[0].pins.length.should.equal(1)
-                g.scoreboard[0].pins[0].should.equal(pinId)
+              Game.findOne({_id: gameId}, (err, game) => {
+                game.scoreboard[0].pins.length.should.equal(1) // SCOREBOARD SHOULD UPDATE BY MOVING THE CONQUERED PIN ID TO THE CONQUERER'S PINS ARRAY
+                game.scoreboard[0].pins[0].toString().should.equal(pinId)
                 done()
               })
             })
