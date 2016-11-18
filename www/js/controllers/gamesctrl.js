@@ -218,12 +218,14 @@ angular.module('trivial.games', [])
           gameSrvc.getPlayerPoints(closest.game)
           .then(function(gameRes){
             //gameRes gives you the amount of points the user has in this game
+            console.log(gameRes)
             var pinPoints = closest.points
             var userPoints = gameRes[0].points
             var outcome = (Math.random() * (pinPoints + userPoints))
             if(outcome < userPoints) {
               alert('Victory is yours!')
               //Takes a winner first and then a loser, so in this case the user wins
+<<<<<<< c753d3358381cff2c813fd7e4fada5896beae331
               gameSrvc.settleDispute(closest.game, closest._id, gameRes[0].user, closest.owner, userData.profilePicture)
               .then(function(){
                 gameSrvc.getPinsForGame(currentGameID)
@@ -231,6 +233,10 @@ angular.module('trivial.games', [])
                   drop(pins)
                 })
               })
+=======
+              gameSrvc.settleDispute(closest.game, closest._id, gameRes[0].user, closest.owner, gameRes[0].user.profilePicture)
+              return
+>>>>>>> Fixing icon update
             } else {
               alert('You lose sucka!')
 
