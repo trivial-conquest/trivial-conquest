@@ -285,7 +285,6 @@ angular.module('trivial.games', [])
     }
 
     $scope.joinGame = function() {
-      console.log('this is joingame', currentGameID)
        gameSrvc.joinGame(currentGameID)
        .then(function(){
         console.log('this worked', currentGameID)
