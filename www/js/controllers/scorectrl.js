@@ -29,9 +29,7 @@
     gameSrvc.getOneGame(currentGameID)
     .then(function(game){
       $scope.scoreboard = game[0].scoreboard
-      // is an array of objects w/ user, pins array, points
       $scope.scoreboard.forEach(function(user){
-        // each user object
         var player = user.user
         points.push(user.points)
         gameSrvc.getPlayer(player)
@@ -40,17 +38,17 @@
           for (var i = 0 ; i < $scope.users.length ; i++) {
             $scope.users[i].points = points[i]
           }
-            gameSrvc.getPinsForGame(currentGameID)
-            .then(function(pins) {
-              for (var i = 0 ; i < $scope.users.length ; i++) {
-                $scope.users[i].pins = pins.filter(function(pin) {
-                  return pin.owner === $scope.users[i]._id
-                })
-                .map(function(userPin) {
-                  return {owner: userPin.owner, name: userPin.name, address: userPin.address, points: userPin.points}
-                })
-              }
-            })          
+          gameSrvc.getPinsForGame(currentGameID)
+          .then(function(pins) {
+            for (var i = 0 ; i < $scope.users.length ; i++) {
+              $scope.users[i].pins = pins.filter(function(pin) {
+                return pin.owner === $scope.users[i]._id
+              })
+              .map(function(userPin) {
+                return {owner: userPin.owner, name: userPin.name, address: userPin.address, points: userPin.points}
+              })
+            }
+          })              
         })
       })
     })
