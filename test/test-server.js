@@ -386,8 +386,10 @@ describe('Pins', function () {
     })
   })
 
-  it('should appropriately settle dispute if challenger wins', function (done) {
+  it.only('should appropriately settle dispute if challenger wins', function (done) {
     User.collection.drop();
+    var gameId;
+    var pinId
     new User({
       firstName: 'Test Challenger',  // CREATE TEST USER NUMBER ONE
       email: 'test@test.com'
@@ -401,6 +403,7 @@ describe('Pins', function () {
         remain: 12
       })
       .save(function(err, game) {
+        gameId = game._id
         chai.request(server)
         .put('/games/' + game._id)
         .set({ 'authorization': 'test' }) // CREATE AND ASSOCIATE TEST USER NUMBER TWO WITH SAME GAME
@@ -410,15 +413,22 @@ describe('Pins', function () {
           .set({ 'authorization': 'test' })
           .send({ address: '123 Testing Ave', points: 10 })
           .end((err, pin) => {
+            pinId = pin.body._id
             pin.body.owner.should.equal('58221b1deb8543b7ba21e39f')
             chai.request(server)
             .put('/games/' + game.body[0]._id + '/pins/' + pin.body._id + '/settleDispute')
             .set({'authorization': 'test'})
             .send({winner: user._id, loser: '58221b1deb8543b7ba21e39f'})
             .end((err, res) => {
-              res.body.owner.should.equal(user._id.toString()) // PIN OWNER SHOULD REMAIN THE SAME
+              res.body.owner.should.equal(user._id.toString())
               res.body.points.should.equal(10) // PIN'S POINTS SHOULD NOT CHANGE
-              done()
+              Game.findOne({_id: gameId}, (err, g) => {
+                console.log('GAME: ', g)
+                console.log('GAME SCOREBOARD: ', g.scoreboard)
+                g.scoreboard[0].pins.length.should.equal(1)
+                g.scoreboard[0].pins[0].should.equal(pinId)
+                done()
+              })
             })
           })
         })
