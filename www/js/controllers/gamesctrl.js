@@ -204,7 +204,7 @@ angular.module('trivial.games', [])
         var myCoords = {lat: position.coords.latitude, lng: position.coords.longitude}
         //Checks to see if user is close enough to any pins in the game
         var closePins = pins.filter(function(pin){
-          return (Math.abs(myCoords.lat - pin.coordinates[0]) < .003 && Math.abs(myCoords.lng - pin.coordinates[1]) < .003)
+          return (Math.abs(myCoords.lat - pin.coordinates[0]) < .003 && Math.abs(myCoords.lng - pin.coordinates[1]) < .003 && pin.owner !== userData._id)
         })
         //If use is close enough to a pin to claim it, find the one that they are closest to
         if (closePins.length) {
@@ -225,7 +225,12 @@ angular.module('trivial.games', [])
               alert('Victory is yours!')
               //Takes a winner first and then a loser, so in this case the user wins
               gameSrvc.settleDispute(closest.game, closest._id, gameRes[0].user, closest.owner, userData.profilePicture)
-              return
+              .then(function(){
+                gameSrvc.getPinsForGame(currentGameID)
+                .then(function(){
+                  drop(pins)
+                })
+              })
             } else {
               alert('You lose sucka!')
 
