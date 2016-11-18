@@ -158,15 +158,26 @@ module.exports = {
   },
 
   settleDispute: (req, res) => {
-    Pin.findOne({_id: req.params.pinId}, (err, pin) => {
-      if(err) res.send(err)
-      if(pin.owner == req.body.loser) { // IF THE OWNER OF THE PIN LOSES
-        pin.owner = req.body.winner     // THE WINNER NOW OWNS THAT PIN
-        pin.save().then(() => {
-          res.send(pin)
-        })
-      } else { // IF THE CHALLENGER LOSES
-        Game.findOne({_id: req.params.gameid}, (err, game) => {
+    Game.findOne({_id: req.params.gameid}, (err, game) => {
+      Pin.findOne({_id: req.params.pinId}, (err, pin) => {
+        if(err) res.send(err)
+        if(pin.owner == req.body.loser) { // IF THE OWNER OF THE PIN LOSES
+          pin.owner = req.body.winner     // THE WINNER NOW OWNS THAT PIN
+          pin.save().then(() => {
+            game.scoreboard.forEach((score) => {
+              if(score.user == req.body.loser) {
+                var pinIndex = score.pins.indexOf(req.params.pinId)
+                score.pins.splice(pinIndex, 1);
+              }
+              if(score.user == req.body.winner) {
+                score.pins.push(req.params.pinId)
+              }
+            })
+            game.save().then(() => {
+              res.send(pin)
+            })
+          })
+        } else { // IF THE CHALLENGER LOSES
           if(err) res.send(err)
           var amountToBeAddedToPin;
           game.scoreboard.forEach((score) => {
@@ -181,8 +192,8 @@ module.exports = {
               res.send(pin)
             })
           })
-        })
-      }
+        }
+      })
     })
   }
 };
