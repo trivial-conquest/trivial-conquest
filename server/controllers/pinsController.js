@@ -109,7 +109,7 @@ module.exports = {
 
   withdrawal: (req, res) => {
     Pin.findOne({_id: req.params.pinId}, (err, pin) => {
-      if(pin.points > req.body.points) {
+      if(pin.points >= req.body.points) {
         var newPointAmount = pin.points - req.body.points;
         pin.points = newPointAmount
         pin.save().then(() => {
