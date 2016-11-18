@@ -11,10 +11,8 @@ angular.module('trivial.gamesrvc', [])
         authorization: localStorage.getItem('satellizer_token'),
         data: {name: name, limit: limit}
       }).then(function(resp){
-        console.log('this game creation worked!!!!&&', resp.data)
         return resp.data
       }).catch(function(resp){
-        console.log('this game creation didnt work', resp)
       })
     }
     },
@@ -57,7 +55,6 @@ angular.module('trivial.gamesrvc', [])
         authorization: localStorage.getItem('satellizer_token'),
         url: 'games/pins/' + pinId
       }).then(function(resp) {
-        console.log('this is in GetOnePin', resp)
         return resp.data;
       })
     },
@@ -78,7 +75,6 @@ angular.module('trivial.gamesrvc', [])
         url: '/games/' + gameId + '/pins',
         authorization: localStorage.getItem('satellizer_token')
       }).then(function(resp){
-        console.log('pins resp', resp.data)
         return resp.data
       })
     },
@@ -90,7 +86,6 @@ angular.module('trivial.gamesrvc', [])
         authorization: localStorage.getItem("satellizer_token"),
         data: {game_id: gameId}
       }).then(function(resp) {
-        console.log('JOINING GAME SUCCESSFUL', resp)
         return resp
       }).catch(function(err) {
         console.log('THROW NEW ERROR: ', err)

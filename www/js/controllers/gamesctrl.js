@@ -318,8 +318,9 @@ angular.module('trivial.games', [])
         gameSrvc.getPinsForGame(currentGameID)
         .then(function(response){
           pinToDelete = response[response.length - 1]
+          console.log('Deleting pin points!!', pinToDelete.points)
+          gameSrvc.withDraw(pinToDelete.points,currentGameID,pinToDelete._id)
           gameSrvc.deletePin(pinToDelete._id, currentGameID)
-
           gameSrvc.getPinsForGame(currentGameID)
           .then(function(response){
             pins = response
