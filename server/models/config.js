@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise
 
 var mongoURI = {
-  // development: 'mongodb://localhost:27017/conquest',
-  // test: 'mongodb://localhost:27017/conquest-test',
-   production: 'mongodb://heroku_9snx0qqf:pv336jedvqno38v7mcvs5ncgdb@ds147777.mlab.com:47777/heroku_9snx0qqf'
+  development: 'mongodb://localhost:27017/conquest',
+  test: 'mongodb://localhost:27017/conquest-test',
+  production: 'mongodb://heroku_9snx0qqf:pv336jedvqno38v7mcvs5ncgdb@ds147777.mlab.com:47777/heroku_9snx0qqf'
 };
 
 const db = mongoose.connect(mongoURI[process.env.NODE_ENV], function(err, res) {
