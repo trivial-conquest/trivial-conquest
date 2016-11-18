@@ -225,8 +225,12 @@ angular.module('trivial.games', [])
               alert('Victory is yours!')
               //Takes a winner first and then a loser, so in this case the user wins
               gameSrvc.settleDispute(closest.game, closest._id, gameRes[0].user, closest.owner, userData.profilePicture)
-              return
->>>>>>> Fixing icon update
+              .then(function(){
+                gameSrvc.getPinsForGame(currentGameID)
+                .then(function(){
+                  drop(pins)
+                })
+              })
             } else {
               alert('You lose sucka!')
 
