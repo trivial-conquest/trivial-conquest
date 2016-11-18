@@ -176,21 +176,37 @@ describe('Pins', function () {
 
   it('should delete a pin successfully', function (done) {
     Pin.collection.drop()
-    new Pin({
-      address: '124 Test Ave.',
-      name: 'test pin',
-      coordinates: [],
-      game: game._id,
-    }).save(function (err, pin){
-      if(err) {
-        console.log(err)
-      }
+    new Game({
+      name: 'test game name',
+      pins: [],
+      users: [],
+      remain: 12
+    })
+    .save(function(err, game) {
       chai.request(server)
-      .delete('/games/' + game._id + '/pins/' + pin._id).set({'authorization' : 'test'}).end()
-      chai.request(server)
-      .get('/games/' + game._id + '/pins').set({ 'authorization': 'test' }).end(function (err,res){
-        res.body.length.should.equal(0)
-        done()
+      .put('/games/' + game._id) // JOIN THE GAME
+      .set({ 'authorization': 'test' })
+      .end(function (err, res) {
+        chai.request(server) // Sending post request to create a pin for a specific game
+        .post('/games/' + game._id + '/pins')
+        .set({ 'authorization': 'test' })
+        .send({ address: 'Testing Ave', points: 20 })
+        .end(function(err, pin){
+          chai.request(server)
+          .delete('/games/' + game._id + '/pins/' + pin.body._id).set({'authorization' : 'test'}).end(function(){
+            chai.request(server)
+            .get('/games/' + game._id + '/pins').set({ 'authorization': 'test' }).end(function (err,res){
+              res.body.length.should.equal(0)
+              chai.request(server)
+              .get('/games/' + game._id)
+              .set({ 'authorization': 'test' })
+              .end(function (err,res){
+                res.body[0].scoreboard[0].pins.length.should.equal(0)
+                done()
+              })
+            })
+          })
+        })
       })
     })
   })
