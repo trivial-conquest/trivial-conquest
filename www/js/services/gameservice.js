@@ -5,16 +5,16 @@ angular.module('trivial.gamesrvc', [])
 
     createGame: function(name, limit) {
       if(limit !==0){
-      return $http({
-        method: 'POST',
-        url: '/games',
-        authorization: localStorage.getItem('satellizer_token'),
-        data: {name: name, limit: limit}
-      }).then(function(resp){
-        return resp.data
-      }).catch(function(resp){
-      })
-    }
+        return $http({
+          method: 'POST',
+          url: '/games',
+          authorization: localStorage.getItem('satellizer_token'),
+          data: {name: name, limit: limit}
+        }).then(function(resp){
+          return resp.data
+        }).catch(function(resp){
+        })
+      }
     },
 
     getAllGames: function () {
