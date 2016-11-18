@@ -4,33 +4,57 @@ f<ion-modal-view>
     <div class="buttons">
     <a class="button button-calm" ng-href="{{goBack.url}}">Close</a>
     </div>
+      <style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+  </style>
   </ion-header-bar>
   <ion-content>
   <div class="list">
     <a class="item item-avatar" href="#" ng-repeat="user in users">
       <img ng-src="{{user.profilePicture}}">
       <h2>{{user.firstName}} {{user.lastName}}</h2>
-      <p>Bullion: {{user.points}}</p>
-      <p>{{user.pins.address}}</p>
-      <p>{{user.pins.points}}</p>
-<!--       <table style="width:100%">
-        <tr>
-          <th>Pins</th>
-        </tr>
-        <tr ng-repeat="pin in users.pins">
-          <td>address</td>
-          <td>points</td>
-        </tr>        
-      </table> -->
+      <p>Cash: {{user.points}}</p>
+      <div>
+        <div ng-repeat="pin in user.pins">
+        <p>Pin: {{user.pins.indexOf(pin) + 1}}</p>
+          <p style="text-indent: 25px">name: {{pin.name}}</p>
+          <p style="text-indent: 25px">address: {{pin.address}}</p>
+          <p style="text-indent: 25px">points: {{pin.points}}</p>
+  <!--         <table style="width:50%">
+            <tr>
+              <th>Pins</th>
+            </tr>
+            <tr ng-repeat="pin in user.pins">
+              <td>name: {{pin.name}}</td>
+              <td>address: {{pin.address}}</td>
+              <td>points: {{pin.points}}</td>
+            </tr>        
+          </table> -->
+        </div>
+      </div>
     </a>
   </div>
   </ion-content>
 </ion-modal-view>
 
-
-<!-- <table>
-  <tr ng-repeat="x in names">
-    <td>{{ x.Name }}</td>
-    <td>{{ x.Country }}</td>
-  </tr>
-</table> -->
+<!-- 
+      <table>
+        <tr ng-repeat="pin in user.pins">
+          <td>{{ pin.name }}</td>
+          <td>{{ pin.points }}</td>
+        </tr>
+      </table> -->

@@ -51,16 +51,16 @@
             gameSrvc.getPinsForGame(currentGameID)
             .then(function(pins) {
               for (var i = 0 ; i < $scope.users.length ; i++) {
-                // console.log('2', $scope.users[i])
+                console.log('2', $scope.users[i])
                 $scope.users[i].pins = pins.filter(function(pin) {
                   console.log('pincreat', pin.creator, 'player', user.user)
-                  return pin.creator === user.user
+                  return pin.creator === $scope.users[i]._id
                 })
                 .map(function(userPin) {
-                  return {creator: userPin.creator, address: userPin.address, points: userPin.points}
+                  return {creator: userPin.creator, name: userPin.name, address: userPin.address, points: userPin.points}
                 })
               }
-                    console.log('end', $scope.users)
+              console.log('end', $scope.users)
             })          
         })
       })
@@ -69,9 +69,6 @@
       console.log('this is a getGame err', err)
     })
   }
-
-  // scoreboard
-  // owner's points (cash) | pins {address, points}
 
   getGame()
   goBack()
