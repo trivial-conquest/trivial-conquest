@@ -5,7 +5,8 @@
 
   $scope.users = [];
   var points = [];
-  var pins = [];
+  var pins;
+
     // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/score.html', {
     scope: $scope
@@ -33,8 +34,6 @@
       $scope.scoreboard.forEach(function(user){
         // each user object
         var player = user.user
-        pins.push(user.pins)
-        console.log('PINs', pins)
         points.push(user.points)
 
         gameSrvc.getPlayer(player)
@@ -46,20 +45,23 @@
             //   person.points = point
             // })
           // })
-          gameSrvc.getPinsForGame(currentGameID)
-          .then(function(pins) {
-            pins = pins.filter(function(pin) {
-              console.log('pincreat', pin.creator, 'player', user.user)
-              return pin.creator === user.user
-            })
-            .map(function(userPin) {
-              return [userPin.address, userPin.points]
-            })
-            for (var i = 0 ; i < $scope.users.length ; i++) {
-              $scope.users[i].points = points[i]
-              $scope.users[i].pins = pins[i]
-            }
-          })          
+          for (var i = 0 ; i < $scope.users.length ; i++) {
+            $scope.users[i].points = points[i]
+          }
+            gameSrvc.getPinsForGame(currentGameID)
+            .then(function(pins) {
+              for (var i = 0 ; i < $scope.users.length ; i++) {
+                // console.log('2', $scope.users[i])
+                $scope.users[i].pins = pins.filter(function(pin) {
+                  console.log('pincreat', pin.creator, 'player', user.user)
+                  return pin.creator === user.user
+                })
+                .map(function(userPin) {
+                  return {creator: userPin.creator, address: userPin.address, points: userPin.points}
+                })
+              }
+                    console.log('end', $scope.users)
+            })          
         })
       })
     })
@@ -70,7 +72,6 @@
 
   // scoreboard
   // owner's points (cash) | pins {address, points}
-  // for each member of game 
 
   getGame()
   goBack()
