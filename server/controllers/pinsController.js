@@ -5,13 +5,16 @@ const Game = require('../models/game')
 module.exports = {
   createNewPin: (req, res) => {
     var insufficientFunds = false
+    var hasJoined = false
     //First checking to see how many pins user has already created
     Game.findOne({_id: req.params.gameid}, (err, game) => {
       game.scoreboard.forEach((score) => {
         if(score.user == req.tokenPayload._id) {
+          hasJoined = true;
           if(req.body.points > score.points) insufficientFunds = true
         }
       })
+      if(!hasJoined) return res.send('Sorry mate- you must join this game before you can add pins to it')
       if(insufficientFunds) return res.send('Sorry dude- not enough points')
       Pin.find({game: req.params.gameid})
       .then((pins) => {
