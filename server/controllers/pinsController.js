@@ -100,13 +100,6 @@ module.exports = {
     })
   },
 
-  updatePinOwner: (req, res) => {
-    Pin.findOneAndUpdate({_id: req.params.pinId}, {owner: req.tokenPayload._id, icon: req.tokenPayload.profilePicture}, {new: true}, function(err, pin){
-        if (err) return res.send(500, { error: err });
-        return res.send(pin);
-    });
-  },
-
   withdrawal: (req, res) => {
     Pin.findOne({_id: req.params.pinId}, (err, pin) => {
       if(pin.points >= req.body.points) {
