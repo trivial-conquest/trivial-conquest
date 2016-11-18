@@ -228,7 +228,7 @@ angular.module('trivial.games', [])
               .then(function(){
                 gameSrvc.getPinsForGame(currentGameID)
                 .then(function(){
-                  drop(pins)
+                  $state.reload()
                 })
               })
             } else {
