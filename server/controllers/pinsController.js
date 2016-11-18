@@ -60,22 +60,22 @@ module.exports = {
   },
 
   deletePin: (req, res) => {
-    Pin.find({_id: req.params.pinId}).remove()
-    .then((pin) => {
+    Pin.findOne({_id: req.params.pinId}, (err, pin) => {
       Game.findOne({_id: req.params.gameid}, (err, game) => {
         game.scoreboard.forEach((score) => {
           if(score.user == req.tokenPayload._id) {
             var pinIndex = score.pins.indexOf(req.params.pinId)
             score.pins.splice(pinIndex, 1);
+            score.points += pin.points
           }
         })
         game.save().then(() => {
-          res.send(pin)
+          pin.remove(() => {
+            console.log('successfully removed pin: ', pin)
+            res.send(pin)
+          })
         })
       })
-    })
-    .catch((err) => {
-      console.log('ERROR: ', err)
     })
   },
 
