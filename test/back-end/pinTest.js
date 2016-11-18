@@ -101,7 +101,7 @@ describe('Pins', function () {
         chai.request(server) // Sending post request to create a pin for a specific game
         .post('/games/' + game._id + '/pins')
         .set({ 'authorization': 'test' })
-        .send({ address: 'Testing Ave', points: 20 })
+        .send({ address: 'Testing Ave', points: 90 })
         .end(function(err, pin){
           chai.request(server)
           .delete('/games/' + game._id + '/pins/' + pin.body._id).set({'authorization' : 'test'}).end(function(){
@@ -112,6 +112,7 @@ describe('Pins', function () {
               .get('/games/' + game._id)
               .set({ 'authorization': 'test' })
               .end(function (err,res){
+                res.body[0].scoreboard[0].points.should.equal(100) // should give user back their points
                 res.body[0].scoreboard[0].pins.length.should.equal(0)
                 done()
               })

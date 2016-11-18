@@ -3,7 +3,7 @@ angular.module('trivial.games', [])
 .controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', 'userService', '$window', '$auth', function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc, userService, $window, $auth) {
  //will need to pull all games fom the server and attach them to $scope.game
   var userData = $auth.getPayload();
-  var closestPin; 
+  var closestPin;
 
   $scope.logout = function(){
     userService.logout()
@@ -318,8 +318,6 @@ angular.module('trivial.games', [])
         gameSrvc.getPinsForGame(currentGameID)
         .then(function(response){
           pinToDelete = response[response.length - 1]
-          console.log('Deleting pin points!!', pinToDelete.points)
-          gameSrvc.withDraw(pinToDelete.points,currentGameID,pinToDelete._id)
           gameSrvc.deletePin(pinToDelete._id, currentGameID)
           gameSrvc.getPinsForGame(currentGameID)
           .then(function(response){
