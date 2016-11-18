@@ -7,7 +7,14 @@ h1 {
 	font-family: 'Homemade Apple', cursive;
 	text-align:center;
 	font-size: 70px;
+  color: white;
 }
+
+ h3 {
+  text-align:center;
+  font-size: 30px;
+  color: white;
+ }
 
 a {
 	font-family: 'Georgia', serif;
@@ -16,12 +23,8 @@ a {
 	font-weight: bold
 }
 
-.button {
-	background-image: url('https://www.pixeden.com/media/k2/galleries/165/003-subtle-light-pattern-background-texture-vol5.jpg');
-}
-
 .button.games{
-	width: 49%;
+	width: 20%;
 }
 
 #map {
@@ -30,11 +33,44 @@ a {
 }
 
 .top {
-	background-image: url('https://i.imgur.com/IcwLuc0.png');
+	background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2) ), url('http://i.imgur.com/IcwLuc0.png');
+}
+.fullscreen-bg {
+  text-align: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: -100;
+}
+
+.fullscreen-bg__video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+@media (min-aspect-ratio: 16/9) {
+  .fullscreen-bg__video {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media (max-aspect-ratio: 16/9) {
+  .fullscreen-bg__video {
+    width: auto;
+    height: 100%;
+  }
 }
 
 .allgames {
 	background: #2D2D2F;
+    text-align: center;
 }
 
 .allgameshead {
@@ -54,7 +90,7 @@ a {
 	background: #011627;
 }
 
-.item-text-wrap, .card, input, form {
+.item-text-wrap, .card {
 	background-color: rgba(0, 0, 0, 0.5)
 }
 
@@ -66,4 +102,70 @@ img.banner {
 #balance {
 	background: white;
 	font-family: 'Homemade Apple', cursive;
+}
+
+.login-box {
+  width: 25%;
+  padding-top: 9%;
+  margin-left: 18%;
+  background-color: rgba(0,0,0, 0);
+}
+
+.login-header {
+  background-color: rgba(0,0,0, 0);
+}
+
+form.ng-pristine.ng-valid {
+    background-color: rgba(0,0,0, 0);
+}
+
+.all-games-form {
+  width: 30%;
+  margin-left: 35%;
+  margin-top: 1%;
+  margin-bottom: 2%;
+}
+
+.main {
+  padding-top: 5%;
+}
+
+.list {
+  padding: 0;
+  text-align: center;
+  background-color: rgba(0,0,0, 0);
+}
+
+.animate
+{
+	transition: all 0.1s;
+	-webkit-transition: all 0.1s;
+}
+
+.action-button
+{
+	position: relative;
+	padding: 10px 40px;
+  margin: 0px 10px 10px 0px;
+  float: left;
+	border-radius: 10px;
+	font-family: 'Pacifico', cursive;
+	font-size: 25px;
+	color: #FFF;
+	text-decoration: none;
+}
+
+
+.red
+{
+	background-color: #E74C3C;
+	border-bottom: 5px solid #BD3E31;
+	text-shadow: 0px -2px #BD3E31;
+}
+
+.action-button:active
+{
+	transform: translate(0px,5px);
+  -webkit-transform: translate(0px,5px);
+	border-bottom: 1px solid;
 }
