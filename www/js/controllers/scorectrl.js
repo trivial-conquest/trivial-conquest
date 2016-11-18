@@ -35,7 +35,6 @@
         // each user object
         var player = user.user
         points.push(user.points)
-
         gameSrvc.getPlayer(player)
         .then(function(player){
           $scope.users.push(player[0])
