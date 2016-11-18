@@ -192,7 +192,6 @@ describe('Pins', function () {
         .set({ 'authorization': 'test' })
         .send({ address: 'Testing Ave', points: 20 })
         .end(function(err, pin){
-          console.log('PIN: ', pin.body)
           chai.request(server)
           .delete('/games/' + game._id + '/pins/' + pin.body._id).set({'authorization' : 'test'}).end(function(){
             chai.request(server)
@@ -202,7 +201,6 @@ describe('Pins', function () {
               .get('/games/' + game._id)
               .set({ 'authorization': 'test' })
               .end(function (err,res){
-                console.log('ALRIGHT: ', res.body[0].scoreboard[0])
                 res.body[0].scoreboard[0].pins.length.should.equal(0)
                 done()
               })
