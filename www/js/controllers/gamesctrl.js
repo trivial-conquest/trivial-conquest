@@ -1,6 +1,6 @@
 angular.module('trivial.games', [])
 
-.controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', 'userService', '$window', '$auth', function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc, userService, $window, $auth) {
+.controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', 'userService', '$window', '$auth',  '$state', function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc, userService, $window, $auth, $state) {
  //will need to pull all games fom the server and attach them to $scope.game
   var userData = $auth.getPayload();
   var closestPin;
@@ -285,10 +285,10 @@ angular.module('trivial.games', [])
     }
 
     $scope.joinGame = function() {
-      console.log('this is joingame', currentGameID)
        gameSrvc.joinGame(currentGameID)
        .then(function(){
         console.log('this worked', currentGameID)
+        $state.reload()
        })
        .catch(function(){
         console.log('this doesnt work')
@@ -357,12 +357,9 @@ angular.module('trivial.games', [])
         })
        return bool
       }
-
     })
-
     .catch(function(error){
     console.log("Could not get location", error);
-
     });
 
 }]);
