@@ -14,7 +14,6 @@ router.put('/:gameid', games.joinGame, games.getOneGame)
 
 router.post('/:gameid/pins', pins.createNewPin)
 router.delete('/:gameid/pins/:pinId', pins.deletePin)
-router.put('/:gameid/pins/:pinId', pins.updatePinOwner)
 router.put('/:gameid/pins/:pinId/withdrawal', pins.withdrawal)
 router.put('/:gameid/pins/:pinId/deposit', pins.deposit)
 router.put('/:gameid/pins/:pinId/settleDispute', pins.settleDispute)

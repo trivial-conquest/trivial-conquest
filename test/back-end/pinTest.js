@@ -66,25 +66,6 @@ describe('Pins', function () {
     });
   });
 
-  it('should show the user as owner after a successful claim', function (done) {
-    new Pin({
-      address: '123 Test Ave.',
-      name: 'test pin',
-      coordinates: [],
-      game: game._id,
-    }).save(function (err, pin){
-      if(err) {
-        console.log(err)
-      }
-      chai.request(server)
-      .put('/games/' + game._id + '/pins/' + pin._id).set({ 'authorization' : 'test'}).end(function (err, res) {
-        res.should.have.status(200);
-        res.body.owner.should.equal('58221b1deb8543b7ba21e39f');
-        done()
-      })
-    })
-  })
-
   it('should delete a pin successfully', function (done) {
     Pin.collection.drop()
     new Game({
