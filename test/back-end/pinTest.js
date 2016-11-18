@@ -24,19 +24,15 @@ describe('Pins', function () {
     })
   })
 
-  it('should allow users to create pins, and should be able to get pins for specific game', function (done) {
-      chai.request(server) // Sending post request to create a pin for a specific game
-      .post('/games/' + game._id + '/pins')
-      .set({ 'authorization': 'test' })
-      .send({ address: '123 Testing Ave' })
-      .end(function(){
-        chai.request(server) // Sending get request to retrieve all pins for that same game (only the one we added)
-        .get('/games/' + game._id + '/pins').set({ 'authorization': 'test' }).end(function (err, res) {
-          res.should.have.status(200);
-          res.body[0].owner.should.equal('58221b1deb8543b7ba21e39f');
-          res.body[0].address.should.equal('123 Testing Ave');
-          done();
-      });
+  it('should not allow users to create pins, if they have not joined a game', function (done) {
+    chai.request(server) // Sending post request to create a pin for a specific game
+    .post('/games/' + game._id + '/pins')
+    .set({ 'authorization': 'test' })
+    .send({ address: '123 Testing Ave' })
+    .end(function(err, res){
+        console.log('RES BOD: ', res.text)
+        res.text.should.equal('Sorry mate- you must join this game before you can add pins to it')
+        done();
     });
   });
 
@@ -65,25 +61,6 @@ describe('Pins', function () {
       })
     });
   });
-
-  it('should show the user as owner after a successful claim', function (done) {
-    new Pin({
-      address: '123 Test Ave.',
-      name: 'test pin',
-      coordinates: [],
-      game: game._id,
-    }).save(function (err, pin){
-      if(err) {
-        console.log(err)
-      }
-      chai.request(server)
-      .put('/games/' + game._id + '/pins/' + pin._id).set({ 'authorization' : 'test'}).end(function (err, res) {
-        res.should.have.status(200);
-        res.body.owner.should.equal('58221b1deb8543b7ba21e39f');
-        done()
-      })
-    })
-  })
 
   it('should delete a pin successfully', function (done) {
     Pin.collection.drop()
@@ -152,18 +129,23 @@ describe('Pins', function () {
       remain: 12
     })
     .save(function(err, game) {
-      chai.request(server) // Sending post request to create a pin for a specific game
-      .post('/games/' + game._id + '/pins')
+      chai.request(server)
+      .put('/games/' + game._id) // JOIN THE GAME
       .set({ 'authorization': 'test' })
-      .send({ address: '123 Testing Ave' })
-      .end((err, res1) => {
+      .end(() => {
         chai.request(server) // Sending post request to create a pin for a specific game
         .post('/games/' + game._id + '/pins')
         .set({ 'authorization': 'test' })
-        .send({ address: '123 Testing Ave' })
-        .end((err, res2) => {
-          res2.text.should.equal('Sorry mate- that pin already exists')
-          done()
+        .send({ address: '123 Testing Ave', points: 10})
+        .end((err, res1) => {
+          chai.request(server) // Sending post request to create a pin for a specific game
+          .post('/games/' + game._id + '/pins')
+          .set({ 'authorization': 'test' })
+          .send({ address: '123 Testing Ave', points: 10 })
+          .end((err, res2) => {
+            res2.text.should.equal('Sorry mate- that pin already exists')
+            done()
+          })
         })
       })
     })
