@@ -123,13 +123,13 @@ angular.module('trivial.gamesrvc', [])
     },
 
 
-    settleDispute: function(gameId,pinId,winnerId,loserId) {
+    settleDispute: function(gameId,pinId,winnerId,loserId, newIcon) {
       console.log('settled dispute', gameId, pinId, winnerId, loserId)
       return $http({
         method: 'PUT',
         url: '/games/' + gameId + '/pins/' + pinId + '/settleDispute',
         authorization: localStorage.getItem('satellizer_token'),
-        data: {loser: loserId, winner: winnerId}
+        data: {loser: loserId, winner: winnerId, newIcon: newIcon}
       }).then(function(resp){
         console.log('Pin claimed', resp)
         return resp
