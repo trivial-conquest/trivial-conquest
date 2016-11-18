@@ -62,8 +62,17 @@ module.exports = {
   deletePin: (req, res) => {
     Pin.find({_id: req.params.pinId}).remove()
     .then((pin) => {
-      res.send(pin)
-      // res.redirect('/')
+      Game.findOne({_id: req.params.gameid}, (err, game) => {
+        game.scoreboard.forEach((score) => {
+          if(score.user == req.tokenPayload._id) {
+            var pinIndex = score.pins.indexOf(req.params.pinId)
+            score.pins.splice(pinIndex, 1);
+          }
+        })
+        game.save().then(() => {
+          res.send(pin)
+        })
+      })
     })
     .catch((err) => {
       console.log('ERROR: ', err)
