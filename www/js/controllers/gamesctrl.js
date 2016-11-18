@@ -218,14 +218,13 @@ angular.module('trivial.games', [])
           gameSrvc.getPlayerPoints(closest.game)
           .then(function(gameRes){
             //gameRes gives you the amount of points the user has in this game
-            console.log(gameRes)
             var pinPoints = closest.points
             var userPoints = gameRes[0].points
             var outcome = (Math.random() * (pinPoints + userPoints))
             if(outcome < userPoints) {
               alert('Victory is yours!')
               //Takes a winner first and then a loser, so in this case the user wins
-              gameSrvc.settleDispute(closest.game, closest._id, gameRes[0].user, closest.owner, gameRes[0].user.profilePicture)
+              gameSrvc.settleDispute(closest.game, closest._id, gameRes[0].user, closest.owner, userData.profilePicture)
               return
             } else {
               alert('You lose sucka!')
