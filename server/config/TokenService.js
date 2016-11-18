@@ -20,7 +20,7 @@ class TokenService {
 
        jwt.sign(payload, 'blech', {
            algorithm: 'HS256',
-           expiresIn: options.expireTime || 1440 // expires in 24 hours
+           expiresIn: options.expireTime || 43200// expires in 30 days
        }, cb);
    }
 
