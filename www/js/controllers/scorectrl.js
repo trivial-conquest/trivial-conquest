@@ -48,12 +48,12 @@
                 return {owner: userPin.owner, name: userPin.name, address: userPin.address, points: userPin.points}
               })
             }
-          })              
+          })         
         })
       })
     })
     .catch(function(err){
-      console.log('this is a getGame err', err)
+      console.log('this is a getGame err', err);
     })
   }
 
