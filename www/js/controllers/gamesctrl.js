@@ -31,7 +31,7 @@ angular.module('trivial.games', [])
     "elementType": "geometry",
     "stylers": [
       {
-        "color": "#FFEBCD"
+        "color": "#D2B48C"
       }
     ]
   },
