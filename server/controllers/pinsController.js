@@ -158,6 +158,7 @@ module.exports = {
       Pin.findOne({_id: req.params.pinId}, (err, pin) => {
         if(err) res.send(err)
         if(pin.owner == req.body.loser) { // IF THE OWNER OF THE PIN LOSES
+          pin.icon = req.body.newIcon
           pin.owner = req.body.winner     // THE WINNER NOW OWNS THAT PIN
           pin.save().then(() => {
             game.scoreboard.forEach((score) => {

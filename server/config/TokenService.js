@@ -1,4 +1,4 @@
-// config/TokenService.js
+'use strict';
 const jwt = require('jsonwebtoken');
 
 class TokenService {

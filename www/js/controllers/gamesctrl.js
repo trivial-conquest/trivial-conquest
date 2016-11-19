@@ -1,6 +1,6 @@
 angular.module('trivial.games', [])
 
-.controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', 'userService', '$window', '$auth', function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc, userService, $window, $auth) {
+.controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', 'userService', '$window', '$auth',  '$state', function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc, userService, $window, $auth, $state) {
  //will need to pull all games fom the server and attach them to $scope.game
   var userData = $auth.getPayload();
   var closestPin;
@@ -204,7 +204,7 @@ angular.module('trivial.games', [])
         var myCoords = {lat: position.coords.latitude, lng: position.coords.longitude}
         //Checks to see if user is close enough to any pins in the game
         var closePins = pins.filter(function(pin){
-          return (Math.abs(myCoords.lat - pin.coordinates[0]) < .003 && Math.abs(myCoords.lng - pin.coordinates[1]) < .003)
+          return (Math.abs(myCoords.lat - pin.coordinates[0]) < .003 && Math.abs(myCoords.lng - pin.coordinates[1]) < .003 && pin.owner !== userData._id)
         })
         //If use is close enough to a pin to claim it, find the one that they are closest to
         if (closePins.length) {
@@ -224,8 +224,13 @@ angular.module('trivial.games', [])
             if(outcome < userPoints) {
               alert('Victory is yours!')
               //Takes a winner first and then a loser, so in this case the user wins
-              gameSrvc.settleDispute(closest.game, closest._id, gameRes[0].user, closest.owner)
-              return
+              gameSrvc.settleDispute(closest.game, closest._id, gameRes[0].user, closest.owner, userData.profilePicture)
+              .then(function(){
+                gameSrvc.getPinsForGame(currentGameID)
+                .then(function(){
+                  $state.reload()
+                })
+              })
             } else {
               alert('You lose sucka!')
 
@@ -280,10 +285,10 @@ angular.module('trivial.games', [])
     }
 
     $scope.joinGame = function() {
-      console.log('this is joingame', currentGameID)
        gameSrvc.joinGame(currentGameID)
        .then(function(){
         console.log('this worked', currentGameID)
+        $state.reload()
        })
        .catch(function(){
         console.log('this doesnt work')
@@ -352,12 +357,9 @@ angular.module('trivial.games', [])
         })
        return bool
       }
-
     })
-
     .catch(function(error){
     console.log("Could not get location", error);
-
     });
 
 }]);
