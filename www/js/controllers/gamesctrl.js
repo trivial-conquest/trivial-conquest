@@ -241,7 +241,16 @@ angular.module('trivial.games', [])
                 gameSrvc.getPinsForGame(currentGameID) //Get updated pins after dispute is settled
                 .then(function(response){
                   pins = response
+                  var myPinz = pins.filter(function(pin){
+                    return pin.owner === userData._id
+                  })
+                  console.log(myPinz)
                   drop(pins) //Redropping pins, so that won pin will now display the winner's face
+                  if(myPinz.length === pins.length) {
+                    console.log('Games winner is', userData)
+                    gameSrvc.setWinner(userData, currentGameID)
+                    alert('You win!!!')
+                  }
                 })
               })
             } else {

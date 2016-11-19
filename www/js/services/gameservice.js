@@ -183,6 +183,7 @@ angular.module('trivial.gamesrvc', [])
         authorization: localStorage.getItem('satellizer_token')
       })
       .then(function(res){
+        console.log(res)
         return res
       })
       .catch(function(err){
