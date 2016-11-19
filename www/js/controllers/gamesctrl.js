@@ -2,7 +2,9 @@ angular.module('trivial.games', [])
 
 .controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', 'userService', '$window', '$auth',  '$state', function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc, userService, $window, $auth, $state) {
  //will need to pull all games fom the server and attach them to $scope.game
-  var userData = $auth.getPayload();
+  
+
+  var userData = $auth.getPayload(); //User's data, including FB picture
   var closestPin;
 
   $scope.logout = function(){
@@ -10,7 +12,9 @@ angular.module('trivial.games', [])
     $window.location = '/#/login'
   }
 
-  var pins = [];
+  var pins = []; //Will be used to store all the pins for the current game after a successful request
+
+  //Sets options for the map that will be displayed for each game
   var options = {timeout: 10000, enableHighAccuracy: true};
     $cordovaGeolocation.getCurrentPosition(options)
     .then(function(position){
@@ -24,7 +28,7 @@ angular.module('trivial.games', [])
       var map = new google.maps.Map(document.getElementById("map"), mapOptions);
       var originalCenter = map.getCenter()
 
-              // Create the search box and link it to the UI element.
+      // Create the search box and link it to the UI element.
       var input = document.getElementById('pac-input');
       var searchBox = new google.maps.places.SearchBox(input);
       map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
@@ -105,9 +109,11 @@ angular.module('trivial.games', [])
       });
 
       youMarker.addListener('click', function() {
+        //Fetches points for the logged in player
         gameSrvc.getPlayerPoints(currentGameID)
         .then(function(response){
           var youPoints = response[0].points
+        //Creates an info window on click for the user's location marker
           var infowindow = new google.maps.InfoWindow({
           content: youPoints.toString()
         });
@@ -136,6 +142,7 @@ angular.module('trivial.games', [])
         coordinatesObj.lat = pinObj.coordinates[0]
         coordinatesObj.lng = pinObj.coordinates[1]
 
+        //Creates a new pin with the given parameters
         var newPin = new google.maps.Marker({
             position: coordinatesObj,
             map: map,
@@ -143,6 +150,8 @@ angular.module('trivial.games', [])
             icon: image
           });
 
+        //Adds a click event listener to each pin, so that they display
+        //an info window with their given points on a user click
         newPin.addListener('click', function() {
           gameSrvc.getPinsForGame(currentGameID)
           .then(function(response){
@@ -169,7 +178,8 @@ angular.module('trivial.games', [])
         return $location.$$url.replace('/games/','')
       }
 
-      var currentGameID = getCurrentGameID();
+      var currentGameID = getCurrentGameID(); //Call above function to get current game ID
+      
       var scoreRedirect = function(){
         $scope.scoreUrl = {url: "#/games/" + currentGameID + "/score"}
         return  $scope.scoreUrl
@@ -226,9 +236,10 @@ angular.module('trivial.games', [])
               //Takes a winner first and then a loser, so in this case the user wins
               gameSrvc.settleDispute(closest.game, closest._id, gameRes[0].user, closest.owner, userData.profilePicture)
               .then(function(){
-                gameSrvc.getPinsForGame(currentGameID)
-                .then(function(){
-                  $state.reload()
+                gameSrvc.getPinsForGame(currentGameID) //Get updated pins after dispute is settled
+                .then(function(response){
+                  pins = response
+                  drop(pins) //Redropping pins, so that won pin will now display the winner's face
                 })
               })
             } else {
@@ -252,7 +263,7 @@ angular.module('trivial.games', [])
       else if(userPins.length === 0) { return false }
       else if(userPins.length === 3) { return false }
     }
-
+    //Checking to see if a user has already created 3 pins, and thus cannot create any more
     $scope.checkPinCount = function() {
       var myUser = userData._id
       var userPins = pins.filter(function(pin) {
@@ -265,6 +276,7 @@ angular.module('trivial.games', [])
     //This function checks user location to determine claim button rendering
     $scope.checkLocation = function() {
       var myCoords = {lat: position.coords.latitude, lng: position.coords.longitude}
+      //Filters pins by which ones are with .003 degrees of user, either lat or lng
       var closePins = pins.filter(function(pin){
           return (Math.abs(myCoords.lat - pin.coordinates[0]) < .003 && Math.abs(myCoords.lng - pin.coordinates[1]) < .003 && pin.owner !== userData._id)
         })
@@ -273,6 +285,7 @@ angular.module('trivial.games', [])
       } else return false
     }
 
+    //Checks to see if the pin a user is nearest to is owned by that user
     $scope.checkLocOwner = function() {
       var myCoords = {lat: position.coords.latitude, lng: position.coords.longitude}
       var closePins = pins.filter(function(pin){
@@ -284,17 +297,18 @@ angular.module('trivial.games', [])
       } else return false
     }
 
+    //Used to add user into current game
     $scope.joinGame = function() {
        gameSrvc.joinGame(currentGameID)
        .then(function(){
         console.log('this worked', currentGameID)
-        $state.reload()
+        $state.reload() //Can be refactored
        })
        .catch(function(){
         console.log('this doesnt work')
        })
     }
-
+      //Allows a user to add a pin to the map
       $scope.addPin = function() {
         gameSrvc.addPin(pinToAdd, currentGameID, $scope.onegame.points)
         .then(function(pin) {
@@ -321,7 +335,7 @@ angular.module('trivial.games', [])
         .then(function(response){
           pinToDelete = response[response.length - 1]
           gameSrvc.deletePin(pinToDelete._id, currentGameID)
-          gameSrvc.getPinsForGame(currentGameID)
+          gameSrvc.getPinsForGame(currentGameID) //Get all the pins again, after deleting 
           .then(function(response){
             pins = response
             // map.setCenter(originalCenter)
@@ -343,7 +357,7 @@ angular.module('trivial.games', [])
         gameData = game
       })
 
-      // This function checks if user has already joined game to determind joinGame render
+      // This function checks if user has already joined game to determine joinGame render
       $scope.checkUserJoin = function() {
         var myUser = userData._id
         console.log('myUser: ', myUser)
