@@ -52,6 +52,22 @@ describe('Game', function () {
     });
   });
 
+  it('should set a winner for a game', function (done){
+    new Game({  //  CREATE NEW GAME
+        name: 'test game name',
+        pins: [],
+        users: [{_id: user._id, firstName: user.firstName}],
+        scoreboard: [{user: user._id, points: 100}],
+        remain: 12
+      })
+      .save(function (err, game) {
+        chai.request(server).put('/games/' + game._id + '/winner').set({ 'authorization': 'test'}).end(function (err,res){
+          console.log(game)
+          res.should.have.status(200);
+          res.body[0].winner.should.exist
+        })
+  })
+
   it('should complete a game', function (done) {
     var gameId;
     new Game({

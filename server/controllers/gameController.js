@@ -11,7 +11,7 @@ module.exports = {
       scoreboard: [{
           user: req.tokenPayload._id
       }],
-      limit: Number(req.body.limit) +1
+      limit: Number(req.body.limit)
     })
     newGame.save((err, game) => {
     if (err) {
