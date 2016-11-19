@@ -7,6 +7,8 @@ angular.module('trivial.games', [])
   var userData = $auth.getPayload(); //User's data, including FB picture
   var closestPin;
 
+  $scope.showBtn = true; //Used to display Join Game button, switched to false when user clicks to join game
+
   $scope.logout = function(){
     userService.logout()
     $window.location = '/#/login'
@@ -302,7 +304,6 @@ angular.module('trivial.games', [])
        gameSrvc.joinGame(currentGameID)
        .then(function(){
         console.log('this worked', currentGameID)
-        $state.reload() //Can be refactored
        })
        .catch(function(){
         console.log('this doesnt work')

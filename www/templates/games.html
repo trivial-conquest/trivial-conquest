@@ -93,7 +93,7 @@
       <button ng-click="logout()">Logout</button>
     </div>
     <div>
-      <button ng-click='joinGame()' ng-show="checkUserJoin()" class="ng-hide">Join Game</button>
+      <button ng-click='joinGame(); showBtn = false' ng-show="checkUserJoin() && showBtn">Join Game</button>
     </div>
     <a href="#/allgames">Back</a>
     <div>
