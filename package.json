@@ -19,6 +19,7 @@
     "mongodb": "^2.2.11",
     "mongoose": "^4.6.6",
     "morgan": "^1.7.0",
+    "ng-sweet-alert": "^1.0.2",
     "path": "^0.12.7",
     "request": "^2.72.0",
     "satellizer": "^0.15.5"
