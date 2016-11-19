@@ -176,11 +176,14 @@ angular.module('trivial.gamesrvc', [])
       })
     },
 
-    setWinner: function(winner, gameId) {
+    setWinner: function(winnerObj, gameId) {
       return $http({
         method: 'PUT',
         url: '/games/' + gameId + '/winner',
-        authorization: localStorage.getItem('satellizer_token')
+        authorization: localStorage.getItem('satellizer_token'),
+        data: {
+          winner: winnerObj
+        }
       })
       .then(function(res){
         console.log(res)
