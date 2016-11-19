@@ -30,7 +30,7 @@ angular.module('trivial', ['ionic', 'trivial.login', 'trivial.games', 'trivial.a
      // commonConfig.redirectUri = 'https://intense-journey-25938.herokuapp.com/auth/facebook';
   }
   $authProvider.facebook(angular.extend({}, commonConfig, {
-  clientId: '137143283427760',
+  clientId: '1789849501229484',
   url: 'http://localhost:8080/auth/facebook'
   // url: 'https://intense-journey-25938.herokuapp.com/auth/facebook'
   }));
@@ -48,7 +48,6 @@ angular.module('trivial', ['ionic', 'trivial.login', 'trivial.games', 'trivial.a
     controller: 'AllGamesCtrl as allgames'
   }).state('games', {
     url: '/games/:gameId',
-    cache: false,
     templateUrl: 'templates/games.html',
     controller: 'GamesCtrl as onegame'
   }).state('score', {
