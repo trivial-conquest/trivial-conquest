@@ -27,7 +27,7 @@
         <a class="button games" ng-click='allGames()'>Show All Available Games</a>
          <a class="button games" ng-click='finishedGames()'>Show Closed Games</a>
       </div>
-      <div ng-repeat='game in games' ng-if='game.remain != 0 && allgames && !gamesfinished'>
+      <div ng-repeat='game in games' ng-if='game.remain != 0 && game.start !== true && allgames && !gamesfinished'>
         <div class="card">
           <div class="item item-text-wrap">
             <a href="#/games/{{game._id}}">

@@ -22,7 +22,9 @@ angular.module('trivial.allgames', [])
     $scope.gamesfinished = true;
   }
 
-
+  $scope.gameStarted=function(){
+    $scope.notAvailable=true
+  }
 
   $scope.iterateGameUser = function(game, user){
     var truthTest;
@@ -39,6 +41,14 @@ angular.module('trivial.allgames', [])
     games.forEach(function(game){
       if(game.winner!==undefined){
          $scope.endedGames.push(games)
+      }
+    })
+  }
+
+   $scope.started = function(games){
+    games.forEach(function(game){
+      if(game.start==true){
+        $scope.started=true
       }
     })
   }
