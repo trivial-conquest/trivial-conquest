@@ -48,7 +48,6 @@ angular.module('trivial', ['ionic', 'trivial.login', 'trivial.games', 'trivial.a
     controller: 'AllGamesCtrl as allgames'
   }).state('games', {
     url: '/games/:gameId',
-    cache: false,
     templateUrl: 'templates/games.html',
     controller: 'GamesCtrl as onegame'
   }).state('score', {
