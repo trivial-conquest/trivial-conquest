@@ -8,6 +8,7 @@ module.exports = {
     var hasJoined = false
     //First checking to see how many pins user has already created
     Game.findOne({_id: req.params.gameid}, (err, game) => {
+      if(game.start) res.send('Sorry mate- all pins have been set for this game')
       game.scoreboard.forEach((score) => {
         if(score.user == req.tokenPayload._id) {
           hasJoined = true;
@@ -42,10 +43,13 @@ module.exports = {
             }).save()
             .then((pin) => {
               console.log('successfully created pin: ', pin)
+              var pinCount = 0
               game.scoreboard.forEach((score) => {
                 if(score.user == req.tokenPayload._id) {
                   score.pins.push(pin._id)
                   score.points -= req.body.points
+                  pinCount += score.pins.length
+                  if(pinCount === game.users.length * 3) game.start = true
                 }
               })
               game.save().then(() => {
