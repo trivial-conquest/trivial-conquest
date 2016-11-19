@@ -11,6 +11,7 @@ router.post('/', games.createGame)
 router.get('/:gameid', games.getOneGame)
 router.get('/:gameid/points', games.getPlayerPoints)
 router.put('/:gameid', games.joinGame, games.getOneGame)
+router.put('/:gameid/winner', games.setWinner)
 
 router.post('/:gameid/pins', pins.createNewPin)
 router.delete('/:gameid/pins/:pinId', pins.deletePin)

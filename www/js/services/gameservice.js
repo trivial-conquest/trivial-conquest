@@ -174,5 +174,19 @@ angular.module('trivial.gamesrvc', [])
         console.log('delete pin caught', err)
         console.log(pinId)
       })
+    },
+
+    setWinner: function(winner, gameId) {
+      return $http({
+        method: 'PUT',
+        url: '/games/' + gameId + '/winner',
+        authorization: localStorage.getItem('satellizer_token')
+      })
+      .then(function(res){
+        return res
+      })
+      .catch(function(err){
+        console.log('error setting winner')
+      })
     }
 }}]);

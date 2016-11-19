@@ -10,6 +10,7 @@ const gameSchema = new Schema({
   limit: {type: String},
   start: { type: Boolean, default: false },
   remain: {type: Number},
+  winner: {type: Schema.ObjectId, ref: 'User' },
   scoreboard: [{
     points: { type: Number, default: 100 },
     pins: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Pin' }],

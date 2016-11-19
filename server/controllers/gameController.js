@@ -93,6 +93,18 @@ module.exports = {
       }
     })
 
+  },
+
+  setWinner : (req, res, next) => {
+    var winner = req.body.winner
+    Game.update({_id: req.params.gameid}, { $set: { winner: winner}}, (err,game) => {
+      if(err) {
+        console.log(`Error in setting winner: ${err}`);
+        res.send(err);
+      } else {
+        res.send(game)
+      }
+    })
   }
 
 };
