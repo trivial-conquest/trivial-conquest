@@ -514,11 +514,11 @@ angular.module('trivial.games', [])
         .then(function(pins){
           if (pins.length) {
             console.log('PinToAdd:', pinToAdd)
-          var distance = Math.sqrt(Math.pow(pinToAdd.geometry.location.lat() - pins[0].coordinates[0], 2) + 
+            var distance = Math.sqrt(Math.pow(pinToAdd.geometry.location.lat() - pins[0].coordinates[0], 2) + 
                                    Math.pow(pinToAdd.geometry.location.lng() - pins[0].coordinates[1], 2));
             if (distance > .25) {
               console.log('>25')
-              alert('pin too far')
+              alert('pin too far away')
               map.setCenter(originalCenter)
               map.setZoom(15)
               drop(pins)
