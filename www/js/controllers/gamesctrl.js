@@ -311,21 +311,38 @@ angular.module('trivial.games', [])
     }
       //Allows a user to add a pin to the map
       $scope.addPin = function() {
-        gameSrvc.addPin(pinToAdd, currentGameID, $scope.onegame.points)
-        .then(function(pin) {
-          console.log('this is pin', pin)
-          $scope.onegame.points = null
-          $scope.onegame.search = null
-          gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
-          .then(function(response){
-            pins = response;
-            map.setCenter(originalCenter)
-            map.setZoom(15)
-            drop(pins) //Placing pins on the map from the game we are currently in
-          })
-        })
-        .catch(function(err) {
-          console.log('POST pin failed', err)
+        gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
+        .then(function(pins){
+          if (pins.length) {
+            console.log('PinToAdd:', pinToAdd)
+            var distance = Math.sqrt(Math.pow(pinToAdd.geometry.location.lat() - pins[0].coordinates[0], 2) + 
+                                   Math.pow(pinToAdd.geometry.location.lng() - pins[0].coordinates[1], 2));
+            if (distance > .25) {
+              console.log('>25')
+              alert('pin too far away')
+              map.setCenter(originalCenter)
+              map.setZoom(15)
+              drop(pins)
+            }
+          }
+          if (!pins.length || distance <= .25) {          
+            gameSrvc.addPin(pinToAdd, currentGameID, $scope.onegame.points)
+            .then(function(pin) {
+              console.log('this is pin', pin)
+              $scope.onegame.points = null
+              $scope.onegame.search = null
+              gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
+              .then(function(response){
+                pins = response;
+                map.setCenter(originalCenter)
+                map.setZoom(15)
+                drop(pins) //Placing pins on the map from the game we are currently in
+              })
+            })
+            .catch(function(err) {
+              console.log('POST pin failed', err)
+            })
+          }
         })
       },
 

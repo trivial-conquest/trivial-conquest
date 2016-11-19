@@ -2,24 +2,24 @@ f<ion-modal-view>
   <ion-header-bar>
     <h1 class="title">ScoreBoard</h1>
     <div class="buttons">
-    <a class="button button-calm" ng-href="{{goBack.url}}">Close</a>
+      <a class="button button-calm" ng-href="{{goBack.url}}">Close</a>
     </div>
-      <style>
-    table {
+    <style>
+      table {
         font-family: arial, sans-serif;
         border-collapse: collapse;
         width: 100%;
-    }
+      }
 
-    td, th {
+      td, th {
         border: 1px solid #dddddd;
         text-align: left;
         padding: 8px;
-    }
+      }
 
-    tr:nth-child(even) {
+      tr:nth-child(even) {
         background-color: #dddddd;
-    }
+      }
   </style>
   </ion-header-bar>
   <ion-content>
@@ -27,13 +27,13 @@ f<ion-modal-view>
     <a class="item item-avatar" href="#" ng-repeat="user in users">
       <img ng-src="{{user.profilePicture}}">
       <h2>{{user.firstName}} {{user.lastName}}</h2>
-      <p>Cash: {{user.points}}</p>
+      <p>Cash ${{user.points}}</p>
       <div>
         <div ng-repeat="pin in user.pins">
-        <p>Pin: {{user.pins.indexOf(pin) + 1}}</p>
-          <p style="text-indent: 25px">name: {{pin.name}}</p>
-          <p style="text-indent: 25px">address: {{pin.address}}</p>
-          <p style="text-indent: 25px">points: {{pin.points}}</p>
+        <p>Pin #{{user.pins.indexOf(pin) + 1}}</p>
+          <p style="text-indent: 25px">${{pin.points}}</p>
+          <p style="text-indent: 25px">{{pin.name}}</p>
+          <p style="text-indent: 25px">{{pin.address}}</p>
   <!--         <table style="width:50%">
             <tr>
               <th>Pins</th>
