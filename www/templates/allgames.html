@@ -7,23 +7,20 @@
   </ion-header-bar> -->
   <ion-content class="allgames">
     <div class ='top'>
-      <button class="button" ng-click="logout()">Logout</button>
-      <h1>Viking Conquest</h1>
+      <h1 class="main">Viking Conquest</h1>
       <br><br><br>
-    <div>
-      <div class="card">
-        Create New Game
-        <form name="allgames.form" class="item item-input">
-        <input type='text' placeholder= "Set Game Name" ng-model='allgames.gamename' required/></input>
-        <input name="limit" type='number' placeholder="Set Player Limit" ng-min=1 ng-model='allgames.playerlimit' required/></input>
-        <button class="button button-calm" value=submit ng-click='createGame()' ng-hide="allgames.form.$invalid">Create</button>
-        </form>
-      </div>
+      <div>
+          <h3>Create New Game</h3>
+          <form name="allgames.form" class="all-games-form item item-input">
+            <input type='text' placeholder= "Set Game Name" ng-model='allgames.gamename' required/></input>
+            <input name="limit" type='number' placeholder="Set Player Limit" ng-min=1 ng-model='allgames.playerlimit' required/></input>
+            <button class="button" value=submit ng-click='createGame()' ng-hide="allgames.form.$invalid">Go</button>
+          </form>
       <div ng-show='allgames.repeat()' class=card>
        <p>This game already exists, please choose another name</p>
       </div>
        <div ng-show='allgames.form.limit.$dirty && allgames.form.limit.$invalid' class=card>
-     <p>Player Limit is required and must be greater than 0</p>
+         <p>Player Limit is required and must be greater than 0</p>
     </div>
       <div>
         <a class="button games" ng-click='myGames()'>Show My Games</a>
@@ -33,7 +30,7 @@
         <div class="card">
           <div class="item item-text-wrap">
             <a href="#/games/{{game._id}}">
-                {{game.name}} 
+                {{game.name}}
             </a>
             <p>{{game.remain}} out of {{game.limit}} spots remaining</p>
             <p><img class = "profPic" ng-repeat='user in game.users' ng-src={{user.profilePicture}} height='30' width = '30'></p>
@@ -54,5 +51,6 @@
         </span>
       </div>
     </div>
+    <button class="button logout-button" ng-click="logout()">Logout</button>
   </ion-content>
 </ion-view>

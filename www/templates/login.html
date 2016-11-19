@@ -1,17 +1,15 @@
-<ion-modal-view>  
-  <ion-header-bar>
-    <h1 class="title">Login</h1>
-    <div class="buttons">
-      <button class="button button-clear" ng-click="closeLogin()">Close</button>
-    </div>
-  </ion-header-bar>
-  <ion-content>
-    <form>
-      <div class="list">
-        <label class="item">
-          <button class="button button-block button-positive" ng-click="authenticate('facebook')">Facebook Auth</button>
-        </label>
-      </div>
-    </form>
-  </ion-content>
-</ion-modal-view>
+<link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<div class="fullscreen-bg">
+  <video loop muted autoplay poster="img/videoframe.jpg" class="fullscreen-bg__video">
+    <source src="../img/infinity.mp4" type="video/mp4">
+    </video>
+  <ion-modal-view class='login-box'>
+      <form>
+        <div class="list">
+          <label>
+            <button class="action-button shadow animate red" ng-click="authenticate('facebook')">Start yer adventure</button>
+          </label>
+        </div>
+      </form>
+  </ion-modal-view>
+</div>
