@@ -512,12 +512,19 @@ angular.module('trivial.games', [])
       $scope.addPin = function() {
         gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
         .then(function(pins){
-          var myCoords = {lat: position.coords.latitude, lng: position.coords.longitude}
-          if (pins.length && Math.sqrt(Math.pow(myCoords.lat - pins[0].coordinates[0], 2) + 
-                                       Math.pow(myCoords.lng - pins[0].coordinates[1], 2)) > .25) {  // or user input distance instead of .25 
-            alert ('pin too far away')
+          if (pins.length) {
+            console.log('PinToAdd:', pinToAdd)
+          var distance = Math.sqrt(Math.pow(pinToAdd.geometry.location.lat() - pins[0].coordinates[0], 2) + 
+                                   Math.pow(pinToAdd.geometry.location.lng() - pins[0].coordinates[1], 2));
+            if (distance > .25) {
+              console.log('>25')
+              alert('pin too far')
+              map.setCenter(originalCenter)
+              map.setZoom(15)
+              drop(pins)
+            }
           }
-          else {
+          if (!pins.length || distance <= .25) {          
             gameSrvc.addPin(pinToAdd, currentGameID, $scope.onegame.points)
             .then(function(pin) {
               console.log('this is pin', pin)
