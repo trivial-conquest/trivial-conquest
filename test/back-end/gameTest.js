@@ -52,7 +52,7 @@ describe('Game', function () {
     });
   });
 
-  it.only('should complete a game', function (done) {
+  it('should complete a game', function (done) {
     var gameId;
     new Game({
       name: 'test game name',
@@ -81,8 +81,8 @@ describe('Game', function () {
             .send({ address: 'Testing Ave 3', points: 20 })
             .end(function(err, res){
               Game.findOne({_id: gameId}, (err, game) => {
-                console.log('GAME', game)
                 game.start.should.equal(true)
+                game.remain.should.equal(0)
                 done()
               })
             })
