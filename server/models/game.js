@@ -8,8 +8,8 @@ const gameSchema = new Schema({
   name: { type: String, required: true, index: { unique: true } },
   users: [],
   limit: {type: String},
-  remain: {type: Number},
   start: { type: Boolean, default: false },
+  remain: {type: Number},
   scoreboard: [{
     points: { type: Number, default: 100 },
     pins: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Pin' }],

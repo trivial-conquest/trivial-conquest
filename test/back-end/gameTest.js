@@ -52,6 +52,46 @@ describe('Game', function () {
     });
   });
 
+  it.only('should complete a game', function (done) {
+    var gameId;
+    new Game({
+      name: 'test game name',
+      pins: [],
+      users: [],
+      remain: 1
+    }).save(function (err, game) {
+      gameId = game._id
+      chai.request(server)
+      .put('/games/' + gameId) // JOIN THE GAME
+      .set({ 'authorization': 'test' })
+      .end(function (err, res) {
+        chai.request(server) // Sending post request to create a pin for a specific game
+        .post('/games/' + gameId + '/pins')
+        .set({ 'authorization': 'test' })
+        .send({ address: 'Testing Ave 1', points: 20 })
+        .end(function(err, res){
+          chai.request(server) // Sending post request to create a pin for a specific game
+          .post('/games/' + gameId + '/pins')
+          .set({ 'authorization': 'test' })
+          .send({ address: 'Testing Ave 2', points: 20 })
+          .end(function(err, res){
+            chai.request(server) // Sending post request to create a pin for a specific game
+            .post('/games/' + gameId + '/pins')
+            .set({ 'authorization': 'test' })
+            .send({ address: 'Testing Ave 3', points: 20 })
+            .end(function(err, res){
+              Game.findOne({_id: gameId}, (err, game) => {
+                console.log('GAME', game)
+                game.start.should.equal(true)
+                done()
+              })
+            })
+          })
+        })
+      })
+    });
+  });
+
   it('should allow a logged in user to join a game if there is space- but not more than once', function (done) {
     new Game({
       name: 'test game name',
