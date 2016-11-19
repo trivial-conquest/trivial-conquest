@@ -5,14 +5,21 @@ angular.module('trivial.allgames', [])
  var userData = $auth.getPayload();
 
   $scope.allgames = true
-  $scope.endedGames=[];
+  $scope.endedgames=[{name: 'Christinas Game', remain: 5, limit: 6, users: {firstName: 'Tina', lastName: 'Mull'}}, 
+  {name: 'Christinas2nd Game', remain: 5, limit: 6, users: {firstName: 'Tina', lastName: 'Mull'}}];
 
   $scope.myGames = function(){
     $scope.allgames = false;
+    $scope.gamesfinished = false;
   }
 
   $scope.allGames = function(){
     $scope.allgames = true;
+     $scope.gamesfinished = false;
+  }
+
+  $scope.finishedGames=function(){
+    $scope.gamesfinished = true;
   }
 
 
@@ -42,7 +49,7 @@ angular.module('trivial.allgames', [])
       if(typeof(games) === 'string') $window.location = '#/login'
       $scope.games = games
       console.log('$$$$$$$$$$$$$$$$$$this is games', games)
-      $scope.endedGames(games)
+      $scope.finished(games)
     })
     .catch(function(){
       console.log('no games retrieved')
