@@ -45,14 +45,6 @@ angular.module('trivial.allgames', [])
     })
   }
 
-   $scope.started = function(games){
-    games.forEach(function(game){
-      if(game.start==true){
-        $scope.started=true
-      }
-    })
-  }
-
  $scope.getGames = function(){
     gameSrvc.getAllGames()
     .then(function(games){
