@@ -22,10 +22,6 @@ angular.module('trivial.allgames', [])
     $scope.gamesfinished = true;
   }
 
-  $scope.gameStarted=function(){
-    $scope.notAvailable=true
-  }
-
   $scope.iterateGameUser = function(game, user){
     var truthTest;
     for(var i = 0; i <game.users.length; i++){
