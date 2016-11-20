@@ -7,6 +7,7 @@ angular.module('trivial.games', [])
   var userData = $auth.getPayload(); //User's data, including FB picture
   var closestPin;
 
+  $scope.winner = false; //Used to check if a game is finished. If set to true, disable all buttons and display alert
   $scope.showBtn = true; //Used to display Join Game button, switched to false when user clicks to join game
 
   $scope.logout = function(){
@@ -381,6 +382,12 @@ angular.module('trivial.games', [])
       var gameData ;
       gameSrvc.getOneGame(currentGameID)
       .then(function(game) {
+        console.log('GAME DATA CALLED. Winner?', game.winner)
+        if(game.winner) {
+          $scope.winner = true;
+          console.log('scope.winner', $scope.winner)
+          alert('This game has been won by' + $scope.winner.firstName)
+        }
         gameData = game
       })
 
