@@ -28,4 +28,18 @@ describe('UI ROUTER', function () {
     expect(state.templateUrl).to.equal('templates/login.html');
     expect(state.controller).to.equal('LoginCtrl');
   });
+
+   it('should load the bank page.', function() {
+    var state = $state.get('bank');
+    assert.isDefined(state.templateUrl);
+    expect(state.templateUrl).to.equal('templates/bank.html');
+    expect(state.controller).to.equal('BankCtrl as bank');
+  });
+
+    it('should load the score page.', function() {
+    var state = $state.get('score');
+    assert.isDefined(state.templateUrl);
+    expect(state.templateUrl).to.equal('templates/score.html');
+    expect(state.controller).to.equal('ScoreCtrl');
+  });
 });
