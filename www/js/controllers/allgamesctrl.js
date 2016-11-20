@@ -5,8 +5,7 @@ angular.module('trivial.allgames', [])
  var userData = $auth.getPayload();
 
   $scope.allgames = true
-  $scope.endedgames=[{name: 'Christinas Game', remain: 5, limit: 6, users: {firstName: 'Tina', lastName: 'Mull'}}, 
-  {name: 'Christinas2nd Game', remain: 5, limit: 6, users: {firstName: 'Tina', lastName: 'Mull'}}];
+  $scope.endedgames=[];
 
   $scope.myGames = function(){
     $scope.allgames = false;
@@ -20,10 +19,6 @@ angular.module('trivial.allgames', [])
 
   $scope.finishedGames=function(){
     $scope.gamesfinished = true;
-  }
-
-  $scope.gameStarted=function(){
-    $scope.notAvailable=true
   }
 
   $scope.iterateGameUser = function(game, user){
@@ -40,15 +35,7 @@ angular.module('trivial.allgames', [])
   $scope.finished = function(games){
     games.forEach(function(game){
       if(game.winner!==undefined){
-         $scope.endedGames.push(games)
-      }
-    })
-  }
-
-   $scope.started = function(games){
-    games.forEach(function(game){
-      if(game.start==true){
-        $scope.started=true
+         $scope.endedgames.push(game)
       }
     })
   }

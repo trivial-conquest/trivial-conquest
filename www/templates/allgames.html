@@ -27,7 +27,7 @@
         <a class="button games" ng-click='allGames()'>Show All Available Games</a>
          <a class="button games" ng-click='finishedGames()'>Show Closed Games</a>
       </div>
-      <div ng-repeat='game in games' ng-if='game.remain != 0 && game.start !== true && allgames && !gamesfinished'>
+      <div ng-repeat='game in games' ng-if='game.remain != 0 && game.start !== true && game.winner ===undefined && allgames && !gamesfinished'>
         <div class="card">
           <div class="item item-text-wrap">
             <a href="#/games/{{game._id}}">
@@ -38,7 +38,7 @@
           </div>
         </div>
       </div>
-      <div ng-repeat='game in games' ng-if='!allgames && !gamesfinished'>
+      <div ng-repeat='game in games' ng-if='!allgames && !gamesfinished && game.winner ===undefined'>
         <span ng-if='iterateGameUser(game, user)'>
          <div class="card">
           <div class="item item-text-wrap">
@@ -52,7 +52,6 @@
         </span>
       </div>
       <div ng-repeat='endgame in endedgames' ng-if='gamesfinished'>
-      <!--   <span ng-if='iterateGameUser(game, user)'> -->
          <div class="card">
           <div class="item item-text-wrap">
             <a href="#/games/{{game._id}}">
@@ -62,7 +61,6 @@
              <p><img class = "profPic" ng-repeat='user in endgame.users' ng-src={{user.profilePicture}} height='30' width = '30'></p>
           </div>
          </div>
-       <!--  </span> -->
       </div>
     </div>
     <button class="button logout-button" ng-click="logout()">Logout</button>

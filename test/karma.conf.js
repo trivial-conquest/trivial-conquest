@@ -20,13 +20,15 @@ module.exports = function(config) {
       '../www/lib/angular-ui-router/src/*.js',
       '../www/lib/ngCordova/dist/ng-cordova.js',
       '../www/lib/satellizer/dist/satellizer.js',
+      '../www/lib/sweetalert/dist/sweetalert.min.js',
+      '../www/lib/ngSweetAlert/dist/satellizer.js',
       '../www/js/**/*.js',
       '../www/js/app.js',
       '../www/templates/*.html',
       'front-end/*.js'
     ],
 
-    // list of files to exclude
+      // list of files to exclude
     exclude: [
     ],
 
