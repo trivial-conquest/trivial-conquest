@@ -186,7 +186,7 @@ angular.module('trivial.gamesrvc', [])
         }
       })
       .then(function(res){
-        console.log(res)
+        console.log('SET WINNER RESPONSE', res)
         return res
       })
       .catch(function(err){
