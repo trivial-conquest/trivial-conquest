@@ -60,6 +60,11 @@ angular.module('trivial', ['ionic', 'trivial.login', 'trivial.games', 'trivial.a
     cache: false,
     templateUrl: 'templates/bank.html',
     controller: 'BankCtrl as bank'
+  }).state('rules', {
+    url: '/rules',
+    cache: false,
+    templateUrl: 'templates/rules.html',
+    //controller: 'RulesCtrl'
   })
 
   // if none of the above states are matched, use this as the fallback
