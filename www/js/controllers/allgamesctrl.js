@@ -35,9 +35,7 @@ angular.module('trivial.allgames', [])
   $scope.finished = function(games){
     games.forEach(function(game){
       if(game.winner!==undefined){
-        console.log('this is scopefinished', game)
          $scope.endedgames.push(game)
-         console.log('this is $scopeendedgames', $scope.endedgames)
       }
     })
   }

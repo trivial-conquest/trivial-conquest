@@ -1,7 +1,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'trivial' is the name of this angular module (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires' which will include all the angular modules you create
-angular.module('trivial', ['ionic', 'trivial.login', 'trivial.games', 'trivial.allgames', 'trivial.gamesrvc', 'trivial.score', 'trivial.bank', 'ngCordova', 'satellizer'])
+angular.module('trivial', ['ionic', 'trivial.login', 'trivial.games', 'trivial.allgames', 'trivial.gamesrvc', 'trivial.score', 'trivial.bank', 'ngCordova', 'satellizer', 'oitozero.ngSweetAlert'])
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -30,7 +30,7 @@ angular.module('trivial', ['ionic', 'trivial.login', 'trivial.games', 'trivial.a
      // commonConfig.redirectUri = 'https://intense-journey-25938.herokuapp.com/auth/facebook';
   }
   $authProvider.facebook(angular.extend({}, commonConfig, {
-  clientId: '137143283427760',
+  clientId: '535661349967737',
   url: 'http://localhost:8080/auth/facebook'
   // url: 'https://intense-journey-25938.herokuapp.com/auth/facebook'
   }));
