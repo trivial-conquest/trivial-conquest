@@ -49,7 +49,7 @@ module.exports = {
                   score.pins.push(pin._id)
                   score.points -= req.body.points
                   pinCount += score.pins.length
-                  if(pinCount === game.users.length * 3) game.start = true
+                  if(pinCount === game.limit * 3) game.start = true
                 }
               })
               game.save().then(() => {

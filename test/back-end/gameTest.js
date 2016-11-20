@@ -6,6 +6,7 @@ var server = require('../../server/server');
 var should = chai.should();
 var Game = require("../../server/models/game");
 var Pin = require("../../server/models/pin");
+var User = require("../../server/models/user");
 
 chai.use(chaiHttp);
 
@@ -49,6 +50,34 @@ describe('Game', function () {
         res.body[0].users[0].should.equal('58221b1deb8543b7ba21e39f');
         done();
       });
+    });
+  });
+
+  it('should set a winner for a game', function (done){
+    var game
+    new Game({  //  CREATE NEW GAME
+        name: 'test game name',
+        pins: [],
+        users: [],
+        scoreboard: [],
+        remain: 12
+      })
+      .save(function (err, gameRes) {
+        game = gameRes;
+      });
+
+    new User({
+      firstName: 'Testy',
+      lastName: 'Johnson',
+      email: 'tester@test.com'
+    })
+    .save(function (err, user){
+      chai.request(server).put('/games/' + game._id + '/winner').set({ 'authorization': 'test'}).send({'winner': user}).end(function (err,res){
+        console.log("RESSS~~~~~~", res.res.body)
+        res.should.have.status(200);
+        res.body.winner.should.exist;
+        done();
+    })
     });
   });
 
