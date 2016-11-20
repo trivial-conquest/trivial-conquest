@@ -52,7 +52,6 @@
         </span>
       </div>
       <div ng-repeat='endgame in endedgames' ng-if='gamesfinished'>
-      <!--   <span ng-if='iterateGameUser(game, user)'> -->
          <div class="card">
           <div class="item item-text-wrap">
             <a href="#/games/{{game._id}}">
@@ -62,7 +61,6 @@
              <p><img class = "profPic" ng-repeat='user in endgame.users' ng-src={{user.profilePicture}} height='30' width = '30'></p>
           </div>
          </div>
-       <!--  </span> -->
       </div>
     </div>
     <button class="button logout-button" ng-click="logout()">Logout</button>
