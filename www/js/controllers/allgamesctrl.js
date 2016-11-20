@@ -92,6 +92,10 @@ angular.module('trivial.allgames', [])
     $window.location = '#/login'
   }
 
+  $scope.rules = function(){
+    $window.location = '#/rules'
+  }
+
   $scope.getCurrentUser = function(){
     $scope.user = userData;
   }
