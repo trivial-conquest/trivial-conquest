@@ -21,7 +21,7 @@ module.exports = function(config) {
       '../www/lib/ngCordova/dist/ng-cordova.js',
       '../www/lib/satellizer/dist/satellizer.js',
       '../www/lib/sweetalert/dist/sweetalert.min.js',
-      '../www/lib/ngSweetAlert/dist/satellizer.js',
+      '../www/lib/ngSweetAlert/SweetAlert.min.js',
       '../www/js/**/*.js',
       '../www/js/app.js',
       '../www/templates/*.html',

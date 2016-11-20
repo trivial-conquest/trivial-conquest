@@ -42,4 +42,12 @@ describe('UI ROUTER', function () {
     expect(state.templateUrl).to.equal('templates/score.html');
     expect(state.controller).to.equal('ScoreCtrl');
   });
+
+
+    it('should load the rules page.', function() {
+    var state = $state.get('rules');
+    assert.isDefined(state.templateUrl);
+    expect(state.templateUrl).to.equal('templates/rules.html');
+    expect(state.controller).to.equal(undefined);
+  });
 });
