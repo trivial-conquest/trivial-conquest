@@ -2,7 +2,7 @@ angular.module('trivial.games', [])
 
 .controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', 'userService', '$window', '$auth',  '$state',  function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc, userService, $window, $auth, $state) {
  //will need to pull all games fom the server and attach them to $scope.game
-  
+
 
   var userData = $auth.getPayload(); //User's data, including FB picture
   var closestPin;
@@ -182,7 +182,7 @@ angular.module('trivial.games', [])
       }
 
       var currentGameID = getCurrentGameID(); //Call above function to get current game ID
-      
+
       var scoreRedirect = function(){
         $scope.scoreUrl = {url: "#/games/" + currentGameID + "/score"}
         return  $scope.scoreUrl
@@ -281,8 +281,8 @@ angular.module('trivial.games', [])
       var userPins = pins.filter(function(pin) {
         return pin.creator == myUser
       })
-      if(userPins.length === 3) { return false}
-      else { return true }
+      if(userPins.length === 3) { return true}
+      else { return false }
     }
 
     //This function checks user location to determine claim button rendering
@@ -325,7 +325,7 @@ angular.module('trivial.games', [])
         .then(function(pins){
           if (pins.length) {
             console.log('PinToAdd:', pinToAdd)
-            var distance = Math.sqrt(Math.pow(pinToAdd.geometry.location.lat() - pins[0].coordinates[0], 2) + 
+            var distance = Math.sqrt(Math.pow(pinToAdd.geometry.location.lat() - pins[0].coordinates[0], 2) +
                                    Math.pow(pinToAdd.geometry.location.lng() - pins[0].coordinates[1], 2));
             if (distance > .25) {
               console.log('>25')
@@ -335,7 +335,7 @@ angular.module('trivial.games', [])
               drop(pins)
             }
           }
-          if (!pins.length || distance <= .25) {          
+          if (!pins.length || distance <= .25) {
             gameSrvc.addPin(pinToAdd, currentGameID, $scope.onegame.points)
             .then(function(pin) {
               console.log('this is pin', pin)
@@ -363,7 +363,7 @@ angular.module('trivial.games', [])
         .then(function(response){
           pinToDelete = response[response.length - 1]
           gameSrvc.deletePin(pinToDelete._id, currentGameID)
-          gameSrvc.getPinsForGame(currentGameID) //Get all the pins again, after deleting 
+          gameSrvc.getPinsForGame(currentGameID) //Get all the pins again, after deleting
           .then(function(response){
             pins = response
             // map.setCenter(originalCenter)

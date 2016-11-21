@@ -116,8 +116,8 @@
 
   <ion-content >
     <form name="pinspoints">
-      <input id="pac-input" class="controls" type="text" onfocus="{this.value=''}" placeholder="search for address or name" ng-model="onegame.search" ng-class="{'hidden': checkUserJoin() && showBtn}"required></input>
-      <input id="points" class="controls" ng-class="{'hidden': checkUserJoin() && showBtn}" type="number" onfocus="{this.value=''}" placeholder="Set Value" ng-model="onegame.points" required></input>
+      <input id="pac-input" class="controls" type="text" onfocus="{this.value=''}" placeholder="search for address or name" ng-model="onegame.search" ng-class="{'hidden': checkUserJoin() && showBtn, 'hidden': checkPinCount()}"required></input>
+      <input id="points" class="controls" ng-class="{'hidden': checkUserJoin() && showBtn, 'hidden': checkPinCount()}" type="number" onfocus="{this.value=''}" placeholder="Set Value" ng-model="onegame.points" required></input>
       <button id="pinbtn" class="controls" ng-click="addPin()" ng-hide="pinspoints.$invalid">Build Stronghold</button>
     </form>
 
