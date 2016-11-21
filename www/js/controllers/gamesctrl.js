@@ -410,7 +410,6 @@ angular.module('trivial.games', [])
       $scope.checkUserJoin = function() {
         var myUser = userData._id
         var users = gameData[0].users
-        // console.log('users: ', users)
         var bool = true
         users.forEach(function(user){
           if(user._id === myUser) {
