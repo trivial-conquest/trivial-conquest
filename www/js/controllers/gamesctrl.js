@@ -1,12 +1,13 @@
 angular.module('trivial.games', [])
 
-.controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', 'userService', '$window', '$auth',  '$state', function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc, userService, $window, $auth, $state) {
+.controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', 'userService', '$window', '$auth',  '$state',  function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc, userService, $window, $auth, $state) {
  //will need to pull all games fom the server and attach them to $scope.game
   
 
   var userData = $auth.getPayload(); //User's data, including FB picture
   var closestPin;
 
+  $scope.winner = false; //Used to check if a game is finished. If set to true, disable all buttons and display alert
   $scope.showBtn = true; //Used to display Join Game button, switched to false when user clicks to join game
 
   $scope.logout = function(){
@@ -241,7 +242,16 @@ angular.module('trivial.games', [])
                 gameSrvc.getPinsForGame(currentGameID) //Get updated pins after dispute is settled
                 .then(function(response){
                   pins = response
+                  var myPinz = pins.filter(function(pin){
+                    return pin.owner === userData._id
+                  })
+                  console.log(myPinz)
                   drop(pins) //Redropping pins, so that won pin will now display the winner's face
+                  if(myPinz.length === pins.length) {
+                    console.log('Games winner is', userData)
+                    gameSrvc.setWinner(userData, currentGameID)
+                    alert('You win!!!')
+                  }
                 })
               })
             } else {
@@ -319,7 +329,7 @@ angular.module('trivial.games', [])
                                    Math.pow(pinToAdd.geometry.location.lng() - pins[0].coordinates[1], 2));
             if (distance > .25) {
               console.log('>25')
-              alert('pin too far away')
+             alert('pin too far away')
               map.setCenter(originalCenter)
               map.setZoom(15)
               drop(pins)
@@ -372,6 +382,12 @@ angular.module('trivial.games', [])
       var gameData ;
       gameSrvc.getOneGame(currentGameID)
       .then(function(game) {
+        console.log('GAME DATA CALLED. Winner?', game.winner)
+        if(game.winner) {
+          $scope.winner = true;
+          console.log('scope.winner', $scope.winner)
+          alert('This game has been won by' + $scope.winner.firstName)
+        }
         gameData = game
       })
 

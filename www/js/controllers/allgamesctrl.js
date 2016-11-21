@@ -5,13 +5,20 @@ angular.module('trivial.allgames', [])
  var userData = $auth.getPayload();
 
   $scope.allgames = true
+  $scope.endedgames=[];
 
   $scope.myGames = function(){
     $scope.allgames = false;
+    $scope.gamesfinished = false;
   }
 
   $scope.allGames = function(){
     $scope.allgames = true;
+     $scope.gamesfinished = false;
+  }
+
+  $scope.finishedGames=function(){
+    $scope.gamesfinished = true;
   }
 
   $scope.iterateGameUser = function(game, user){
@@ -25,11 +32,21 @@ angular.module('trivial.allgames', [])
     } return truthTest
   }
 
+  $scope.finished = function(games){
+    games.forEach(function(game){
+      if(game.winner!==undefined){
+         $scope.endedgames.push(game)
+      }
+    })
+  }
+
  $scope.getGames = function(){
     gameSrvc.getAllGames()
     .then(function(games){
       if(typeof(games) === 'string') $window.location = '#/login'
       $scope.games = games
+      console.log('$$$$$$$$$$$$$$$$$$this is games', games)
+      $scope.finished(games)
     })
     .catch(function(){
       console.log('no games retrieved')
@@ -60,6 +77,10 @@ angular.module('trivial.allgames', [])
   $scope.logout = function(){
     userService.logout()
     $window.location = '#/login'
+  }
+
+  $scope.rules = function(){
+    $window.location = '#/rules'
   }
 
   $scope.getCurrentUser = function(){

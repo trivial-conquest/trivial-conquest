@@ -11,7 +11,7 @@ module.exports = {
       scoreboard: [{
           user: req.tokenPayload._id
       }],
-      limit: Number(req.body.limit) +1
+      limit: Number(req.body.limit)
     })
     newGame.save((err, game) => {
     if (err) {
@@ -93,6 +93,19 @@ module.exports = {
       }
     })
 
+  },
+
+  setWinner : (req, res, next) => {
+    var winner = req.body.winner
+    Game.findOneAndUpdate({_id: req.params.gameid}, { $set: { winner: winner}}, {new: true}, (err,game) => {
+      if(err) {
+        console.log(`Error in setting winner: ${err}`);
+        res.send(err);
+      } else {
+        console.log('GAME FROM SET WINNER', game)
+        res.send(game)
+      }
+    })
   }
 
 };

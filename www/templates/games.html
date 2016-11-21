@@ -93,27 +93,31 @@
       <button ng-click="logout()">Logout</button>
     </div>
     <div>
+      <!--Show this button only if user is not part of the game. Once they click, assume they're in and hide-->
       <button ng-click='joinGame(); showBtn = false' ng-show="checkUserJoin() && showBtn">Join Game</button>
     </div>
     <a href="#/allgames">Back</a>
     <div>
-      <button ng-click="claimPin()" ng-show="checkLocation()" class="ng-hide">Attack!</button>
+      <!--Show this button only if user is close enough to an enemies pin and game has not finished-->
+      <button ng-click="claimPin()" ng-show="checkLocation() && !winner" class="ng-hide">Attack!</button>
     </div>
     <div>
-     <a ng-if="checkLocOwner()" ng-href={{bankUrl.url}}>Deposit/Withdraw</a>
+     <!--Show this button only if user is close enough to their pin and game has not finished-->
+     <a ng-if="checkLocOwner() && !winner" ng-href={{bankUrl.url}}>Deposit/Withdraw</a>
     </div>
    <div>
      <a ng-href={{scoreUrl.url}}>Score</a>
     </div>
     <div>
+      <!--Show this button only if user has placed at least one pin. Once they've placed 3, hide-->
       <button ng-click="deletePin()" ng-show="checkUserPins()" class="ng-hide">Delete Last Pin</button>
     </div>
 </div>
 
   <ion-content>
     <form name="pinspoints">
-      <input id="pac-input" class="controls" type="text" onfocus="{this.value=''}" placeholder="search for address or name" ng-model="onegame.search" ng-show="checkPinCount()" class="ng-hide" required></input>
-      <input id="points" class="controls" type="number" onfocus="{this.value=''}" placeholder="Set Value" ng-model="onegame.points" ng-show="checkPinCount()" class="ng-hide" required></input>
+      <input id="pac-input" class="controls" type="text" onfocus="{this.value=''}" placeholder="search for address or name" ng-model="onegame.search" ng-show="checkPinCount()"  required></input>
+      <input id="points" class="controls" type="number" onfocus="{this.value=''}" placeholder="Set Value" ng-model="onegame.points" ng-show="checkPinCount()" required></input>
       <button id="pinbtn" class="controls" ng-click="addPin()" ng-hide="pinspoints.$invalid">Add Pin</button>
     </form>
 
