@@ -403,11 +403,9 @@ angular.module('trivial.games', [])
         var myUser = userData._id
         console.log('myUser: ', myUser)
         var users = gameData[0].users
-        // console.log('users: ', users)
         var bool = true
         users.forEach(function(user){
           if(user._id === myUser) {
-            console.log("myUser has already joined - button should be hidden")
             bool = false }
         })
        return bool

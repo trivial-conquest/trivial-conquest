@@ -31,8 +31,8 @@ f<ion-modal-view>
       <div>
         <div ng-repeat="pin in user.pins">
         <p>Pin #{{user.pins.indexOf(pin) + 1}}</p>
-          <p style="text-indent: 25px" ng-if="pin.points ===1">{{pin.points}} Troop</p>
           <p style="text-indent: 25px" ng-if="pin.points !==1">{{pin.points}} Troops</p>
+          <p style="text-indent: 25px" ng-if="pin.points ===1">{{pin.points}} Troop</p>
           <p style="text-indent: 25px">{{pin.name}}</p>
           <p style="text-indent: 25px">{{pin.address}}</p>
   <!--         <table style="width:50%">
