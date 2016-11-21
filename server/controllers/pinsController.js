@@ -49,8 +49,6 @@ module.exports = {
                   score.pins.push(pin._id)
                   score.points -= req.body.points
                   pinCount += score.pins.length
-                  console.log("pinCount", pinCount)
-                  console.log("game.limit * 3: ", game.limit * 3)
                   if(pinCount === game.limit * 3) game.start = true
                 }
               })
