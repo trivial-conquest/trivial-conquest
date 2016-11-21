@@ -382,11 +382,11 @@ angular.module('trivial.games', [])
       var gameData ;
       gameSrvc.getOneGame(currentGameID)
       .then(function(game) {
-        console.log('GAME DATA CALLED. Winner?', game.winner)
-        if(game.winner) {
+        console.log('GAME DATA CALLED. Winner?', game)
+        if(game[0].winner) {
           $scope.winner = true;
           console.log('scope.winner', $scope.winner)
-          alert('This game has been won by' + $scope.winner.firstName)
+          alert('These lands have been conquered, the game is over')
         }
         gameData = game
       })
