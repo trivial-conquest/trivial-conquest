@@ -1,6 +1,6 @@
 angular.module('trivial.games', [])
 
-.controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', 'userService', '$window', '$auth',  '$state',  function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc, userService, $window, $auth, $state) {
+.controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', 'userService', '$window', '$auth',  '$state', 'SweetAlert', function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc, userService, $window, $auth, $state, SweetAlert) {
  //will need to pull all games fom the server and attach them to $scope.game
   
 
@@ -235,7 +235,7 @@ angular.module('trivial.games', [])
             var userPoints = gameRes[0].points
             var outcome = (Math.random() * (pinPoints + userPoints))
             if(outcome < userPoints) {
-              alert('Victory is yours!')
+             SweetAlert.swal('Victory is yours!')
               //Takes a winner first and then a loser, so in this case the user wins
               gameSrvc.settleDispute(closest.game, closest._id, gameRes[0].user, closest.owner, userData.profilePicture)
               .then(function(){
@@ -250,12 +250,12 @@ angular.module('trivial.games', [])
                   if(myPinz.length === pins.length) {
                     console.log('Games winner is', userData)
                     gameSrvc.setWinner(userData, currentGameID)
-                    alert('You win!!!')
+                    SweetAlert.swal('You win!!!')
                   }
                 })
               })
             } else {
-              alert('You lose sucka!')
+              SweetAlert.swal('You lose sucka!')
 
               //In this case, the pin owner is the winner and the user is the loser
               gameSrvc.settleDispute(closest.game, closest._id, closest.owner, gameRes[0].user)
@@ -329,7 +329,7 @@ angular.module('trivial.games', [])
                                    Math.pow(pinToAdd.geometry.location.lng() - pins[0].coordinates[1], 2));
             if (distance > .25) {
               console.log('>25')
-             alert('pin too far away')
+             SweetAlert.swal('pin too far away')
               map.setCenter(originalCenter)
               map.setZoom(15)
               drop(pins)
@@ -386,7 +386,7 @@ angular.module('trivial.games', [])
         if(game[0].winner) {
           $scope.winner = true;
           console.log('scope.winner', $scope.winner)
-          alert('These lands have been conquered, the game is over')
+          SweetAlert.swal('These lands have been conquered, the game is over')
         }
         gameData = game
       })
