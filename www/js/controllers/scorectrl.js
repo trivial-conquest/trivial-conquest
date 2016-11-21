@@ -3,7 +3,7 @@
 .controller('ScoreCtrl', ['$window', '$scope', '$ionicModal', '$location', 'gameSrvc', function($window, $scope,  $ionicModal, $location, gameSrvc) {
 
 
-  $scope.users = [];
+  allusers = [];
   var points = [];
   var pins;
 
@@ -28,26 +28,34 @@
   var getGame = function(){
     gameSrvc.getOneGame(currentGameID)
     .then(function(game){
+      console.log('this is the game', game)
       $scope.scoreboard = game[0].scoreboard
       $scope.scoreboard.forEach(function(user){
+        console.log('this is the user', user)
         var player = user.user
-        points.push(user.points)
+        points.push({points: user.points, user: user.user})
+        console.log('this is the points', points)
         gameSrvc.getPlayer(player)
         .then(function(player){
-          $scope.users.push(player[0])
-          for (var i = 0 ; i < $scope.users.length ; i++) {
-            $scope.users[i].points = points[i]
+          allusers.push(player[0])
+          for (var i = 0 ; i < allusers.length ; i++) {
+            console.log('this is allusers[i]', allusers[i])
+            if(allusers[i]._id === points[i].user){
+              console.log('this was a match', allusers[i]._id, points[i].user)
+            allusers[i].points = points[i]
+          }
           }
           gameSrvc.getPinsForGame(currentGameID)
           .then(function(pins) {
-            for (var i = 0 ; i < $scope.users.length ; i++) {
-              $scope.users[i].pins = pins.filter(function(pin) {
-                return pin.owner === $scope.users[i]._id
+            for (var i = 0 ; i < allusers.length ; i++) {
+              allusers[i].pins = pins.filter(function(pin) {
+                return pin.owner === allusers[i]._id
               })
               .map(function(userPin) {
                 return {owner: userPin.owner, name: userPin.name, address: userPin.address, points: userPin.points}
               })
             }
+            $scope.users = allusers
           })         
         })
       })

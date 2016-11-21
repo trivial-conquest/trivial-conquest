@@ -27,11 +27,11 @@ f<ion-modal-view>
     <a class="item item-avatar" href="#" ng-repeat="user in users">
       <img ng-src="{{user.profilePicture}}">
       <h2>{{user.firstName}} {{user.lastName}}</h2>
-      <p>Cash ${{user.points}}</p>
+      <p>Troops {{user.points.points}}</p>
       <div>
         <div ng-repeat="pin in user.pins">
         <p>Pin #{{user.pins.indexOf(pin) + 1}}</p>
-          <p style="text-indent: 25px">${{pin.points}}</p>
+          <p style="text-indent: 25px">{{pin.points}} Troops</p>
           <p style="text-indent: 25px">{{pin.name}}</p>
           <p style="text-indent: 25px">{{pin.address}}</p>
   <!--         <table style="width:50%">
