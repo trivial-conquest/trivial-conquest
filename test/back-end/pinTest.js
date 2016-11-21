@@ -36,6 +36,31 @@ describe('Pins', function () {
     });
   });
 
+  it.only('should not allow users to create pins, if the game has already started', function (done) {
+    new Game({
+      name: 'test game name',
+      pins: [],
+      users: [],
+      remain: 12,
+      start: true
+    }).save(function (err, game) {
+      chai.request(server)
+      .put('/games/' + game._id) // JOIN THE GAME
+      .set({ 'authorization': 'test' })
+      .end(function (err, res) {
+        chai.request(server) // Sending post request to create a pin for a specific game
+        .post('/games/' + game._id + '/pins')
+        .set({ 'authorization': 'test' })
+        .send({ address: '123 Testing Ave' })
+        .end(function(err, res){
+          console.log('RES BOD: ', res.text)
+          res.text.should.equal('Sorry mate- all pins have been set for this game')
+          done();
+        });
+      })
+    })
+  });
+
   it('should allow a logged in user to join a game, create a pin, and have that pin logged in the scoreboard', function (done) {
     chai.request(server)
     .put('/games/' + game._id) // JOIN THE GAME
