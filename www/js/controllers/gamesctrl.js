@@ -228,6 +228,7 @@ angular.module('trivial.games', [])
               return min
             }
           })
+          alert('attacking ' + closest)
           gameSrvc.getPlayerPoints(closest.game)
           .then(function(gameRes){
             //gameRes gives you the amount of points the user has in this game
