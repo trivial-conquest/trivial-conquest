@@ -81,12 +81,13 @@ describe('Game', function () {
     });
   });
 
-  it('should complete a game', function (done) {
+  it('should start a game', function (done) {
     var gameId;
     new Game({
       name: 'test game name',
       pins: [],
       users: [],
+      limit: 1,
       remain: 1
     }).save(function (err, game) {
       gameId = game._id
@@ -110,6 +111,7 @@ describe('Game', function () {
             .send({ address: 'Testing Ave 3', points: 20 })
             .end(function(err, res){
               Game.findOne({_id: gameId}, (err, game) => {
+                console.log('GAME: ', game)
                 game.start.should.equal(true)
                 game.remain.should.equal(0)
                 done()
