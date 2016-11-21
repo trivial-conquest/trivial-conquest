@@ -39,11 +39,14 @@
         .then(function(player){
           allusers.push(player[0])
           for (var i = 0 ; i < allusers.length ; i++) {
-            console.log('this is allusers[i]', allusers[i])
-            if(allusers[i]._id === points[i].user){
-              console.log('this was a match', allusers[i]._id, points[i].user)
-            allusers[i].points = points[i]
-          }
+            for (var j =0; j <points.length; j++){
+              console.log('this is pointsinloop', points[j])
+              console.log('this is allusers[i]', allusers[i])
+              if(allusers[i]._id === points[j].user){
+              console.log('this was a match', allusers[i]._id, points[j].user)
+                allusers[i].points = points[j]
+              }
+            }
           }
           gameSrvc.getPinsForGame(currentGameID)
           .then(function(pins) {
