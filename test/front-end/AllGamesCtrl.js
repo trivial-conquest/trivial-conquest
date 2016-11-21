@@ -1,7 +1,7 @@
 'use strict';
 
 describe('AllGamesCtrl', function() {
-  var $rootScope, userService, $stateParams, $location, $window, $httpBackend, $auth, gameSrvc, $scope, createController, $injector;
+  var $rootScope, userService, $stateParams, $location, $window, $httpBackend, $auth, gameSrvc, $scope, createController, $injector, ngSweetAlert;
   
  
   beforeEach(module('trivial'));
@@ -17,6 +17,7 @@ describe('AllGamesCtrl', function() {
     $httpBackend = $injector.get('$httpBackend');
     $auth = $injector.get('$auth');
     gameSrvc= $injector.get('gameSrvc');
+    ngSweetAlert= $injector.get('oitozero.ngSweetAlert');
     $scope = $rootScope.$new();
 
     var $controller = $injector.get('$controller');
@@ -32,6 +33,7 @@ describe('AllGamesCtrl', function() {
         $httpBackend: $httpBackend,
         $auth: $auth,
         gameSrvc: gameSrvc,
+        ngSweetAlert: ngSweetAlert,
         $scope: $scope
       });
     };
