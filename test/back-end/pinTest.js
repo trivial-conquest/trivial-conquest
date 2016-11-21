@@ -36,7 +36,7 @@ describe('Pins', function () {
     });
   });
 
-  it.only('should not allow users to create pins, if the game has already started', function (done) {
+  it('should not allow users to create pins, if the game has already started', function (done) {
     new Game({
       name: 'test game name',
       pins: [],
@@ -387,6 +387,30 @@ describe('Pins', function () {
               done()
             })
           })
+        })
+      })
+    })
+  })
+
+  it('should not allow a user to dispute a pin if the game has not begun', function (done) {
+    new Game({
+      name: 'test game name',
+      pins: [],
+      users: [],
+      remain: 12
+    })
+    .save(function(err, game) {
+      chai.request(server)
+      .put('/games/' + game._id) // JOIN THE GAME
+      .set({ 'authorization': 'test' })
+      .end(() => {
+        chai.request(server) // Sending post request to create a pin for a specific game
+        .post('/games/' + game._id + '/pins')
+        .set({ 'authorization': 'test' })
+        .send({ address: '123 Testing Ave', points: 10 })
+        .end((err, res) => {
+          res.text.should.equal('cannot dispute until game has begun')
+          done()
         })
       })
     })

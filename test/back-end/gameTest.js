@@ -64,20 +64,19 @@ describe('Game', function () {
       })
       .save(function (err, gameRes) {
         game = gameRes;
+        new User({
+          firstName: 'Testy',
+          lastName: 'Johnson',
+          email: 'tester@test.com'
+        })
+        .save(function (err, user){
+          chai.request(server).put('/games/' + game._id + '/winner').set({ 'authorization': 'test'}).send({'winner': user}).end(function (err,res){
+            console.log("RESSS~~~~~~", res.res.body)
+            res.should.have.status(200);
+            res.body.winner.should.exist;
+            done();
+        })
       });
-
-    new User({
-      firstName: 'Testy',
-      lastName: 'Johnson',
-      email: 'tester@test.com'
-    })
-    .save(function (err, user){
-      chai.request(server).put('/games/' + game._id + '/winner').set({ 'authorization': 'test'}).send({'winner': user}).end(function (err,res){
-        console.log("RESSS~~~~~~", res.res.body)
-        res.should.have.status(200);
-        res.body.winner.should.exist;
-        done();
-    })
     });
   });
 
