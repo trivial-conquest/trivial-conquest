@@ -55,6 +55,7 @@
                 return pin.owner === allusers[i]._id
               })
               .map(function(userPin) {
+                console.log('owner', userPin)
                 return {owner: userPin.owner, name: userPin.name, address: userPin.address, points: userPin.points}
               })
             }

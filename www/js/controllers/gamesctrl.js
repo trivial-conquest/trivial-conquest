@@ -234,6 +234,8 @@ angular.module('trivial.games', [])
             var pinPoints = closest.points
             var userPoints = gameRes[0].points
             var outcome = (Math.random() * (pinPoints + userPoints))
+            // console.log("CLOSEST", closest)
+            alert('You are attacking ' + closest.name + '. It is worth ' + closest.points + ' points and you have a ' + (userPoints/(pinPoints + userPoints)) * 100 + '% chance of winning!')
             if(outcome < userPoints) {
              SweetAlert.swal('Victory is yours!')
               //Takes a winner first and then a loser, so in this case the user wins
@@ -396,7 +398,7 @@ angular.module('trivial.games', [])
         var myUser = userData._id
         console.log('myUser: ', myUser)
         var users = gameData[0].users
-        console.log('users: ', users)
+        // console.log('users: ', users)
         var bool = true
         users.forEach(function(user){
           if(user._id === myUser) {
