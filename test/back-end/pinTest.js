@@ -305,7 +305,7 @@ describe('Pins', function () {
     })
   })
 
-  it.only('should appropriately settle dispute if challenger wins', function (done) {
+  it('should appropriately settle dispute if challenger wins', function (done) {
     User.collection.drop();
     var gameId;
     var pinId
