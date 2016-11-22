@@ -392,6 +392,8 @@ angular.module('trivial.games', [])
       gameSrvc.getOneGame(currentGameID)
       .then(function(game) {
         console.log('GAME DATA CALLED', game)
+        $scope.game = game[0];
+        console.log('this is scopegame', $scope.game[0])
         if(game[0].winner) {
           $scope.winner = true;
           console.log('scope.winner', $scope.winner)
