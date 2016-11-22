@@ -400,7 +400,6 @@ angular.module('trivial.games', [])
         if(game[0].start){
           console.log('Game has started')
           $scope.begin = true;
-          SweetAlert.swal('The Game Has Started')
         }
         console.log('GAME STARTED?',$scope.begin)
         console.log('WINNER?', $scope.winner)
