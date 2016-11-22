@@ -9,11 +9,14 @@
   <ion-content>
 		 <div class="card">
 		  <div class="item item-text-wrap" id="balance">
-		  <img ng-src={{currentUser.profilePicture}} height='50' width = '50'> You are worth {{userPoints}} points
+		  <img ng-src={{currentUser.profilePicture}} height='50' width = '50'> You have {{userPoints}} troops
 		</div>
 		 <div class="card">
-		  <div class="item item-text-wrap" id="balance">
-		  The pin at {{pin.name}} is worth {{pin.points}} points
+		  <div class="item item-text-wrap" id="balance" ng-if="pin.points !==0">
+		  The stronghold at {{pin.name}} has {{pin.points}} troops
+		  </div>
+		  <div class="item item-text-wrap" id="balance" ng-if="pin.points ==0">
+		  The stronghold at {{pin.name}} has{{pin.points}} troop
 		  </div>
 		</div>
 		<div class="card">
