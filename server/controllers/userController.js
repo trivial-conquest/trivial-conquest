@@ -26,7 +26,6 @@ module.exports = {
 
 
   getOne: (req, res) => {
-    console.log('this is getOne body', req)
     User.find({_id: req.params.userid}, (err, user) => {
       if (err) {
         console.log(`Error in finding game: ${err}`);

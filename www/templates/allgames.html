@@ -54,7 +54,7 @@
       <div ng-repeat='endgame in endedgames' ng-if='gamesfinished'>
          <div class="card">
           <div class="item item-text-wrap">
-            <a href="#/games/{{game._id}}">
+            <a href="#/games/{{endgame._id}}">
                 {{endgame.name}} 
             </a>
             <p>{{endgame.remain}} out of {{endgame.limit}} spots remaining</p>

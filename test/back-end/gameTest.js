@@ -64,29 +64,29 @@ describe('Game', function () {
       })
       .save(function (err, gameRes) {
         game = gameRes;
+        new User({
+          firstName: 'Testy',
+          lastName: 'Johnson',
+          email: 'tester@test.com'
+        })
+        .save(function (err, user){
+          chai.request(server).put('/games/' + game._id + '/winner').set({ 'authorization': 'test'}).send({'winner': user}).end(function (err,res){
+            console.log("RESSS~~~~~~", res.res.body)
+            res.should.have.status(200);
+            res.body.winner.should.exist;
+            done();
+        })
       });
-
-    new User({
-      firstName: 'Testy',
-      lastName: 'Johnson',
-      email: 'tester@test.com'
-    })
-    .save(function (err, user){
-      chai.request(server).put('/games/' + game._id + '/winner').set({ 'authorization': 'test'}).send({'winner': user}).end(function (err,res){
-        console.log("RESSS~~~~~~", res.res.body)
-        res.should.have.status(200);
-        res.body.winner.should.exist;
-        done();
-    })
     });
   });
 
-  it('should complete a game', function (done) {
+  it('should start a game', function (done) {
     var gameId;
     new Game({
       name: 'test game name',
       pins: [],
       users: [],
+      limit: 1,
       remain: 1
     }).save(function (err, game) {
       gameId = game._id
@@ -110,6 +110,7 @@ describe('Game', function () {
             .send({ address: 'Testing Ave 3', points: 20 })
             .end(function(err, res){
               Game.findOne({_id: gameId}, (err, game) => {
+                console.log('GAME: ', game)
                 game.start.should.equal(true)
                 game.remain.should.equal(0)
                 done()

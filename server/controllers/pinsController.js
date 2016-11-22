@@ -159,6 +159,7 @@ module.exports = {
 
   settleDispute: (req, res) => {
     Game.findOne({_id: req.params.gameid}, (err, game) => {
+      if(!game.start) res.send('No disputes allowed until game has begun!')
       Pin.findOne({_id: req.params.pinId}, (err, pin) => {
         if(err) res.send(err)
         if(pin.owner == req.body.loser) { // IF THE OWNER OF THE PIN LOSES
