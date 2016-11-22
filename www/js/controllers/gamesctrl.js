@@ -253,7 +253,7 @@ angular.module('trivial.games', [])
                   if(myPinz.length === pins.length) {
                     console.log('Games winner is', userData)
                     gameSrvc.setWinner(userData, currentGameID)
-                    alert('You win!!!')
+                    SweetAlert.swal('You win!!!')
                   }
                 })
               })
@@ -333,7 +333,7 @@ angular.module('trivial.games', [])
                                    Math.pow(pinToAdd.geometry.location.lng() - pins[0].coordinates[1], 2));
             if (distance > .25) {
               console.log('>25')
-             alert('pin too far away')
+            SweetAlert.swal('pin too far away')
               map.setCenter(originalCenter)
               map.setZoom(15)
               drop(pins)
@@ -395,11 +395,12 @@ angular.module('trivial.games', [])
         if(game[0].winner) {
           $scope.winner = true;
           console.log('scope.winner', $scope.winner)
-          alert('These lands have been conquered, the game is over')
+          SweetAlert.swal('These lands have been conquered, the game is over')
         }
         if(game[0].start){
           console.log('Game has started')
           $scope.begin = true;
+          SweetAlert.swal('The Game Has Started')
         }
         console.log('GAME STARTED?',$scope.begin)
         console.log('WINNER?', $scope.winner)
