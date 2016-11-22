@@ -36,6 +36,31 @@ describe('Pins', function () {
     });
   });
 
+  it('should not allow users to create pins, if the game has already started', function (done) {
+    new Game({
+      name: 'test game name',
+      pins: [],
+      users: [],
+      remain: 12,
+      start: true
+    }).save(function (err, game) {
+      chai.request(server)
+      .put('/games/' + game._id) // JOIN THE GAME
+      .set({ 'authorization': 'test' })
+      .end(function (err, res) {
+        chai.request(server) // Sending post request to create a pin for a specific game
+        .post('/games/' + game._id + '/pins')
+        .set({ 'authorization': 'test' })
+        .send({ address: '123 Testing Ave' })
+        .end(function(err, res){
+          console.log('RES BOD: ', res.text)
+          res.text.should.equal('Sorry mate- all pins have been set for this game')
+          done();
+        });
+      })
+    })
+  });
+
   it('should allow a logged in user to join a game, create a pin, and have that pin logged in the scoreboard', function (done) {
     chai.request(server)
     .put('/games/' + game._id) // JOIN THE GAME
@@ -284,11 +309,13 @@ describe('Pins', function () {
     User.collection.drop();
     var gameId;
     var pinId
+    var userId
     new User({
       firstName: 'Test Challenger',  // CREATE TEST USER NUMBER ONE
-      email: 'test@test.com'
+      email: 'test2@test.com'
     })
     .save(function(err, user) {
+      userId = user._id
       new Game({  //  CREATE NEW GAME AND ASSOCIATE TEST USER NUMBER ONE WITH THAT GAME
         name: 'test game name',
         pins: [],
@@ -303,23 +330,28 @@ describe('Pins', function () {
         .set({ 'authorization': 'test' }) // CREATE AND ASSOCIATE TEST USER NUMBER TWO WITH SAME GAME
         .end(function (err, game) {
           chai.request(server) // Sending post request to create a pin for a specific game
-          .post('/games/' + game.body[0]._id + '/pins')
+          .post('/games/' + gameId + '/pins')
           .set({ 'authorization': 'test' })
           .send({ address: '123 Testing Ave', points: 10 })
           .end((err, pin) => {
             pinId = pin.body._id
             pin.body.owner.should.equal('58221b1deb8543b7ba21e39f')
-            chai.request(server)
-            .put('/games/' + game.body[0]._id + '/pins/' + pin.body._id + '/settleDispute')
-            .set({'authorization': 'test'})
-            .send({winner: user._id, loser: '58221b1deb8543b7ba21e39f'})
-            .end((err, res) => {
-              res.body.owner.should.equal(user._id.toString())
-              res.body.points.should.equal(10) // PIN'S POINTS SHOULD NOT CHANGE
-              Game.findOne({_id: gameId}, (err, game) => {
-                game.scoreboard[0].pins.length.should.equal(1) // SCOREBOARD SHOULD UPDATE BY MOVING THE CONQUERED PIN ID TO THE CONQUERER'S PINS ARRAY
-                game.scoreboard[0].pins[0].toString().should.equal(pinId)
-                done()
+            Game.findOne({_id: gameId}, (err, game) => {
+              game.start = true
+              game.save().then(() => {
+                chai.request(server)
+                .put('/games/' + gameId + '/pins/' + pin.body._id + '/settleDispute')
+                .set({'authorization': 'test'})
+                .send({winner: userId, loser: '58221b1deb8543b7ba21e39f'})
+                .end((err, res) => {
+                  res.body.owner.should.equal(user._id.toString())
+                  res.body.points.should.equal(10) // PIN'S POINTS SHOULD NOT CHANGE
+                  Game.findOne({_id: gameId}, (err, game) => {
+                    game.scoreboard[0].pins.length.should.equal(1) // SCOREBOARD SHOULD UPDATE BY MOVING THE CONQUERED PIN ID TO THE CONQUERER'S PINS ARRAY
+                    game.scoreboard[0].pins[0].toString().should.equal(pinId)
+                    done()
+                  })
+                })
               })
             })
           })
@@ -329,19 +361,24 @@ describe('Pins', function () {
   })
 
   it('should appropriately settle dispute if defender wins', function (done) {
+    User.collection.drop();
+    var gameId
+    var userId
     new User({
       firstName: 'Test Defender',  // CREATE TEST USER NUMBER ONE
       email: 'test@test.com'
     })
     .save(function(err, user) {
+      userId = user._id
       new Game({  //  CREATE NEW GAME AND ASSOCIATE TEST USER NUMBER ONE WITH THAT GAME
         name: 'test game name',
         pins: [],
-        users: [{_id: user._id, firstName: user.firstName}],
+        users: [{_id: userId, firstName: user.firstName}],
         scoreboard: [{user: user._id, points: 50}],
         remain: 12
       })
       .save(function(err, game) {
+        gameId = game._id
         chai.request(server)
         .put('/games/' + game._id)
         .set({ 'authorization': 'test' }) // CREATE AND ASSOCIATE TEST USER NUMBER TWO WITH SAME GAME
@@ -352,15 +389,51 @@ describe('Pins', function () {
           .send({ address: '123 Testing Ave', points: 10 })
           .end((err, pin) => {
             pin.body.owner.should.equal('58221b1deb8543b7ba21e39f')
-            chai.request(server)
-            .put('/games/' + game.body[0]._id + '/pins/' + pin.body._id + '/settleDispute')
-            .set({'authorization': 'test'})
-            .send({winner: '58221b1deb8543b7ba21e39f', loser: user._id})
-            .end((err, res) => {
-              res.body.owner.should.equal('58221b1deb8543b7ba21e39f') // PIN OWNER SHOULD REMAIN THE SAME
-              res.body.points.should.equal(60) // PIN SHOULD NOW HAVE ALL OF THE USER'S MONEY!
-              done()
+            Game.findOne({_id: gameId}, (err, game) => {
+              game.start = true
+              game.save().then(() => {
+                chai.request(server)
+                .put('/games/' + gameId + '/pins/' + pin.body._id + '/settleDispute')
+                .set({'authorization': 'test'})
+                .send({winner: '58221b1deb8543b7ba21e39f', loser: userId})
+                .end((err, res) => {
+                  console.log()
+                  res.body.owner.should.equal('58221b1deb8543b7ba21e39f') // PIN OWNER SHOULD REMAIN THE SAME
+                  res.body.points.should.equal(60) // PIN SHOULD NOW HAVE ALL OF THE USER'S MONEY!
+                  done()
+                })
+              })
             })
+          })
+        })
+      })
+    })
+  })
+
+  it('should not allow a user to dispute a pin if the game has not begun', function (done) {
+    new Game({
+      name: 'test game name',
+      pins: [],
+      users: [],
+      remain: 12
+    })
+    .save(function(err, game) {
+      chai.request(server)
+      .put('/games/' + game._id) // JOIN THE GAME
+      .set({ 'authorization': 'test' })
+      .end(() => {
+        chai.request(server) // Sending post request to create a pin for a specific game
+        .post('/games/' + game._id + '/pins')
+        .set({ 'authorization': 'test' })
+        .send({ address: '123 Testing Ave', points: 10 })
+        .end((err, pin) => {
+          chai.request(server)
+          .put('/games/' + game._id + '/pins/' + pin.body._id + '/settleDispute')
+          .set({'authorization': 'test'})
+          .send({winner: '58221b1deb8543b7ba21e39f', loser: '58221b1deb8543b7ba21e39f'})
+          .end((err, res) => {
+            res.text.should.equal('No disputes allowed until game has begun!')
+            done()
           })
         })
       })
