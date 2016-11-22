@@ -296,6 +296,7 @@ angular.module('trivial.games', [])
           return (Math.abs(myCoords.lat - pin.coordinates[0]) < .003 && Math.abs(myCoords.lng - pin.coordinates[1]) < .003 && pin.owner !== userData._id)
         })
       if(closePins.length) {
+        console.log('CLOSE PINS', closePins)
         return true
       } else return false
     }
@@ -385,7 +386,7 @@ angular.module('trivial.games', [])
       var gameData ;
       gameSrvc.getOneGame(currentGameID)
       .then(function(game) {
-        console.log('GAME DATA CALLED. Winner?', game)
+        console.log('GAME DATA CALLED', game)
         if(game[0].winner) {
           $scope.winner = true;
           console.log('scope.winner', $scope.winner)
@@ -395,19 +396,19 @@ angular.module('trivial.games', [])
           console.log('Game has started')
           $scope.begin = true;
         }
+        console.log('GAME STARTED?',$scope.begin)
+        console.log('WINNER?', $scope.winner)
         gameData = game
       })
 
       // This function checks if user has already joined game to determine joinGame render
       $scope.checkUserJoin = function() {
         var myUser = userData._id
-        console.log('myUser: ', myUser)
         var users = gameData[0].users
         // console.log('users: ', users)
         var bool = true
         users.forEach(function(user){
           if(user._id === myUser) {
-            console.log("myUser has already joined - button should be hidden")
             bool = false }
         })
        return bool
