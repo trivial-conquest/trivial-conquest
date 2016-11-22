@@ -9,6 +9,7 @@ angular.module('trivial.games', [])
 
   $scope.winner = false; //Used to check if a game is finished. If set to true, disable all buttons and display alert
   $scope.showBtn = true; //Used to display Join Game button, switched to false when user clicks to join game
+  $scope.start = false;
 
   $scope.logout = function(){
     userService.logout()
@@ -252,7 +253,7 @@ angular.module('trivial.games', [])
                   if(myPinz.length === pins.length) {
                     console.log('Games winner is', userData)
                     gameSrvc.setWinner(userData, currentGameID)
-                    SweetAlert.swal('You win!!!')
+                    alert('You win!!!')
                   }
                 })
               })
@@ -331,7 +332,7 @@ angular.module('trivial.games', [])
                                    Math.pow(pinToAdd.geometry.location.lng() - pins[0].coordinates[1], 2));
             if (distance > .25) {
               console.log('>25')
-             SweetAlert.swal('pin too far away')
+             alert('pin too far away')
               map.setCenter(originalCenter)
               map.setZoom(15)
               drop(pins)
@@ -388,7 +389,11 @@ angular.module('trivial.games', [])
         if(game[0].winner) {
           $scope.winner = true;
           console.log('scope.winner', $scope.winner)
-          SweetAlert.swal('These lands have been conquered, the game is over')
+          alert('These lands have been conquered, the game is over')
+        }
+        if(game[0].start === true){
+          console.log('Game has started')
+
         }
         gameData = game
       })
