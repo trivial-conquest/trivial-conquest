@@ -9,7 +9,7 @@ angular.module('trivial.games', [])
 
   $scope.winner = false; //Used to check if a game is finished. If set to true, disable all buttons and display alert
   $scope.showBtn = true; //Used to display Join Game button, switched to false when user clicks to join game
-  $scope.start = false;
+  $scope.begin = false;
 
   $scope.logout = function(){
     userService.logout()
@@ -391,9 +391,9 @@ angular.module('trivial.games', [])
           console.log('scope.winner', $scope.winner)
           alert('These lands have been conquered, the game is over')
         }
-        if(game[0].start === true){
+        if(game[0].start){
           console.log('Game has started')
-
+          $scope.begin = true;
         }
         gameData = game
       })
