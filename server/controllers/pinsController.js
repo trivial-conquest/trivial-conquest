@@ -48,9 +48,9 @@ module.exports = {
                 if(score.user == req.tokenPayload._id) {
                   score.pins.push(pin._id)
                   score.points -= req.body.points
-                  pinCount += score.pins.length
-                  if(pinCount === game.limit * 3) game.start = true
                 }
+                pinCount += score.pins.length
+                if(pinCount === game.limit * 3) game.start = true
               })
               game.save().then(() => {
                 res.send(pin)
