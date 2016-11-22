@@ -9,23 +9,26 @@
   <ion-content>
 		 <div class="card">
 		  <div class="item item-text-wrap" id="balance">
-		  <img ng-src={{currentUser.profilePicture}} height='50' width = '50'> You are worth {{userPoints}} points
+		  <img ng-src={{currentUser.profilePicture}} height='50' width = '50'> You have {{userPoints}} troops
 		</div>
 		 <div class="card">
-		  <div class="item item-text-wrap" id="balance">
-		  The pin at {{pin.name}} is worth {{pin.points}} points
+		  <div class="item item-text-wrap" id="balance" ng-if="pin.points !==0">
+		  The stronghold at {{pin.name}} has {{pin.points}} troops
+		  </div>
+		  <div class="item item-text-wrap" id="balance" ng-if="pin.points ==0">
+		  The stronghold at {{pin.name}} has{{pin.points}} troop
 		  </div>
 		</div>
 		<div class="card">
-		Make a Deposit
+		Add Troops to Stronghold
 		<form class="item item-input">
-		<input type='text' placeholder= "How much do you want to deposit?" ng-model="bank.pindeposit" required/></input>
-		 <button class="button button-calm" value=submit ng-click='deposit()'>Deposit</button>
+		<input type='text' placeholder= "How many troops do you want to add?" ng-model="bank.pindeposit" required/></input>
+		 <button class="button button-calm" value=submit ng-click='deposit()'>Add</button>
 		</form>
-		Make a Withdrawal
+		Remove Troops from Stronghold
 		<form class="item item-input">
-		<input type='text' placeholder= "How much do you want to withdraw?" ng-model="bank.pinwithdraw" required/></input>
-		 <button class="button button-calm" value=submit ng-click='withdraw()'>Withdraw</button>
+		<input type='text' placeholder= "How many troops do you want to remove?" ng-model="bank.pinwithdraw" required/></input>
+		 <button class="button button-calm" value=submit ng-click='withdraw()'>Remove</button>
 		</form>
 		</div>
   

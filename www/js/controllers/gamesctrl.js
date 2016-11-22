@@ -236,7 +236,7 @@ angular.module('trivial.games', [])
             var userPoints = gameRes[0].points
             var outcome = (Math.random() * (pinPoints + userPoints))
             // console.log("CLOSEST", closest)
-            alert('You are attacking ' + closest.name + '. It is worth ' + closest.points + ' points and you have a ' + (userPoints/(pinPoints + userPoints)) * 100 + '% chance of winning!')
+            SweetAlert.swal('You are attacking ' + closest.name + '. It is worth ' + closest.points + ' points and you have a ' + (userPoints/(pinPoints + userPoints)) * 100 + '% chance of winning!')
             if(outcome < userPoints) {
              SweetAlert.swal('Victory is yours!')
               //Takes a winner first and then a loser, so in this case the user wins
@@ -253,7 +253,7 @@ angular.module('trivial.games', [])
                   if(myPinz.length === pins.length) {
                     console.log('Games winner is', userData)
                     gameSrvc.setWinner(userData, currentGameID)
-                    alert('You win!!!')
+                    SweetAlert.swal('You win!!!')
                   }
                 })
               })
@@ -332,7 +332,7 @@ angular.module('trivial.games', [])
                                    Math.pow(pinToAdd.geometry.location.lng() - pins[0].coordinates[1], 2));
             if (distance > .25) {
               console.log('>25')
-             alert('pin too far away')
+            SweetAlert.swal('pin too far away')
               map.setCenter(originalCenter)
               map.setZoom(15)
               drop(pins)
@@ -389,11 +389,11 @@ angular.module('trivial.games', [])
         if(game[0].winner) {
           $scope.winner = true;
           console.log('scope.winner', $scope.winner)
-          alert('These lands have been conquered, the game is over')
+          SweetAlert.swal('These lands have been conquered, the game is over')
         }
         if(game[0].start === true){
           console.log('Game has started')
-
+          SweetAlert.swal('The Game Has Started')
         }
         gameData = game
       })
@@ -403,11 +403,9 @@ angular.module('trivial.games', [])
         var myUser = userData._id
         console.log('myUser: ', myUser)
         var users = gameData[0].users
-        // console.log('users: ', users)
         var bool = true
         users.forEach(function(user){
           if(user._id === myUser) {
-            console.log("myUser has already joined - button should be hidden")
             bool = false }
         })
        return bool

@@ -1,10 +1,4 @@
 <ion-view>
-  <!--<ion-header-bar class="allgameshead">
-    <h1 id="allgamestitle" class="title" >Trivial Conquest</h1>
-    <div>
-        <button class="button button-calm" ng-click="logout()">Logout</button>
-    </div>
-  </ion-header-bar> -->
   <ion-content class="allgames">
     <div class ='top'>
       <h1 class="main">Viking Conquest</h1>
@@ -23,9 +17,9 @@
          <p>Player Limit is required and must be greater than 0</p>
     </div>
       <div>
-        <a class="button games" ng-click='myGames()'>Show My Active Games</a>
-        <a class="button games" ng-click='allGames()'>Show All Available Games</a>
-         <a class="button games" ng-click='finishedGames()'>Show Closed Games</a>
+        <a class="button games" ng-click='myGames()'>Active Games</a>
+        <a class="button games" ng-click='allGames()'>Available Games</a>
+         <a class="button games" ng-click='finishedGames()'>Closed Games</a>
       </div>
       <div ng-repeat='game in games' ng-if='game.remain != 0 && game.start !== true && game.winner ===undefined && allgames && !gamesfinished'>
         <div class="card">
