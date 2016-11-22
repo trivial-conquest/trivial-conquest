@@ -365,7 +365,12 @@ angular.module('trivial.games', [])
         var pinToDelete;
         gameSrvc.getPinsForGame(currentGameID)
         .then(function(response){
-          pinToDelete = response[response.length - 1]
+          console.log('RESPONSE', response)
+          var pinSort = response.filter(function(pin) {
+            return userData._id === pin.creator
+          })
+          pinToDelete = pinSort[pinSort.length - 1]
+          console.log('PINTODELETE', pinToDelete)
           gameSrvc.deletePin(pinToDelete._id, currentGameID)
           gameSrvc.getPinsForGame(currentGameID) //Get all the pins again, after deleting
           .then(function(response){
