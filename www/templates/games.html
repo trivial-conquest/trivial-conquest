@@ -88,7 +88,12 @@
 </style>
 
 <ion-view>
-<div id="gameshead" class="tabs tabs-icon-top" >
+
+<div id="gameshead" class="tabs tabs-icon-top" > 
+
+    <div id="gamesname">{{game.name}}</div>
+    <div id="gamesname" ng-if="game.start===true">Game Has Started</div>
+    <div id="gamesname" ng-if="game.start===false">Game Hasn't Started Yet</div>
     <div>
       <button ng-click="logout()">Logout</button>
     </div>
