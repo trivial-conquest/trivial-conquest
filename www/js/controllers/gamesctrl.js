@@ -302,13 +302,17 @@ angular.module('trivial.games', [])
     }
 
     //Checks to see if the pin a user is nearest to is owned by that user
-    $scope.checkLocOwner = function() {
+     $scope.checkLocOwner = function() {
       var myCoords = {lat: position.coords.latitude, lng: position.coords.longitude}
       var closePins = pins.filter(function(pin){
         return (Math.abs(myCoords.lat - pin.coordinates[0]) < .003 && Math.abs(myCoords.lng - pin.coordinates[1]) < .003)
       })
-      if(closePins.length && closePins[0].owner === userData._id) {
-        bankRedirect(closePins[0]._id)
+      var myUser = userData._id
+      var myClosePins = closePins.filter(function(pin){
+        return pin.owner === myUser
+      })
+      if(myClosePins.length) {
+        bankRedirect(myClosePins[0]._id)
         return true
       } else return false
     }
