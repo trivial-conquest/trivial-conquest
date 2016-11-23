@@ -180,3 +180,8 @@ form.ng-pristine.ng-valid {
   -webkit-transform: translate(0px,5px);
 	border-bottom: 1px solid;
 }
+
+#gamesname {
+  float:left;
+  color: white;
+}
