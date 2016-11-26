@@ -184,4 +184,17 @@ form.ng-pristine.ng-valid {
 #gamesname {
   float:left;
   color: white;
+  margin: 0px 10px 10px 0px;
+}
+
+.game-buttons
+{
+  padding: 10px 30px;
+  margin: 0px 10px;
+  background-color: #E74C3C;
+  font-family: 'Pacifico', cursive;
+  font-size: 15px;
+  font-weight: bold;
+  color: #FFF;
+  border-radius: 12px;
 }
