@@ -117,7 +117,7 @@
     </div>
     <div>
       <!--Show this button only if user has placed at least one pin. Once they've placed 3, hide-->
-      <button ng-click="deletePin()" ng-show="checkUserPins()" class="game-buttons">Delete Last Stronghold</button>
+      <button ng-click="deletePin()" ng-show="checkUserPins() || renderDelete && !begin" class="ng-hide">Delete Last Stronghold</button>
     </div>
 </div>
 
@@ -125,7 +125,7 @@
     <form name="pinspoints">
       <input id="pac-input" class="controls" type="text" onfocus="{this.value=''}" placeholder="search for address or name" ng-model="onegame.search" ng-class="{'hidden': checkUserJoin() && showBtn}" required></input>
       <input id="points" class="controls" ng-class="{'hidden': checkUserJoin() && showBtn}" type="number" onfocus="{this.value=''}" placeholder="Set Value" ng-model="onegame.points" required></input>
-      <button id="pinbtn" class="controls" ng-click="addPin()" ng-hide="pinspoints.$invalid">Build Stronghold</button>
+      <button id="pinbtn" class="controls" ng-click="addPin(); renderDelete =" ng-hide="pinspoints.$invalid">Build Stronghold</button>
     </form>
 
 		<div id="map" data-tap-disabled="true"></div>

@@ -9,7 +9,9 @@ angular.module('trivial.games', [])
 
   $scope.winner = false; //Used to check if a game is finished. If set to true, disable all buttons and display alert
   $scope.showBtn = true; //Used to display Join Game button, switched to false when user clicks to join game
-  $scope.begin = false;
+  $scope.begin = false;  //Used to check if the game has begun, used for determining to show ot hide attack button
+  $scope.renderDelete = false;
+  
 
   $scope.logout = function(){
     userService.logout()
@@ -41,6 +43,8 @@ angular.module('trivial.games', [])
       map.addListener('bounds_changed', function() {
         searchBox.setBounds(map.getBounds());
       });
+
+      map.add
 
        var pointInput = document.getElementById('points');
           var div = document.createElement('div');
