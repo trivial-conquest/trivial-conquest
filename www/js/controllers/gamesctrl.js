@@ -65,12 +65,6 @@ angular.module('trivial.games', [])
           return;
         }
 
-        // Clear out the old markers.
-        // markers.forEach(function(marker) {
-        //   marker.setMap(null);
-        // });
-        // markers = [];
-
           // For each place, get the icon, name and location.
         var bounds = new google.maps.LatLngBounds();
         places.forEach(function(place) {
@@ -124,20 +118,6 @@ angular.module('trivial.games', [])
         infowindow.open(map, youMarker);
         })
       });
-
-      // google.maps.event.addListener(map, 'click', function(event) {
-      //   placeMarker(event.latLng);
-      // });
-
-      // function placeMarker(location) {
-      //   var marker = new google.maps.Marker({
-      //     position: location,
-      //     map: map
-      //   });
-      //   map.panTo(location);
-      // }
-
-      //drawingManager.setMap(map);
 
       function addMarkerWithTimeout(pinObj, timeout) {
         var coordinatesObj = {}
@@ -235,8 +215,9 @@ angular.module('trivial.games', [])
             var pinPoints = closest.points
             var userPoints = gameRes[0].points
             var outcome = (Math.random() * (pinPoints + userPoints))
-            // console.log("CLOSEST", closest)
-            SweetAlert.swal('You are attacking ' + closest.name + '. It is worth ' + closest.points + ' points and you have a ' + (userPoints/(pinPoints + userPoints)) * 100 + '% chance of winning!')
+            console.log("CLOSEST", closest, closest.name, closest.points)
+            // SweetAlert.swal('You are attacking ' + closest.name + '. It is worth ' + closest.points + ' points and you have a ' + Math.round((userPoints/(pinPoints + userPoints))) * 100 + '% chance of winning!')
+            SweetAlert.swal('You are attacking ' + closest.name + '. It is worth ' + closest.points + ' points.')
             if(outcome < userPoints) {
              SweetAlert.swal('Victory is yours!')
               //Takes a winner first and then a loser, so in this case the user wins
@@ -429,24 +410,3 @@ angular.module('trivial.games', [])
     });
 
 }]);
-
-// THIS IS THE OLD DRAWING LIBRARY
-//  var drawingManager = new google.maps.drawing.DrawingManager({
-//   drawingMode: google.maps.drawing.OverlayType.MARKER,
-//   drawingControl: true,
-//   drawingControlOptions: {
-//     position: google.maps.ControlPosition.TOP_CENTER,
-//     drawingModes: ['marker', 'circle', 'polygon', 'polyline', 'rectangle']
-//   },
-//   markerOptions: {icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'},
-//   circleOptions: {
-//     fillColor: '#ffff00',
-//     fillOpacity: 1,
-//     strokeWeight: 5,
-//     clickable: false,
-//     editable: true,
-//     zIndex: 1
-//   }
-// });
-
-// drawingManager.setMap(map);

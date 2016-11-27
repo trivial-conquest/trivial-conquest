@@ -48,9 +48,9 @@ module.exports = {
                 if(score.user == req.tokenPayload._id) {
                   score.pins.push(pin._id)
                   score.points -= req.body.points
+                  pinCount += score.pins.length
+                  if(pinCount === game.limit * 3) game.start = true
                 }
-                pinCount += score.pins.length
-                if(pinCount === game.limit * 3) game.start = true
               })
               game.save().then(() => {
                 res.send(pin)
@@ -159,7 +159,7 @@ module.exports = {
 
   settleDispute: (req, res) => {
     Game.findOne({_id: req.params.gameid}, (err, game) => {
-      if(!game.start) return res.send('No disputes allowed until game has begun!')
+      if(!game.start) res.send('No disputes allowed until game has begun!')
       Pin.findOne({_id: req.params.pinId}, (err, pin) => {
         if(err) res.send(err)
         if(pin.owner == req.body.loser) { // IF THE OWNER OF THE PIN LOSES
