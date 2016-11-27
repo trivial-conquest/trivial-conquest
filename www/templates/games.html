@@ -102,7 +102,7 @@
       <button ng-click='joinGame(); showBtn = false' ng-show="checkUserJoin() && showBtn" class="game-buttons">Join Game</button>
     </div>
     <div>
-      <button ng-href="#/allgames" class="game-buttons">Back</button>
+      <a ng-href="#/allgames"><button class="game-buttons">Back</button></a>
     </div>
     <div>
       <!--Show this button only if user is close enough to an enemies pin and game has not finished-->
@@ -110,10 +110,10 @@
     </div>
     <div>
      <!--Show this button only if user is close enough to their pin and game has not finished-->
-     <button ng-if="checkLocOwner() && !winner" ng-href={{bankUrl.url}} class="game-buttons">Add/Remove Troops</button>
+     <a ng-if="checkLocOwner() && !winner" ng-href={{bankUrl.url}}><button class="game-buttons">Add/Remove Troops</button></a>
     </div>
    <div>
-     <button ng-href={{scoreUrl.url}} class="game-buttons">Score</button>
+     <a ng-href={{scoreUrl.url}}><button class="game-buttons">Score</button></a>
     </div>
     <div>
       <!--Show this button only if user has placed at least one pin. Once they've placed 3, hide-->

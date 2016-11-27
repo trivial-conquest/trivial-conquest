@@ -251,8 +251,10 @@ angular.module('trivial.games', [])
 
     //This function checks a user's pins in one game to determine delete button render
     $scope.checkUserPins = function() {
+      console.log('this is being run', pins)
       var myUser = userData._id
       var userPins = pins.filter(function(pin) {
+        console.log('this is cup pins', pin, 'this is myUser', myUser)
         return pin.creator == myUser
       })
       if(userPins.length > 0 && userPins.length < 3) { return true }
@@ -327,12 +329,18 @@ angular.module('trivial.games', [])
           if (!pins.length || distance <= .25) {
             gameSrvc.addPin(pinToAdd, currentGameID, $scope.onegame.points)
             .then(function(pin) {
+              if(pin==="Sorry dude- 3 pins already"){
+                SweetAlert.swal('You cannot add more than 3 pins')
+              } else if (pin==="Sorry dude- not enough points"){
+                SweetAlert.swal('Sorry you dont have enough troops to add to the stronghold')
+              } 
               console.log('this is pin', pin)
               $scope.onegame.points = null
               $scope.onegame.search = null
               gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
               .then(function(response){
                 pins = response;
+                console.log('this is the response', response)
                 map.setCenter(originalCenter)
                 map.setZoom(15)
                 drop(pins) //Placing pins on the map from the game we are currently in
@@ -357,6 +365,7 @@ angular.module('trivial.games', [])
           pinToDelete = pinSort[pinSort.length - 1]
           console.log('PINTODELETE', pinToDelete)
           gameSrvc.deletePin(pinToDelete._id, currentGameID)
+          .then(function(response){
           gameSrvc.getPinsForGame(currentGameID) //Get all the pins again, after deleting
           .then(function(response){
             pins = response
@@ -369,6 +378,8 @@ angular.module('trivial.games', [])
             })
             drop(pins)
           })
+            
+          })
         })
       }
 
@@ -379,7 +390,6 @@ angular.module('trivial.games', [])
       .then(function(game) {
         console.log('GAME DATA CALLED', game)
         $scope.game = game[0];
-        console.log('this is scopegame', $scope.game[0])
         if(game[0].winner) {
           $scope.winner = true;
           console.log('scope.winner', $scope.winner)
