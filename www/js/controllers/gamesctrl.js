@@ -216,7 +216,8 @@ angular.module('trivial.games', [])
             var userPoints = gameRes[0].points
             var outcome = (Math.random() * (pinPoints + userPoints))
             console.log("CLOSEST", closest, closest.name, closest.points)
-            SweetAlert.swal('You are attacking ' + closest.name + '. It is worth ' + closest.points + ' points and you have a ' + Math.round((userPoints/(pinPoints + userPoints))) * 100 + '% chance of winning!')
+            // SweetAlert.swal('You are attacking ' + closest.name + '. It is worth ' + closest.points + ' points and you have a ' + Math.round((userPoints/(pinPoints + userPoints))) * 100 + '% chance of winning!')
+            SweetAlert.swal('You are attacking ' + closest.name + '. It is worth ' + closest.points + ' points.')
             if(outcome < userPoints) {
              SweetAlert.swal('Victory is yours!')
               //Takes a winner first and then a loser, so in this case the user wins
