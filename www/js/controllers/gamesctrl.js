@@ -1,6 +1,6 @@
 angular.module('trivial.games', [])
 
-.controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', 'userService', '$window', '$auth',  '$state', 'SweetAlert', function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc, userService, $window, $auth, $state, SweetAlert) {
+.controller('GamesCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$location', 'gameSrvc', 'userService', '$window', '$auth',  '$state', 'SweetAlert',  '$interval', function($scope, $stateParams, $cordovaGeolocation, $location, gameSrvc, userService, $window, $auth, $state, SweetAlert, $interval) {
  //will need to pull all games fom the server and attach them to $scope.game
 
 
@@ -374,6 +374,7 @@ angular.module('trivial.games', [])
 
       // Init variable and point at game object to access each game's props
       var gameData ;
+
       gameSrvc.getOneGame(currentGameID)
       .then(function(game) {
         console.log('GAME DATA CALLED', game)
@@ -392,6 +393,8 @@ angular.module('trivial.games', [])
         console.log('WINNER?', $scope.winner)
         gameData = game
       })
+
+     
 
       // This function checks if user has already joined game to determine joinGame render
       $scope.checkUserJoin = function() {

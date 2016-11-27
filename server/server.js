@@ -1,4 +1,4 @@
-if (process.env.NODE_ENV !== 'test') process.env.NODE_ENV = 'development';
+// if (process.env.NODE_ENV !== 'test') process.env.NODE_ENV = 'development';
 
 const express = require('express');
 const path = require('path');
