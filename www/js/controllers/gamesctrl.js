@@ -125,20 +125,6 @@ angular.module('trivial.games', [])
         })
       });
 
-      // google.maps.event.addListener(map, 'click', function(event) {
-      //   placeMarker(event.latLng);
-      // });
-
-      // function placeMarker(location) {
-      //   var marker = new google.maps.Marker({
-      //     position: location,
-      //     map: map
-      //   });
-      //   map.panTo(location);
-      // }
-
-      //drawingManager.setMap(map);
-
       function addMarkerWithTimeout(pinObj, timeout) {
         var coordinatesObj = {}
         var image = pinObj.icon.replace('large', 'small') //Changing from large fb pic to small
