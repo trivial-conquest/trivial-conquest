@@ -48,6 +48,7 @@ a {
   left: 0;
   overflow: hidden;
   z-index: -100;
+  background-image: url('https://cartridgeservice.files.wordpress.com/2013/05/textures_papers.jpg');
 }
 
 .fullscreen-bg__video {
@@ -150,8 +151,7 @@ form.ng-pristine.ng-valid {
 {
 	position: relative;
 	padding: 10px 40px;
-  margin: 0px 10px 10px 0px;
-  float: left;
+  margin: 20% 10px 10px 0px;
 	border-radius: 10px;
 	font-family: 'Pacifico', cursive;
 	font-size: 25px;
