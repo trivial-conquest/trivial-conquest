@@ -23,6 +23,10 @@ a {
 	font-weight: bold
 }
 
+.scroll-content.ionic-scroll.has-header {
+  background: url('https://images.freecreatives.com/wp-content/uploads/2016/02/Light-Parchment-Texture.jpg');
+}
+
 .button.games{
 	width: 20%;
 }
@@ -184,7 +188,7 @@ form.ng-pristine.ng-valid {
 #gamesname {
   float:left;
   color: white;
-  margin: 0px 10px 10px 0px;
+  margin: 0px 5px 5px 0px;
 }
 
 .game-buttons
