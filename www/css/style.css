@@ -16,11 +16,19 @@ h1 {
   color: white;
  }
 
+ body, html {
+  height: 100%;
+ }
+
 a {
 	font-family: 'Georgia', serif;
 	text-decoration: none;
 	color: white;
 	font-weight: bold
+}
+
+.item.item-avatar {
+  background: url('https://images.freecreatives.com/wp-content/uploads/2016/02/Light-Parchment-Texture.jpg');
 }
 
 .scroll-content.ionic-scroll.has-header {
@@ -183,6 +191,11 @@ form.ng-pristine.ng-valid {
 	transform: translate(0px,5px);
   -webkit-transform: translate(0px,5px);
 	border-bottom: 1px solid;
+}
+
+.end-buttons {
+  margin-top: 40px;
+  margin-bottom: 20px;
 }
 
 #gamesname {

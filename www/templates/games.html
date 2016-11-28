@@ -110,7 +110,7 @@
     </div>
     <div>
      <!--Show this button only if user is close enough to their pin and game has not finished-->
-     <a ng-href={{bankUrl.url}}> <button ng-if="checkLocOwner() && !winner"class="game-buttons">Deposit/Withdraw</button></a>
+     <a ng-href={{bankUrl.url}}> <button ng-if="checkLocOwner() && !winner" class="game-buttons">Deposit/Withdraw</button></a>
     </div>
    <div>
      <a ng-href={{scoreUrl.url}}> <button class="game-buttons">Score</button></a>
@@ -123,8 +123,8 @@
 
   <ion-content >
     <form name="pinspoints">
-      <input id="pac-input" class="controls" type="text" onfocus="{this.value=''}" placeholder="search for address or name" ng-model="onegame.search" ng-class="{'hidden': checkUserJoin() && showBtn}" required></input>
-      <input id="points" class="controls" ng-class="{'hidden': checkUserJoin() && showBtn}" type="number" onfocus="{this.value=''}" placeholder="Set Value" ng-model="onegame.points" required></input>
+      <input id="pac-input" class="controls" type="text" onfocus="{this.value=''}" placeholder="search for address or name" ng-model="onegame.search" ng-class="{'hidden': checkUserJoin() && showBtn || begin}" required></input>
+      <input id="points" class="controls" ng-class="{'hidden': checkUserJoin() && showBtn || begin}" type="number" onfocus="{this.value=''}" placeholder="Set Value" ng-model="onegame.points" required></input>
       <button id="pinbtn" class="controls" ng-click="addPin()" ng-hide="pinspoints.$invalid">Build Stronghold</button>
     </form>
 

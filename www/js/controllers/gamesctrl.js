@@ -10,8 +10,8 @@ angular.module('trivial.games', [])
   $scope.winner = false; //Used to check if a game is finished. If set to true, disable all buttons and display alert
   $scope.showBtn = true; //Used to display Join Game button, switched to false when user clicks to join game
   $scope.begin = false;  //Used to check if the game has begun, used for determining to show ot hide attack button
-  $scope.renderDelete = false;
-  $scope.showBank = false;
+  $scope.renderDelete = false; //Used to show delete button only if the user has created at least one pin
+  $scope.showBank = false; //Used to check if the user is close enough to the pin they just added to deposit/withdrawl
   
 
   $scope.logout = function(){
@@ -352,7 +352,7 @@ angular.module('trivial.games', [])
                 map.setCenter(originalCenter)
                 map.setZoom(15)
                 drop(pins) //Placing pins on the map from the game we are currently in
-              })
+              })   
             })
             .catch(function(err) {
               console.log('POST pin failed', err)

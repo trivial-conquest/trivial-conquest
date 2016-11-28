@@ -1,19 +1,19 @@
 f<ion-modal-view>  
   <ion-header-bar>
-    <h1 class="title">ScoreBoard</h1>
+    <h2 class="title">Scoreboard</h2>
     <div class="buttons">
       <a ng-href="{{goBack.url}}"><button class = 'game-buttons'>Close</button></a>
     </div>
   </ion-header-bar>
   <ion-content>
-  <div class="list">
+  <div>
     <a class="item item-avatar" href="#" ng-repeat="user in users">
       <img ng-src="{{user.profilePicture}}">
       <h2>{{user.firstName}} {{user.lastName}}</h2>
       <p>{{user.points.points}} Troops</p>
       <div>
         <div ng-repeat="pin in user.pins">
-        <p>Stronghold #{{user.pins.indexOf(pin) + 1}}</p>
+        <p> Stronghold #{{user.pins.indexOf(pin) + 1}}</p>
           <p style="text-indent: 25px" ng-if="pin.points !==1">{{pin.points}} Troops</p>
           <p style="text-indent: 25px" ng-if="pin.points ===1">{{pin.points}} Troop</p>
           <p style="text-indent: 25px">{{pin.name}}</p>
