@@ -9,7 +9,10 @@ angular.module('trivial.games', [])
 
   $scope.winner = false; //Used to check if a game is finished. If set to true, disable all buttons and display alert
   $scope.showBtn = true; //Used to display Join Game button, switched to false when user clicks to join game
-  $scope.begin = false;
+  $scope.begin = false;  //Used to check if the game has begun, used for determining to show ot hide attack button
+  $scope.renderDelete = false; //Used to show delete button only if the user has created at least one pin
+  $scope.showBank = false; //Used to check if the user is close enough to the pin they just added to deposit/withdrawl
+  
 
   $scope.logout = function(){
     userService.logout()
@@ -19,7 +22,7 @@ angular.module('trivial.games', [])
   var pins = []; //Will be used to store all the pins for the current game after a successful request
 
   //Sets options for the map that will be displayed for each game
-  var options = {timeout: 10000, enableHighAccuracy: true};
+    var options = {timeout: 10000, enableHighAccuracy: true};
     $cordovaGeolocation.getCurrentPosition(options)
     .then(function(position){
       console.log(position)
@@ -29,7 +32,9 @@ angular.module('trivial.games', [])
         zoom: 15,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
-      var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+      //setTimeout(function() {
+      var map = new google.maps.Map(document.getElementById("map"), mapOptions)
+      
       var originalCenter = map.getCenter()
 
       // Create the search box and link it to the UI element.
@@ -41,6 +46,8 @@ angular.module('trivial.games', [])
       map.addListener('bounds_changed', function() {
         searchBox.setBounds(map.getBounds());
       });
+
+      map.add
 
        var pointInput = document.getElementById('points');
           var div = document.createElement('div');
@@ -312,6 +319,7 @@ angular.module('trivial.games', [])
     }
       //Allows a user to add a pin to the map
       $scope.addPin = function() {
+        $scope.renderDelete = true;
         gameSrvc.getPinsForGame(currentGameID) //Getting pins for the game we are currently in
         .then(function(pins){
           if (pins.length) {
@@ -344,7 +352,7 @@ angular.module('trivial.games', [])
                 map.setCenter(originalCenter)
                 map.setZoom(15)
                 drop(pins) //Placing pins on the map from the game we are currently in
-              })
+              })   
             })
             .catch(function(err) {
               console.log('POST pin failed', err)

@@ -16,11 +16,23 @@ h1 {
   color: white;
  }
 
+ body, html {
+  height: 100%;
+ }
+
 a {
 	font-family: 'Georgia', serif;
 	text-decoration: none;
 	color: white;
 	font-weight: bold
+}
+
+.item.item-avatar {
+  background: url('https://images.freecreatives.com/wp-content/uploads/2016/02/Light-Parchment-Texture.jpg');
+}
+
+.scroll-content.ionic-scroll.has-header {
+  background: url('https://images.freecreatives.com/wp-content/uploads/2016/02/Light-Parchment-Texture.jpg');
 }
 
 .button.games{
@@ -48,6 +60,7 @@ a {
   left: 0;
   overflow: hidden;
   z-index: -100;
+  background-image: url('https://cartridgeservice.files.wordpress.com/2013/05/textures_papers.jpg');
 }
 
 .fullscreen-bg__video {
@@ -150,8 +163,7 @@ form.ng-pristine.ng-valid {
 {
 	position: relative;
 	padding: 10px 40px;
-  margin: 0px 10px 10px 0px;
-  float: left;
+  margin: 20% 10px 10px 0px;
 	border-radius: 10px;
 	font-family: 'Pacifico', cursive;
 	font-size: 25px;
@@ -181,10 +193,15 @@ form.ng-pristine.ng-valid {
 	border-bottom: 1px solid;
 }
 
+.end-buttons {
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
 #gamesname {
   float:left;
   color: white;
-  margin: 0px 10px 10px 0px;
+  margin: 0px 5px 5px 0px;
 }
 
 .game-buttons

@@ -92,8 +92,8 @@
 <div id="gameshead" class="tabs tabs-icon-top">
 
     <div id="gamesname">{{game.name}}</div>
-    <div id="gamesname" ng-if="game.start===true">Has Started!</div>
-    <div id="gamesname" ng-if="game.start===false">Hasn't Started Yet!</div>
+    <div id="gamesname" ng-if="game.start===true">has started!</div>
+    <div id="gamesname" ng-if="game.start===false">hasn't started yet!</div>
     <div>
       <button ng-click="logout()" class="game-buttons">Logout</button>
     </div>
@@ -102,7 +102,7 @@
       <button ng-click='joinGame(); showBtn = false' ng-show="checkUserJoin() && showBtn" class="game-buttons">Join Game</button>
     </div>
     <div>
-      <a ng-href="#/allgames"><button class="game-buttons">Back</button></a>
+      <button onclick="location.href='/#/allgames'" class="game-buttons">Back</button>
     </div>
     <div>
       <!--Show this button only if user is close enough to an enemies pin and game has not finished-->
@@ -110,21 +110,21 @@
     </div>
     <div>
      <!--Show this button only if user is close enough to their pin and game has not finished-->
-     <a ng-if="checkLocOwner() && !winner" ng-href={{bankUrl.url}}><button class="game-buttons">Add/Remove Troops</button></a>
+     <a ng-href={{bankUrl.url}}> <button ng-if="checkLocOwner() && !winner" class="game-buttons">Deposit/Withdraw</button></a>
     </div>
    <div>
-     <a ng-href={{scoreUrl.url}}><button class="game-buttons">Score</button></a>
+     <a ng-href={{scoreUrl.url}}> <button class="game-buttons">Score</button></a>
     </div>
     <div>
       <!--Show this button only if user has placed at least one pin. Once they've placed 3, hide-->
-      <button ng-click="deletePin()" ng-show="checkUserPins()" class="game-buttons">Delete Last Stronghold</button>
+      <button ng-click="deletePin()" ng-show="checkUserPins() || renderDelete" class="ng-hide game-buttons">Delete Last Stronghold</button>
     </div>
 </div>
 
   <ion-content >
     <form name="pinspoints">
-      <input id="pac-input" class="controls" type="text" onfocus="{this.value=''}" placeholder="search for address or name" ng-model="onegame.search" ng-class="{'hidden': checkUserJoin() && showBtn}" required></input>
-      <input id="points" class="controls" ng-class="{'hidden': checkUserJoin() && showBtn}" type="number" onfocus="{this.value=''}" placeholder="Set Value" ng-model="onegame.points" required></input>
+      <input id="pac-input" class="controls" type="text" onfocus="{this.value=''}" placeholder="search for address or name" ng-model="onegame.search" ng-class="{'hidden': checkUserJoin() && showBtn || begin}" required></input>
+      <input id="points" class="controls" ng-class="{'hidden': checkUserJoin() && showBtn || begin}" type="number" onfocus="{this.value=''}" placeholder="Set Value" ng-model="onegame.points" required></input>
       <button id="pinbtn" class="controls" ng-click="addPin()" ng-hide="pinspoints.$invalid">Build Stronghold</button>
     </form>
 
